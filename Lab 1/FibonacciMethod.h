@@ -1,13 +1,9 @@
 #pragma once
 
-#include "BaseMethod.h"
+#include "MinMethod.h"
 
-struct FibonacciMethod : BaseMethod {
-    FibonacciMethod(std::function<double(double)> f)
-        : BaseMethod(f)
-    {}
-
-    double min(double left, double right, double epsilon) override {
+struct FibonacciMethod : MinMethod {
+    double min(func_t f, double left, double right, double epsilon) override {
         // TODO
         return 0;
     }

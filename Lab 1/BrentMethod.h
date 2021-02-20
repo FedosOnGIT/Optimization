@@ -1,13 +1,9 @@
 #pragma once
 
-#include "BaseMethod.h"
+#include "MinMethod.h"
 
-struct BrentMethod : BaseMethod {
-    BrentMethod(std::function<double(double)> f)
-        : BaseMethod(f)
-    {}
-
-    double min(double left, double right, double epsilon) override {
+struct BrentMethod : MinMethod {
+    double min(func_t f, double left, double right, double epsilon) override {
         // TODO
         return 0;
     }

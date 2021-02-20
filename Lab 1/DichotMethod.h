@@ -1,10 +1,11 @@
 #pragma once
 
-#include "BaseMethod.h"
+#include "MinMethod.h"
+#include <fstream>
 
-struct DichotMethod : BaseMethod {
-    DichotMethod(std::function<double(double)> f, double delta)
-        : BaseMethod(f), delta(delta)
+struct DichotMethod : MinMethod {
+    DichotMethod(double delta = 1e-8)
+        : delta(delta)
     {}
 
     double getDelta() const {
@@ -15,10 +16,33 @@ struct DichotMethod : BaseMethod {
         this->delta = delta;
     }
 
-    double min(double left, double right, double epsilon) override {
-        // TODO
-        return left;
+    double min(func_t f, double l, double r, double eps) override {
+        std::ofstream out("dichot_log.txt");
+        out.setf(std::iostream::fixed);
+        out.precision(15);
+
+        unsigned int index = 0;
+        delta = std::min(delta, 0.5*eps);
+
+        while (r - l > eps) {
+            double x1 = (r + l - delta) / 2;
+            double x2 = (r + l + delta) / 2;
+            double f1 = f(x1);
+            double f2 = f(x2);
+            out << "Iteration number " << index << ": left=" << l << ", right=" << r <<
+                ", x1=" << x1 << ", f(x1)=" << f1 << ", x2=" << x2 << ", f(x2)=" << f2 << " scale= ";
+            if (f1 < f2) {
+                out << (x2 - l) / (r - l) << std::endl;
+                r = x2;
+            } else {
+                out << (r - x1) / (r - l) << std::endl;
+                l = x1;
+            }
+            ++index;
+        }
+        return (l + r)/2;
     }
+
 private:
     double delta;
 };
