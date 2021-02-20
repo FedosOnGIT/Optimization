@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cmath>
+#include <cassert>
+
 using namespace std;
 
 double f(double argument) {
