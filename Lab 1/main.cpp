@@ -20,7 +20,7 @@ template <typename Method, bool = std::is_same_v<
         MinMethod>>
 void test_method(std::ostream& out, Method&& method) {
     double min_x = method.min(f, l, r, eps);
-    out << "argument:" << min_x << ", function value: " << f(min_x) << std::endl;
+    out << "argument:" << min_x << ", function value: " << f(min_x) << "\n";
 }
 
 int main() {
@@ -31,7 +31,7 @@ int main() {
     while(true) {
         cin >> epsilon_degree;
         if (epsilon_degree > 14) {
-            cout << "Too much. Entry less number." << endl;
+            cout << "Too much. Entry less number.\n";
         } else {
             break;
         }
