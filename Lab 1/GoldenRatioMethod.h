@@ -8,6 +8,7 @@ struct GoldenRatioMethod : MinMethod {
     double min(func_t f, double l, double r, double eps) override {
         std::ofstream out("golden_ration_log.txt");
         setupOut(out);
+        out << "Iteration number\tleft\tright\tx1\tf(x1)\tx2\tf(x2)\tscale\n";
 
         double x1 = (r - l) * X1_FACTOR + l;
         double x2 = (r - l) * X2_FACTOR + l;
@@ -16,16 +17,16 @@ struct GoldenRatioMethod : MinMethod {
         unsigned int index = 0;
 
         while (r - l > eps) {
-            iterationIndexOut(out, index, l, r, x1, f1, x2, f2);
+            iterationOut(out, index, l, r, x1, f1, x2, f2);
             if (f1 < f2) {
-                singleOut(out, (x2 - l)/(r - l));
+                iterationOut(out, (x2 - l)/(r - l));
                 r = x2;
                 x2 = x1;
                 f2 = f1;
                 x1 = (r - l) * X1_FACTOR + l;
                 f1 = f(x1);
             } else {
-                singleOut(out, (r - x1)/(r - l));
+                iterationOut(out, (r - x1)/(r - l));
                 l = x1;
                 x1 = x2;
                 f1 = f2;
@@ -33,8 +34,9 @@ struct GoldenRatioMethod : MinMethod {
                 f2 = f(x2);
             }
             ++index;
+            out << "\n";
         }
-        iterationIndexOut(out, index, l, r, x1, f1, x2, f2);
+        iterationOut(out, index, l, r, x1, f1, x2, f2);
         return (r + l) / 2;
     }
 

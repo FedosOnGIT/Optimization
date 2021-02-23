@@ -12,19 +12,16 @@ protected:
     void setupOut(std::ofstream& out) {
         out.setf(std::iostream::fixed);
         out.precision(15);
-        out << "Iteration number\tleft\tright\tx1\tf(x1)\tx2\tf(x2)\tscale\n";
     }
 
-    void iterationIndexOut(std::ofstream& out,
-                           unsigned int index,
-                           double l, double r,
-                           double x1, double f1,
-                           double x2, double f2) {
-        out << index << "\t" << l << "\t" << r << "\t" << x1 << "\t" << f1 <<
-            "\t" << x2 << "\t" << f2 << "\t";
+    template <typename First, typename... Last>
+    void iterationOut(std::ofstream& out, First first, Last... last) {
+        out << first << "\t";
+        iterationOut(out, last...);
     }
 
-    void singleOut(std::ofstream& out, double value) {
-        out << value << "\n";
+    template <typename First>
+    void iterationOut(std::ofstream& out, First first) {
+        out << first << "\t";
     }
 };
