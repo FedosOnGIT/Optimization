@@ -3,7 +3,10 @@
 #include "MinMethod.h"
 
 struct BrentMethod : MinMethod {
-    double min(func_t f, double l, double r, double eps) override {
+    explicit BrentMethod(std::string const& output = "brent_log.txt")
+        : MinMethod(output) {}
+
+    double min(func_t const& f, double l, double r, double eps) override {
         // TODO
         return 0;
     }

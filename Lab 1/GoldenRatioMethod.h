@@ -3,13 +3,13 @@
 #include "MinMethod.h"
 #include <cmath>
 #include <fstream>
+#include <utility>
 
 struct GoldenRatioMethod : MinMethod {
-    GoldenRatioMethod(std::string output = "golden_ratio_log.txt")
-        : MinMethod(output)
-    {}
+    explicit GoldenRatioMethod(std::string const& output = "golden_ratio_log.txt")
+        : MinMethod(output) {}
 
-    double min(func_t f, double l, double r, double eps) override {
+    double min(func_t const& f, double l, double r, double eps) override {
         println("Iteration number", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
 
         double x1 = (r - l) * X1_FACTOR + l;

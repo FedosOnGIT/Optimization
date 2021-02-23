@@ -4,11 +4,10 @@
 #include <cmath>
 
 struct ParabolaMethod : MinMethod {
-    ParabolaMethod(std::string output = "parabola_log.txt")
-        : MinMethod(output)
-    {}
+    explicit ParabolaMethod(std::string const& output = "parabola_log.txt")
+        : MinMethod(output) {}
 
-    double min(func_t f, double l, double r, double eps) override {
+    double min(func_t const& f, double l, double r, double eps) override {
         println("left=", l, "right=", r);
         println("Iteration number", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
 
@@ -28,7 +27,7 @@ struct ParabolaMethod : MinMethod {
             a2 = ((f3 - f1) / (x3 - x1) - (f2 - f1) / (x2 - x1)) / (x3 - x2);
             // Вершина параболы
             x = 0.5 * (x1 + x2 - a1 / a2);
-            if (index != 0 && abs(x - x_prev) < eps) {
+            if (index != 0 && std::abs(x - x_prev) < eps) {
                 break;
             }
             fx = f(x);

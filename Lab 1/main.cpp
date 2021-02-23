@@ -11,23 +11,39 @@ double f(double x) {
     return pow(log10(x - 2), 2) + pow(log10(10 - x), 2) - pow(x, 0.2);
 }
 
-const double l = 6;
-const double r = 9.9;
+double polynom1(double x) {
+    return 3*pow(x, 4) - 4*x*x*x - 12*x*x;
+}
+
+double polynom2(double x) {
+    return 2*x*x*x - 3*x*x;
+}
+
 double eps = 1e-13;
 
 template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
-void test_method(std::ostream& out, std::string const& methodName, Method&& method) {
+void test_func(std::ostream& out, std::string const& methodName, std::string const& func_name,
+               Method&& method, double l, double r) {
     double min_x = method.min(f, l, r, eps);
-    out << methodName << ":\t" << "argument:" << min_x << ", function value: " << f(min_x) << "\n";
+    out << methodName << " " << func_name << " argument: " << min_x << ", function value: " << f(min_x) << '\n';
+}
+
+template <typename Method, bool = std::is_same_v<
+        std::remove_reference_t<std::remove_cv_t<Method>>,
+        MinMethod>>
+void test_method(std::ostream& out, std::string const& methodName, Method&& method) {
+    test_func(out, methodName, "f", std::forward<Method>(method), 6, 9.9);
+    test_func(out, methodName, "poly_1", std::forward<Method>(method), -3, 3);
+    test_func(out, methodName, "poly_2", std::forward<Method>(method), -2, 2);
 }
 
 int main() {
     using namespace std;
 
     unsigned int epsilon_degree;
-    cout << "How many characters after the decimal point in epsilon?" << "\n";
+    cout << "How many characters after the decimal point in epsilon?\n";
     while(true) {
         cin >> epsilon_degree;
         if (epsilon_degree > 14) {

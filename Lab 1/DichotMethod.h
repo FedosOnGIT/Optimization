@@ -2,11 +2,11 @@
 
 #include "MinMethod.h"
 #include <fstream>
+#include <utility>
 
 struct DichotMethod : MinMethod {
-    DichotMethod(double delta = 1e-8, std::string output = "dichot_log.txt")
-        : MinMethod(output), delta(delta)
-    {}
+    explicit DichotMethod(double delta = 1e-8, std::string const& output = "dichot_log.txt")
+        : MinMethod(output), delta(delta) {}
 
     double getDelta() const {
         return delta;
@@ -16,7 +16,7 @@ struct DichotMethod : MinMethod {
         this->delta = delta;
     }
 
-    double min(func_t f, double l, double r, double eps) override {
+    double min(func_t const& f, double l, double r, double eps) override {
         println("Iteration number", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
 
         unsigned int index = 0;
