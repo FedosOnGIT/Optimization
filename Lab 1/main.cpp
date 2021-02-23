@@ -18,9 +18,9 @@ double eps = 1e-13;
 template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
-void test_method(std::ostream& out, Method&& method) {
+void test_method(std::ostream& out, std::string const& methodName, Method&& method) {
     double min_x = method.min(f, l, r, eps);
-    out << "argument:" << min_x << ", function value: " << f(min_x) << "\n";
+    out << methodName << ":\t" << "argument:" << min_x << ", function value: " << f(min_x) << "\n";
 }
 
 int main() {
@@ -41,11 +41,9 @@ int main() {
     cout.setf(iostream::fixed);
     cout.precision(epsilon_degree + 2);
 
-    cout << "DichotMethod: ";
-    test_method(cout, DichotMethod(eps/2));
-    cout << "GoldenRation: ";
-    test_method(cout, GoldenRatioMethod());
-    // test_method(cout, FibonacciMethod());
-    // test_method(cout, ParabolaMethod());
-    // test_method(cout, BrentMethod());
+    test_method(cout, "Dichot", DichotMethod(eps/2));
+    test_method(cout, "GoldenRatio", GoldenRatioMethod());
+    // test_method(cout, "Fibonacci", FibonacciMethod());
+    test_method(cout, "Parabola", ParabolaMethod());
+    // test_method(cout, "Combined Brent" BrentMethod());
 }
