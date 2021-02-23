@@ -18,9 +18,7 @@ struct DichotMethod : MinMethod {
 
     double min(func_t f, double l, double r, double eps) override {
         std::ofstream out("dichot_log.txt");
-        out.setf(std::iostream::fixed);
-        out.precision(15);
-        out << "Iteration number\tleft\tright\tx1\tf(x1)\tx2\tf(x2)\tscale\n";
+        setupOut(out);
 
         unsigned int index = 0;
         delta = std::min(delta, 0.5*eps);
@@ -30,13 +28,12 @@ struct DichotMethod : MinMethod {
             double x2 = (r + l + delta) / 2;
             double f1 = f(x1);
             double f2 = f(x2);
-            out << index << "\t" << l << "\t" << r << "\t" << x1 << "\t" << f1 <<
-                "\t" << x2 << "\t" << f2 << "\t";
+            iterationIndexOut(out, index, l, r, x1, f1, x2, f2);
             if (f1 < f2) {
-                out << (x2 - l) / (r - l) << "\n";
+                singleOut(out, (x2 - l) / (r - l));
                 r = x2;
             } else {
-                out << (r - x1) / (r - l) << "\n";
+                singleOut(out, (r - x1) / (r - l));
                 l = x1;
             }
             ++index;

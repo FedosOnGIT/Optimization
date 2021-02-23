@@ -11,8 +11,8 @@ double f(double x) {
     return pow(log10(x - 2), 2) + pow(log10(10 - x), 2) - pow(x, 0.2);
 }
 
-double l = 6;
-double r = 9.9;
+const double l = 6;
+const double r = 9.9;
 double eps = 1e-13;
 
 template <typename Method, bool = std::is_same_v<
