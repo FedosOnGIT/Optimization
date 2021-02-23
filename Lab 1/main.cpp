@@ -25,7 +25,7 @@ template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
 void test_func(std::ostream& out, std::string const& methodName, std::string const& func_name,
-               Method&& method, func_t f, double l, double r) {
+               Method&& method, func_t const& f, double l, double r) {
     double min_x = method.min(f, l, r, eps);
     out << methodName << " " << func_name << " argument: " << min_x << ", function value: " << f(min_x) << '\n';
 }
