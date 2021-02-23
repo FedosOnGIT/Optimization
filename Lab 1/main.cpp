@@ -7,7 +7,7 @@
 #include "ParabolaMethod.h"
 #include "BrentMethod.h"
 
-double f(double x) {
+double main_func(double x) {
     return pow(log10(x - 2), 2) + pow(log10(10 - x), 2) - pow(x, 0.2);
 }
 
@@ -25,7 +25,7 @@ template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
 void test_func(std::ostream& out, std::string const& methodName, std::string const& func_name,
-               Method&& method, double l, double r) {
+               Method&& method, func_t f, double l, double r) {
     double min_x = method.min(f, l, r, eps);
     out << methodName << " " << func_name << " argument: " << min_x << ", function value: " << f(min_x) << '\n';
 }
@@ -34,9 +34,9 @@ template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
 void test_method(std::ostream& out, std::string const& methodName, Method&& method) {
-    test_func(out, methodName, "f", std::forward<Method>(method), 6, 9.9);
-    test_func(out, methodName, "poly_1", std::forward<Method>(method), -3, 3);
-    test_func(out, methodName, "poly_2", std::forward<Method>(method), -2, 2);
+    test_func(out, methodName, "f", std::forward<Method>(method), main_func, 6, 9.9);
+    test_func(out, methodName, "poly_1", std::forward<Method>(method), polynom1, -3, 3);
+    test_func(out, methodName, "poly_2", std::forward<Method>(method), polynom2, -2, 2);
 }
 
 int main() {

@@ -4,9 +4,10 @@
 #include <fstream>
 #include <optional>
 
+using func_t = std::function<double(double)>;
+
 struct MinMethod {
-    const unsigned int ITERATION_MAX = 100;
-    using func_t = std::function<double(double)>;
+    const unsigned int ITERATION_MAX = 250;
 
     explicit MinMethod(std::string const& file)
         : out(file)

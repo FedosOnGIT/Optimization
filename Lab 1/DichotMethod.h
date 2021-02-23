@@ -36,6 +36,8 @@ struct DichotMethod : MinMethod {
                 l = x1;
             }
             ++index;
+            if (index >= ITERATION_MAX)
+                return NAN;
         }
         return (l + r) / 2;
     }

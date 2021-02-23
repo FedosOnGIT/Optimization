@@ -36,6 +36,8 @@ struct GoldenRatioMethod : MinMethod {
                 f2 = f(x2);
             }
             ++index;
+            if (index >= ITERATION_MAX)
+                return NAN;
         }
         println(index, l, r, x1, f1, x2, f2);
         return (r + l) / 2;

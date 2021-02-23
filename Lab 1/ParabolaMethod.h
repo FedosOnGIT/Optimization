@@ -52,6 +52,8 @@ struct ParabolaMethod : MinMethod {
             println((x3 - x1) / (x3_prev - x1_prev));
             x_prev = x;
             ++index;
+            if (index >= ITERATION_MAX)
+                return NAN;
         }
         return x;
     }
@@ -59,7 +61,7 @@ struct ParabolaMethod : MinMethod {
 private:
     // Ищем x1, x2, x3 используя метод золотого сечения
     // Теперь l = x1, r = x3.
-    void initPoints(func_t f, double l, double r, double eps,
+    void initPoints(func_t const& f, double l, double r, double eps,
                     double& x1, double& x2, double& x3,
                     double& f1, double& f2, double& f3) {
         const double FACTOR1 = 2 / (3 + sqrt(5));
@@ -72,6 +74,7 @@ private:
         double f2_left = f(x2_left);
         double f2_right = f(x2_right);
         double low = std::min(f2_left, f2_right);
+        unsigned int index = 0;
 
         while (x3 - x1 < eps && !(low <= f1 && low <= f3)) {
             if (f2_left < f2_right) {
@@ -88,6 +91,9 @@ private:
                 f2_right = f(x2_right);
             }
             low = std::min(f2_left, f2_right);
+            ++index;
+            if (index >= ITERATION_MAX)
+                return;
         }
         x2 = f2_left < f2_right ? x2_left : x2_right;
         f2 = low;
