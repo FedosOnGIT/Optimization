@@ -3,15 +3,19 @@
 #include <functional>
 #include <fstream>
 #include <optional>
+#include <filesystem>
 
 using func_t = std::function<double(double)>;
 
 struct MinMethod {
     const unsigned int ITERATION_MAX = 250;
+    const std::string LOGS_PATH = "./logs/";
 
     explicit MinMethod(std::string const& file)
-        : out(file)
     {
+        using namespace std::filesystem;
+        create_directories(LOGS_PATH);
+        out.open(LOGS_PATH + file);
         out.setf(std::iostream::fixed);
         out.precision(15);
     }
