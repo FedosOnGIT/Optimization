@@ -8,13 +8,18 @@ struct ParabolaMethod : MinMethod {
         : MinMethod(output) {}
 
     double min(func_t const& f, double l, double r, double eps) override {
-        println("left=", l, "right=", r);
-        println("Iteration number", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
+        print("left=", l, "right=", r);
 
         unsigned int index = 0;
         double x1, x2, x3, f1, f2, f3;
         // Находим такие x1, x2, x3: x1 < x2 < x3 and f(x2) <= f(x1) and f(x2) <= f(x3)
-        initPoints(f, l, r, eps, x1, x2, x3, f1, f2, f3);
+        unsigned int init_iter = initPoints(f, l, r, eps, x1, x2, x3, f1, f2, f3);
+        println("init_iterations_count=", init_iter);
+        if (init_iter >= ITERATION_MAX)
+            return NAN;
+
+        println("Iteration number", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
+
         // Завершаем, если находимся в eps окрестности
         if (x3 - x1 < eps) {
             return x2;
@@ -61,7 +66,8 @@ struct ParabolaMethod : MinMethod {
 private:
     // Ищем x1, x2, x3 используя метод золотого сечения
     // Теперь l = x1, r = x3.
-    void initPoints(func_t const& f, double l, double r, double eps,
+    // Возвращает количество проделанных итераций
+    unsigned int initPoints(func_t const& f, double l, double r, double eps,
                     double& x1, double& x2, double& x3,
                     double& f1, double& f2, double& f3) {
         const double FACTOR1 = 2 / (3 + sqrt(5));
@@ -76,7 +82,7 @@ private:
         double low = std::min(f2_left, f2_right);
         unsigned int index = 0;
 
-        while (x3 - x1 < eps && !(low <= f1 && low <= f3)) {
+        while (x3 - x1 < eps && !(low <= f1 && low <= f3) && (index < ITERATION_MAX)) {
             if (f2_left < f2_right) {
                 x3 = x2_right;
                 x2_right = x1;
@@ -92,10 +98,9 @@ private:
             }
             low = std::min(f2_left, f2_right);
             ++index;
-            if (index >= ITERATION_MAX)
-                return;
         }
         x2 = f2_left < f2_right ? x2_left : x2_right;
         f2 = low;
+        return index;
     }
 };
