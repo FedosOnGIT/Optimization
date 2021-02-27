@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <fstream>
-#include <optional>
 #include <filesystem>
 
 using func_t = std::function<double(double)>;
