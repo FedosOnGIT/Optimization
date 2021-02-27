@@ -2,7 +2,8 @@
 
 #include "MinMethod.h"
 
-struct BrentMethod : MinMethod {
+class BrentMethod : MinMethod {
+public:
     explicit BrentMethod(std::string const& output = "brent_log.txt")
         : MinMethod(output) {}
 

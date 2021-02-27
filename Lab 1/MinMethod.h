@@ -8,7 +8,8 @@ using func_t = std::function<double(double)>;
 
 // Интерфейс для всех методов минимизации.
 // Содержит общие методы для логирования.
-struct MinMethod {
+class MinMethod {
+public:
     const unsigned int ITERATION_MAX = 250;
     const std::string LOGS_PATH = "./logs/";
 

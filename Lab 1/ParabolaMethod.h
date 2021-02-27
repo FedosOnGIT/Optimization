@@ -3,7 +3,8 @@
 #include "MinMethod.h"
 #include <cmath>
 
-struct ParabolaMethod : MinMethod {
+class ParabolaMethod : MinMethod {
+public:
     explicit ParabolaMethod(std::string const& output = "parabola_log.txt")
         : MinMethod(output) {}
 

@@ -4,7 +4,8 @@
 #include <fstream>
 #include <utility>
 
-struct DichotMethod : MinMethod {
+class DichotMethod : MinMethod {
+public:
     // Конструктор принимает дельту,
     // а так же имя файла для логирования, которое можно опустить.
     explicit DichotMethod(double delta = 1e-8, std::string const& output = "dichot_log.txt")

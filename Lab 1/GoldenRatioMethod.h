@@ -5,7 +5,8 @@
 #include <fstream>
 #include <utility>
 
-struct GoldenRatioMethod : MinMethod {
+class GoldenRatioMethod : MinMethod {
+public:
     // Конструктор принимает  имя файла для логирования, которое можно опустить.
     explicit GoldenRatioMethod(std::string const& output = "golden_ratio_log.txt")
         : MinMethod(output) {}

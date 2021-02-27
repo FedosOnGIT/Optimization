@@ -2,7 +2,8 @@
 
 #include "MinMethod.h"
 
-struct FibonacciMethod : MinMethod {
+class FibonacciMethod : MinMethod {
+public:
     explicit FibonacciMethod(std::string const& output = "fibonacci_log.txt")
         : MinMethod(output) {}
 
