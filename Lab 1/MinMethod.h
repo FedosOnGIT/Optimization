@@ -38,7 +38,7 @@ private:
     template <typename Current, typename... Rest>
     void spec_print(Current current, Rest... rest) {
         spec_print(current);
-        out << '\t';
+        out << ',';
         spec_print(rest...);
     }
 
@@ -47,14 +47,14 @@ protected:
     template <typename... Args>
     void print(Args... args) {
         spec_print(args...);
-        out << '\t';
+        out << ',';
     }
 
     // Печатает в лог, добавляя в конец перевод строки.
     template <typename... Args>
     void println(Args... args) {
         spec_print(args...);
-        out << '\n';
+        out << ";\n";
     }
 
     std::ofstream out;

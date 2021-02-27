@@ -14,12 +14,12 @@ double main_func(double x) {
 
 // Полиномиальная функция №1
 double polynom1(double x) {
-    return 3*pow(x, 4) - 4*x*x*x - 12*x*x;
+    return 2*x*x*x - 3*x*x;
 }
 
 // Полиномиальная функция №2
 double polynom2(double x) {
-    return 2*x*x*x - 3*x*x;
+    return 3 * pow(x, 4) - 4 * x * x * x - 12 * x * x;
 }
 
 double eps = 1e-13;

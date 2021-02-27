@@ -5,7 +5,7 @@
 
 class ParabolaMethod : MinMethod {
 public:
-    explicit ParabolaMethod(std::string const& output = "parabola_log.txt")
+    explicit ParabolaMethod(std::string const& output = "parabola_log.csv")
         : MinMethod(output) {}
 
     double min(func_t const& f, double l, double r, double eps) override {
@@ -23,7 +23,7 @@ public:
             return NAN;
 
         // Печать в лог шапки таблицы
-        println("Iteration number", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
+        println("№", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
 
         // Завершаем, если находимся в eps окрестности
         if (x3 - x1 < 2*eps) {

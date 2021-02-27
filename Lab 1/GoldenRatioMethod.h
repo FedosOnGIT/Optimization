@@ -8,12 +8,12 @@
 class GoldenRatioMethod : MinMethod {
 public:
     // Конструктор принимает  имя файла для логирования, которое можно опустить.
-    explicit GoldenRatioMethod(std::string const& output = "golden_ratio_log.txt")
+    explicit GoldenRatioMethod(std::string const& output = "golden_ratio_log.csv")
         : MinMethod(output) {}
 
     double min(func_t const& f, double l, double r, double eps) override {
         // Печать в лог шапки таблицы
-        println("Iteration number", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
+        println("№", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
 
         double x1 = (r - l) * X1_FACTOR + l;
         double x2 = (r - l) * X2_FACTOR + l;

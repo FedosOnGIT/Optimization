@@ -8,7 +8,7 @@ class DichotMethod : MinMethod {
 public:
     // Конструктор принимает дельту,
     // а так же имя файла для логирования, которое можно опустить.
-    explicit DichotMethod(double delta = 1e-8, std::string const& output = "dichot_log.txt")
+    explicit DichotMethod(double delta = 1e-8, std::string const& output = "dichot_log.csv")
         : MinMethod(output), delta(delta) {}
 
     double getDelta() const {
@@ -21,7 +21,7 @@ public:
 
     double min(func_t const& f, double l, double r, double eps) override {
         // Печать в лог шапки таблицы
-        println("Iteration number", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
+        println("№", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
 
         // Количество проделанных итераций
         unsigned int index = 0;
