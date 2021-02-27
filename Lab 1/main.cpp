@@ -7,20 +7,24 @@
 #include "ParabolaMethod.h"
 #include "BrentMethod.h"
 
+// Вариант 7
 double main_func(double x) {
     return pow(log10(x - 2), 2) + pow(log10(10 - x), 2) - pow(x, 0.2);
 }
 
+// Полиномиальная функция №1
 double polynom1(double x) {
     return 3*pow(x, 4) - 4*x*x*x - 12*x*x;
 }
 
+// Полиномиальная функция №2
 double polynom2(double x) {
     return 2*x*x*x - 3*x*x;
 }
 
 double eps = 1e-13;
 
+// Тестирует метод на определённой функции
 template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
@@ -30,6 +34,7 @@ void test_func(std::ostream& out, std::string const& methodName, std::string con
     out << methodName << " " << func_name << " argument: " << min_x << ", function value: " << f(min_x) << '\n';
 }
 
+// Функция принимает поток вывода результатов тестирования, имя метода и сам класс.
 template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
