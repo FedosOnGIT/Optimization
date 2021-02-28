@@ -14,11 +14,14 @@ public:
         double x2 = fibonacci2 / fibonacci3 * (r - l) + l;
         double f1 = f(x1), f2 = f(x2);
 
-        println("№", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
+        // Печать в лог шапки таблицы
+        println("№", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "fib1", "fib2", "scale");
 
         for (int i = 0; i < n; i++) {
-            print(i, l, r, x1, f1, x2, f2);
+            // Печать в лог данных конкретной итерации
+            print(i, l, r, x1, f1, x2, f2, fibonacci1, fibonacci2);
             if (f1 < f2) {
+                // Печатаем в лог отношение отрезков
                 println((x2 - l)/(r - l));
                 r = x2;
                 x2 = x1;
@@ -26,6 +29,7 @@ public:
                 x1 = fibonacci1 / fibonacci3 * (r - l) + l;
                 f1 = f(x1);
             } else {
+                // Печатаем в лог отношение отрезков
                 println((r - x1)/(r - l));
                 l = x1;
                 x1 = x2;
@@ -41,11 +45,13 @@ public:
     }
 
 private:
+    // Соседние числа фибоначчи
     double fibonacci1 = 1, fibonacci2 = 1;
 
     int create(double l, double r, double eps) {
         fibonacci1 = 1, fibonacci2 = 1;
-        int number = 0;
+        // номер fibonacci1
+        int number = 1;
         while (true) {
             double fibonacci3 = fibonacci1 + fibonacci2;
             fibonacci1 = fibonacci2;

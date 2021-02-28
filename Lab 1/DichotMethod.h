@@ -34,11 +34,14 @@ public:
             double x2 = (r + l + delta) / 2;
             double f1 = f(x1);
             double f2 = f(x2);
+            // Печать в лог данных конкретной итерации
             print(index, l, r, x1, f1, x2, f2);
             if (f1 < f2) {
+                // Печатаем в лог отношение отрезков
                 println((x2 - l) / (r - l));
                 r = x2;
             } else {
+                // Печатаем в лог отношение отрезков
                 println((r - x1) / (r - l));
                 l = x1;
             }

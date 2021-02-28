@@ -26,6 +26,7 @@ public:
         while (r - l > 2*eps) {
             print(index, l, r, x1, f1, x2, f2);
             if (f1 < f2) {
+                // Печатаем в лог отношение отрезков
                 println((x2 - l) / (r - l));
                 r = x2;
                 x2 = x1;
@@ -33,6 +34,7 @@ public:
                 x1 = (r - l) * X1_FACTOR + l;
                 f1 = f(x1);
             } else {
+                // Печатаем в лог отношение отрезков
                 println((r - x1) / (r - l));
                 l = x1;
                 x1 = x2;

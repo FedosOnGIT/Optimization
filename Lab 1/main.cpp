@@ -64,7 +64,7 @@ int main() {
 
     test_method(cout, "Dichot", DichotMethod(eps/2));
     test_method(cout, "GoldenRatio", GoldenRatioMethod());
-    // test_method(cout, "Fibonacci", FibonacciMethod());
+    test_method(cout, "Fibonacci", FibonacciMethod());
     test_method(cout, "Parabola", ParabolaMethod());
     // test_method(cout, "Combined Brent" BrentMethod());
 }

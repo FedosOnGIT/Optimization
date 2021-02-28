@@ -23,6 +23,8 @@ public:
         out.precision(15);
     }
 
+    // Возвращает точку минимума у функции f на отрезке [l, r],
+    // с погрешностью не более eps
     virtual double min(func_t const& f, double l, double r, double eps) = 0;
 
 private:
