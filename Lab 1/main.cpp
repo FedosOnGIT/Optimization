@@ -40,8 +40,8 @@ template <typename Method, bool = std::is_same_v<
         MinMethod>>
 void test_method(std::ostream& out, std::string const& methodName, Method&& method) {
     test_func(out, methodName, "f", std::forward<Method>(method), main_func, 6, 9.9);
-    test_func(out, methodName, "poly_1", std::forward<Method>(method), polynom1, -3, 3);
-    test_func(out, methodName, "poly_2", std::forward<Method>(method), polynom2, -2, 2);
+    test_func(out, methodName, "poly_1", std::forward<Method>(method), polynom1, -0.6, 1.5);
+    test_func(out, methodName, "poly_2", std::forward<Method>(method), polynom2, -2.2, 2.2);
 }
 
 int main() {
