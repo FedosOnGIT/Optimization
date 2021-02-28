@@ -9,7 +9,6 @@ public:
 
     double min(func_t const& f, double l, double r, double eps) override {
         int n = create(l, r, eps);
-        double fibonacci3 = fibonacci1 + fibonacci2;
         double x1 = fibonacci1 / fibonacci3 * (r - l) + l;
         double x2 = fibonacci2 / fibonacci3 * (r - l) + l;
         double f1 = f(x1), f2 = f(x2);
@@ -45,21 +44,19 @@ public:
     }
 
 private:
-    // Соседние числа фибоначчи
-    double fibonacci1 = 1, fibonacci2 = 1;
+    // Соседние числа фибоначчи. Используем double,
+    // чтобы случайно не получить переполнение
+    double fibonacci1 = 1, fibonacci2 = 1, fibonacci3 = 2;
 
     int create(double l, double r, double eps) {
-        fibonacci1 = 1, fibonacci2 = 1;
+        fibonacci1 = 1, fibonacci2 = 1, fibonacci3 = 2;
         // номер fibonacci1
         int number = 1;
-        while (true) {
-            double fibonacci3 = fibonacci1 + fibonacci2;
+        while ((r - l) / fibonacci3 >= eps) {
             fibonacci1 = fibonacci2;
             fibonacci2 = fibonacci3;
+            fibonacci3 = fibonacci1 + fibonacci2;
             number++;
-            if ((r - l) / fibonacci3 < eps) {
-                break;
-            }
         }
         return number;
     }
