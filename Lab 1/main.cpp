@@ -47,7 +47,9 @@ void test_method(std::ostream& out, std::string const& methodName, Method&& meth
 int main() {
     using namespace std;
 
-    unsigned int epsilon_degree;
+    unsigned int epsilon_degree = 6;
+
+    /*
     cout << "How many characters after the decimal point in epsilon?\n";
     while(true) {
         cin >> epsilon_degree;
@@ -57,6 +59,7 @@ int main() {
             break;
         }
     }
+    */
 
     eps = pow(10, -static_cast<double>(epsilon_degree))/2;
     cout.setf(iostream::fixed);
@@ -66,5 +69,5 @@ int main() {
     test_method(cout, "GoldenRatio", GoldenRatioMethod());
     test_method(cout, "Fibonacci", FibonacciMethod());
     test_method(cout, "Parabola", ParabolaMethod());
-    // test_method(cout, "Combined Brent" BrentMethod());
+    test_method(cout, "Combined Brent", BrentMethod());
 }
