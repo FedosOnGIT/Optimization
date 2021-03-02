@@ -8,8 +8,8 @@ class DichotMethod : MinMethod {
 public:
     // Конструктор принимает дельту,
     // а так же имя файла для логирования, которое можно опустить.
-    explicit DichotMethod(std::ostream& logger, double delta = 1e-8)
-        : MinMethod(logger), delta(delta) {}
+    explicit DichotMethod(logger out, double delta = 1e-8)
+        : MinMethod(std::move(out)), delta(delta) {}
 
     double getDelta() const {
         return delta;

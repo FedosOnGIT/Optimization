@@ -1,5 +1,6 @@
 #pragma once
 
+#include "logger.h"
 #include <functional>
 #include <fstream>
 #include <filesystem>
@@ -14,12 +15,9 @@ public:
     const unsigned int ITERATION_MAX = 250;
 
     // Инициализируем поток, куда будем логировать итерации
-    explicit MinMethod(std::ostream& logger)
-        : logger(logger)
-    {
-        logger.setf(std::iostream::fixed);
-        logger.precision(15);
-    }
+    explicit MinMethod(logger out)
+        : out(std::move(out))
+    {}
 
     // Возвращает точку минимума у функции f на отрезке [l, r],
     // с погрешностью не более eps
@@ -32,13 +30,13 @@ private:
 
     template <typename Current>
     void spec_print(Current current) {
-        logger << current;
+      out << current;
     }
 
     template <typename Current, typename... Rest>
     void spec_print(Current current, Rest... rest) {
         spec_print(current);
-        logger << '\t';
+        out << '\t';
         spec_print(rest...);
     }
 
@@ -47,15 +45,15 @@ protected:
     template <typename... Args>
     void print(Args... args) {
         spec_print(args...);
-        logger << '\t';
+        out << '\t';
     }
 
     // Печатает в лог, добавляя в конец перевод строки.
     template <typename... Args>
     void println(Args... args) {
         spec_print(args...);
-        logger << "\n";
+        out << "\n";
     }
 
-    std::ostream& logger;
+    logger out;
 };
