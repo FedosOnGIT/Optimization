@@ -3,26 +3,30 @@
 #include "MinMethod.h"
 #include <cmath>
 
-struct ParabolaMethod : MinMethod {
-    explicit ParabolaMethod(std::string const& output = "parabola_log.txt")
-        : MinMethod(output) {}
+class ParabolaMethod : MinMethod {
+public:
+    using MinMethod::MinMethod;
 
     double min(func_t const& f, double l, double r, double eps) override {
-        print("left=", l, "right=", r);
+        // print("left=", l, "right=", r);
 
+        // Количество проделанных итераций
         unsigned int index = 0;
         double x1, x2, x3, f1, f2, f3;
         // Находим такие x1, x2, x3: x1 < x2 < x3 and f(x2) <= f(x1) and f(x2) <= f(x3)
-        unsigned int init_iter = initPoints(f, l, r, eps, x1, x2, x3, f1, f2, f3);
-        println("init_iterations_count=", init_iter);
+        unsigned int init_iter = initPoints(f, l, r, 2*eps, x1, x2, x3, f1, f2, f3);
+        // Печать в лог числа итераций, проделанных при инициализации начальных точек
+        // методом золотого сечения. Чаще всего около нулевое.
+        // println("init_iterations_count=", init_iter);
         if (init_iter >= ITERATION_MAX)
             return NAN;
 
-        println("Iteration number", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
+        // Печать в лог шапки таблицы
+        println("№", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
 
         // Завершаем, если находимся в eps окрестности
-        if (x3 - x1 < eps) {
-            return x2;
+        if (x3 - x1 < 2*eps) {
+            return (x1 + x3) / 2;
         }
         double a1, a2, x, fx, x_prev;
 
@@ -32,10 +36,14 @@ struct ParabolaMethod : MinMethod {
             a2 = ((f3 - f1) / (x3 - x1) - (f2 - f1) / (x2 - x1)) / (x3 - x2);
             // Вершина параболы
             x = 0.5 * (x1 + x2 - a1 / a2);
+
+            // Условие выхода - длина отрезка меньше эпсилон.
             if (index != 0 && std::abs(x - x_prev) < eps) {
                 break;
             }
+
             fx = f(x);
+            // Печать в лог данных текущей итерации
             print(index, x1, f1, x2, f2, x3, f3, x, fx);
             double x1_prev = x1, x3_prev = x3;
             // Правило выбора
@@ -54,6 +62,7 @@ struct ParabolaMethod : MinMethod {
                     x2 = x, f2 = fx;
                 }
             }
+            // Печатаем в лог отношение отрезков
             println((x3 - x1) / (x3_prev - x1_prev));
             x_prev = x;
             ++index;

@@ -2,54 +2,60 @@
 
 #include <functional>
 #include <fstream>
-#include <optional>
 #include <filesystem>
+#include <ostream>
 
 using func_t = std::function<double(double)>;
 
-struct MinMethod {
+// Интерфейс для всех методов минимизации.
+// Содержит общие методы для логирования.
+class MinMethod {
+public:
     const unsigned int ITERATION_MAX = 250;
-    const std::string LOGS_PATH = "./logs/";
 
-    explicit MinMethod(std::string const& file)
+    // Инициализируем поток, куда будем логировать итерации
+    explicit MinMethod(std::ostream& logger)
+        : logger(logger)
     {
-        using namespace std::filesystem;
-        create_directories(LOGS_PATH);
-        out.open(LOGS_PATH + file);
-        out.setf(std::iostream::fixed);
-        out.precision(15);
+        logger.setf(std::iostream::fixed);
+        logger.precision(15);
     }
 
+    // Возвращает точку минимума у функции f на отрезке [l, r],
+    // с погрешностью не более eps
     virtual double min(func_t const& f, double l, double r, double eps) = 0;
 
 private:
+    // Эта функция печатает в лог слова, разделённые табуляцией.
+    // После последнего слова ничего напечатано не будет.
     void spec_print() {}
 
-    //без этой специализации в конце будет '\t'
     template <typename Current>
     void spec_print(Current current) {
-        out << current;
+        logger << current;
     }
 
     template <typename Current, typename... Rest>
     void spec_print(Current current, Rest... rest) {
         spec_print(current);
-        out << '\t';
+        logger << '\t';
         spec_print(rest...);
     }
 
 protected:
+    // Печатает в лог, добавляя в конец табуляцию.
     template <typename... Args>
     void print(Args... args) {
         spec_print(args...);
-        out << '\t';
+        logger << '\t';
     }
 
+    // Печатает в лог, добавляя в конец перевод строки.
     template <typename... Args>
     void println(Args... args) {
         spec_print(args...);
-        out << '\n';
+        logger << "\n";
     }
 
-    std::ofstream out;
+    std::ostream& logger;
 };
