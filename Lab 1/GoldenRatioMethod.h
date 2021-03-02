@@ -7,9 +7,7 @@
 
 class GoldenRatioMethod : MinMethod {
 public:
-    // Конструктор принимает  имя файла для логирования, которое можно опустить.
-    explicit GoldenRatioMethod(std::string const& output = "golden_ratio_log.csv")
-        : MinMethod(output) {}
+    using MinMethod::MinMethod;
 
     double min(func_t const& f, double l, double r, double eps) override {
         // Печать в лог шапки таблицы

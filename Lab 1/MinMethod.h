@@ -3,6 +3,7 @@
 #include <functional>
 #include <fstream>
 #include <filesystem>
+#include <ostream>
 
 using func_t = std::function<double(double)>;
 
@@ -11,16 +12,13 @@ using func_t = std::function<double(double)>;
 class MinMethod {
 public:
     const unsigned int ITERATION_MAX = 250;
-    const std::string LOGS_PATH = "./logs/";
 
-    // Конструктор принимает имя файла для логирования
-    explicit MinMethod(std::string const& file)
+    // Инициализируем поток, куда будем логировать итерации
+    explicit MinMethod(std::ostream& logger)
+        : logger(logger)
     {
-        using namespace std::filesystem;
-        create_directories(LOGS_PATH);
-        out.open(LOGS_PATH + file);
-        out.setf(std::iostream::fixed);
-        out.precision(15);
+        logger.setf(std::iostream::fixed);
+        logger.precision(15);
     }
 
     // Возвращает точку минимума у функции f на отрезке [l, r],
@@ -34,13 +32,13 @@ private:
 
     template <typename Current>
     void spec_print(Current current) {
-        out << current;
+        logger << current;
     }
 
     template <typename Current, typename... Rest>
     void spec_print(Current current, Rest... rest) {
         spec_print(current);
-        out << '\t';
+        logger << '\t';
         spec_print(rest...);
     }
 
@@ -49,15 +47,15 @@ protected:
     template <typename... Args>
     void print(Args... args) {
         spec_print(args...);
-        out << '\t';
+        logger << '\t';
     }
 
     // Печатает в лог, добавляя в конец перевод строки.
     template <typename... Args>
     void println(Args... args) {
         spec_print(args...);
-        out << "\n";
+        logger << "\n";
     }
 
-    std::ofstream out;
+    std::ostream& logger;
 };

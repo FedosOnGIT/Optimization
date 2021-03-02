@@ -4,8 +4,7 @@
 
 class FibonacciMethod : MinMethod {
 public:
-    explicit FibonacciMethod(std::string const& output = "fibonacci_log.csv")
-        : MinMethod(output) {}
+    using MinMethod::MinMethod;
 
     double min(func_t const& f, double l, double r, double eps) override {
         int n = create(l, r, eps);

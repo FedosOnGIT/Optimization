@@ -7,8 +7,7 @@ private:
     double const FACTOR = (3 - sqrt(5)) / 2;
 
 public:
-    explicit BrentMethod(std::string const& output = "brent_log.csv")
-        : MinMethod(output) {}
+    using MinMethod::MinMethod;
 
     static int sign(double argument) {
         return (argument > 0) - (argument < 0);

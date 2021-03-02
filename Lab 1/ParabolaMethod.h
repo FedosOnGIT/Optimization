@@ -5,11 +5,10 @@
 
 class ParabolaMethod : MinMethod {
 public:
-    explicit ParabolaMethod(std::string const& output = "parabola_log.csv")
-        : MinMethod(output) {}
+    using MinMethod::MinMethod;
 
     double min(func_t const& f, double l, double r, double eps) override {
-        print("left=", l, "right=", r);
+        // print("left=", l, "right=", r);
 
         // Количество проделанных итераций
         unsigned int index = 0;
@@ -18,7 +17,7 @@ public:
         unsigned int init_iter = initPoints(f, l, r, 2*eps, x1, x2, x3, f1, f2, f3);
         // Печать в лог числа итераций, проделанных при инициализации начальных точек
         // методом золотого сечения. Чаще всего около нулевое.
-        println("init_iterations_count=", init_iter);
+        // println("init_iterations_count=", init_iter);
         if (init_iter >= ITERATION_MAX)
             return NAN;
 
