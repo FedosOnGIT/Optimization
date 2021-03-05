@@ -68,7 +68,7 @@ int main() {
     cout.setf(iostream::fixed);
     cout.precision(epsilon_degree + 2);
 
-    logger log_to_cout(cout);
+    logger log_to_cout(&cout);
     log_to_cout.print(5);
     //log_to_cout.println(5);
 
