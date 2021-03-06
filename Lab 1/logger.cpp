@@ -4,9 +4,11 @@
 // Папка, где будут логи
 static const char *LOGS_PATH = "./logs/";
 
-logger::logger(std::ostream *stream)
+logger::logger(std::ostream *stream, unsigned int precision)
         : out(stream), is_owner(false) {
-    out_init();
+    if (out != nullptr) {
+        out_init(precision);
+    }
 }
 
 logger::logger(std::string const &file)
@@ -23,11 +25,24 @@ logger::logger(logger &&other) noexcept
 }
 
 logger::~logger() {
-    if (is_owner)
-        delete out;
+    close();
 }
 
-void logger::out_init() {
+logger &logger::operator=(logger &&other)  noexcept {
+    close();
+    out = other.out;
+    is_owner = other.is_owner;
+    return *this;
+}
+
+void logger::out_init(unsigned int precision) {
     out->setf(std::iostream::fixed);
-    out->precision(15);
+    out->precision(precision);
+}
+
+void logger::close() {
+    if (is_owner) {
+        delete out;
+        out = nullptr;
+    }
 }
