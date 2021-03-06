@@ -30,10 +30,10 @@ double eps = 1e-13;
 template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
-void test_func(logger& out, std::string const& methodName, std::string const& func_name,
+void test_func(logger&lgg, std::string const& methodName, std::string const& func_name,
                Method&& method, func_t const& f, double l, double r) {
     double min_x = method.min(f, l, r, eps);
-    out << methodName << " " << func_name << " argument: " << min_x << ", function value: " << f(min_x) << '\n';
+    lgg << methodName << " " << func_name << " argument: " << min_x << ", function value: " << f(min_x) << '\n';
 }
 
 // Функция принимает поток вывода результатов тестирования, имя метода и сам класс.
@@ -68,11 +68,10 @@ int main() {
     cout.setf(iostream::fixed);
     cout.precision(epsilon_degree + 2);
 
-    logger log_to_cout(&cout);
-    log_to_cout.print(5);
-    //log_to_cout.println(5);
 
-    /*test_method(log_to_cout, "Dichot",
+    logger log_to_cout(&cout);
+
+    test_method(log_to_cout, "Dichot",
                 DichotMethod(logger("dichot_log.csv"), eps/2));
 
     test_method(log_to_cout, "GoldenRatio",
@@ -85,5 +84,5 @@ int main() {
                 ParabolaMethod(logger("parabola_log.csv")));
 
     test_method(log_to_cout, "Combined Brent",
-                BrentMethod(logger("brent_log.csv")));*/
+                BrentMethod(logger("brent_log.csv")));
 }
