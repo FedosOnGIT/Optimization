@@ -24,7 +24,7 @@ double polynom2(double x) {
     return 3 * pow(x, 4) - 4 * x * x * x - 12 * x * x;
 }
 
-double eps = 1e-13;
+static double eps = 1e-13;
 
 // Тестирует метод на определённой функции
 template <typename Method, bool = std::is_same_v<
@@ -40,17 +40,16 @@ void test_func(logger&lgg, std::string const& methodName, std::string const& fun
 template <typename Method, bool = std::is_same_v<
         std::remove_reference_t<std::remove_cv_t<Method>>,
         MinMethod>>
-void test_method(logger& out, std::string const& methodName, Method&& method) {
-    test_func(out, methodName, "f", std::forward<Method>(method), main_func, 6, 9.9);
-    test_func(out, methodName, "poly_1", std::forward<Method>(method), polynom1, -0.6, 1.5);
-    test_func(out, methodName, "poly_2", std::forward<Method>(method), polynom2, -2.2, 2.2);
+void test_method(logger& lgg, std::string const& methodName, Method&& method) {
+
+    test_func(lgg, methodName, "f", std::forward<Method>(method), main_func, 6, 9.9);
+    //test_func(out, methodName, "poly_1", std::forward<Method>(method), polynom1, -0.6, 1.5);
+    //test_func(out, methodName, "poly_2", std::forward<Method>(method), polynom2, -2.2, 2.2);
 }
 
 
 int main() {
     using namespace std;
-
-    unsigned int epsilon_degree = 6;
 
     /*
     cout << "How many characters after the decimal point in epsilon?\n";
@@ -64,25 +63,33 @@ int main() {
     }
     */
 
-    eps = pow(10, -static_cast<double>(epsilon_degree))/2;
-    cout.setf(iostream::fixed);
-    cout.precision(epsilon_degree + 2);
+    eps = 0.5;
+    logger cout_log(&cout);
+    logger graph_log("graph_log.csv");
+    graph_log.println("log(eps)", "Dichot", "GoldenRatio",
+                      "Fibonacci","Parabola", "Combined Brent");
 
+    for (int epsilon_degree = -1; epsilon_degree > -15; --epsilon_degree) {
+        graph_log.print(epsilon_degree);
+        cout_log.println("log(eps)=", epsilon_degree);
 
-    logger log_to_cout(&cout);
+        test_method(cout_log, "Dichot",
+                    DichotMethod(logger("dichot_log.csv"), graph_log, eps / 2));
 
-    test_method(log_to_cout, "Dichot",
-                DichotMethod(logger("dichot_log.csv"), eps/2));
+        test_method(cout_log, "GoldenRatio",
+                    GoldenRatioMethod(logger("golden_ratio_log.csv"), graph_log));
 
-    test_method(log_to_cout, "GoldenRatio",
-                GoldenRatioMethod(logger("golden_ratio_log.csv")));
+        test_method(cout_log, "Fibonacci",
+                    FibonacciMethod(logger("fibonacci_log.csv"), graph_log));
 
-    test_method(log_to_cout, "Fibonacci",
-                FibonacciMethod(logger("fibonacci_log.csv")));
+        test_method(cout_log, "Parabola",
+                    ParabolaMethod(logger("parabola_log.csv"), graph_log));
 
-    test_method(log_to_cout, "Parabola",
-                ParabolaMethod(logger("parabola_log.csv")));
+        test_method(cout_log, "Combined Brent",
+                    BrentMethod(logger("brent_log.csv"), graph_log));
 
-    test_method(log_to_cout, "Combined Brent",
-                BrentMethod(logger("brent_log.csv")));
+        graph_log.println();
+        cout_log.println();
+        eps /= 2;
+    }
 }
