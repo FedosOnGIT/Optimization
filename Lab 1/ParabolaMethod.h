@@ -11,21 +11,23 @@ public:
         // print("left=", l, "right=", r);
 
         // Количество проделанных итераций
-        unsigned int index = 0;
         double x1, x2, x3, f1, f2, f3;
         // Находим такие x1, x2, x3: x1 < x2 < x3 and f(x2) <= f(x1) and f(x2) <= f(x3)
-        unsigned int init_iter = initPoints(f, l, r, 2*eps, x1, x2, x3, f1, f2, f3);
+        initPoints(f, l, r, 2*eps, x1, x2, x3, f1, f2, f3);
         // Печать в лог числа итераций, проделанных при инициализации начальных точек
         // методом золотого сечения. Чаще всего около нулевое.
         // println("init_iterations_count=", init_iter);
-        if (init_iter >= ITERATION_MAX)
+        if (iter >= ITERATION_MAX) {
+            common_lgg.print(-func_calc);
             return NAN;
+        }
 
         // Печать в лог шапки таблицы
-        println("№", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
+        lgg.println("№", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
 
         // Завершаем, если находимся в eps окрестности
         if (x3 - x1 < 2*eps) {
+            common_lgg.print(func_calc);
             return (x1 + x3) / 2;
         }
         double a1, a2, x, fx, x_prev;
@@ -38,13 +40,14 @@ public:
             x = 0.5 * (x1 + x2 - a1 / a2);
 
             // Условие выхода - длина отрезка меньше эпсилон.
-            if (index != 0 && std::abs(x - x_prev) < eps) {
+            if (iter != 0 && std::abs(x - x_prev) < eps) {
                 break;
             }
 
             fx = f(x);
+            ++func_calc;
             // Печать в лог данных текущей итерации
-            print(index, x1, f1, x2, f2, x3, f3, x, fx);
+            lgg.print(iter, x1, f1, x2, f2, x3, f3, x, fx);
             double x1_prev = x1, x3_prev = x3;
             // Правило выбора
             if (x <= x2) {
@@ -63,12 +66,15 @@ public:
                 }
             }
             // Печатаем в лог отношение отрезков
-            println((x3 - x1) / (x3_prev - x1_prev));
+            lgg.println((x3 - x1) / (x3_prev - x1_prev));
             x_prev = x;
-            ++index;
-            if (index >= ITERATION_MAX)
+            ++iter;
+            if (iter >= ITERATION_MAX) {
+                common_lgg.print(-func_calc);
                 return NAN;
+            }
         }
+        common_lgg.print(func_calc);
         return x;
     }
 
@@ -76,7 +82,7 @@ private:
     // Ищем x1, x2, x3 используя метод золотого сечения
     // Теперь l = x1, r = x3.
     // Возвращает количество проделанных итераций
-    unsigned int initPoints(func_t const& f, double l, double r, double eps,
+    void initPoints(func_t const& f, double l, double r, double eps,
                     double& x1, double& x2, double& x3,
                     double& f1, double& f2, double& f3) {
         const double FACTOR1 = 2 / (3 + sqrt(5));
@@ -89,9 +95,10 @@ private:
         double f2_left = f(x2_left);
         double f2_right = f(x2_right);
         double low = std::min(f2_left, f2_right);
-        unsigned int index = 0;
+        iter = 0;
+        func_calc = 4;
 
-        while (x3 - x1 < eps && !(low <= f1 && low <= f3) && (index < ITERATION_MAX)) {
+        while (x3 - x1 < eps && !(low <= f1 && low <= f3) && (iter < ITERATION_MAX)) {
             if (f2_left < f2_right) {
                 x3 = x2_right;
                 x2_right = x1;
@@ -106,10 +113,10 @@ private:
                 f2_right = f(x2_right);
             }
             low = std::min(f2_left, f2_right);
-            ++index;
+            ++iter;
+            ++func_calc;
         }
         x2 = f2_left < f2_right ? x2_left : x2_right;
         f2 = low;
-        return index;
     }
 };

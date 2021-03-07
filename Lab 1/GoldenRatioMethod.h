@@ -11,21 +11,22 @@ public:
 
     double min(func_t const& f, double l, double r, double eps) override {
         // Печать в лог шапки таблицы
-        println("№", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
+        lgg.println("№", "left", "right", "x1", "f(x1)", "x2", "f(x2)", "scale");
 
         double x1 = (r - l) * X1_FACTOR + l;
         double x2 = (r - l) * X2_FACTOR + l;
         double f1 = f(x1);
         double f2 = f(x2);
         // Количество проделанных итераций
-        unsigned int index = 0;
+        iter = 0;
+        func_calc = 2;
 
         // Условие выхода - длина отрезка меньше двойного эпсилон.
         while (r - l > 2*eps) {
-            print(index, l, r, x1, f1, x2, f2);
+            lgg.print(iter, l, r, x1, f1, x2, f2);
             if (f1 < f2) {
                 // Печатаем в лог отношение отрезков
-                println((x2 - l) / (r - l));
+                lgg.println((x2 - l) / (r - l));
                 r = x2;
                 x2 = x1;
                 f2 = f1;
@@ -33,18 +34,22 @@ public:
                 f1 = f(x1);
             } else {
                 // Печатаем в лог отношение отрезков
-                println((r - x1) / (r - l));
+                lgg.println((r - x1) / (r - l));
                 l = x1;
                 x1 = x2;
                 f1 = f2;
                 x2 = (r - l) * X2_FACTOR + l;
                 f2 = f(x2);
             }
-            ++index;
-            if (index >= ITERATION_MAX)
+            ++iter;
+            ++func_calc;
+            if (iter >= ITERATION_MAX) {
+                common_lgg.print(-func_calc);
                 return NAN;
+            }
         }
-        println(index, l, r, x1, f1, x2, f2);
+        lgg.println(iter, l, r, x1, f1, x2, f2);
+        common_lgg.print(func_calc);
         return (r + l) / 2;
     }
 

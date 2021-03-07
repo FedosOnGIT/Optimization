@@ -1,5 +1,6 @@
 #pragma once
 
+#include "logger.h"
 #include <functional>
 #include <fstream>
 #include <filesystem>
@@ -14,48 +15,18 @@ public:
     const unsigned int ITERATION_MAX = 250;
 
     // Инициализируем поток, куда будем логировать итерации
-    explicit MinMethod(std::ostream& logger)
-        : logger(logger)
-    {
-        logger.setf(std::iostream::fixed);
-        logger.precision(15);
-    }
+    explicit MinMethod(logger lgg, logger& c_lgg)
+        : lgg(std::move(lgg)), common_lgg(c_lgg)
+    {}
 
     // Возвращает точку минимума у функции f на отрезке [l, r],
     // с погрешностью не более eps
     virtual double min(func_t const& f, double l, double r, double eps) = 0;
 
-private:
-    // Эта функция печатает в лог слова, разделённые табуляцией.
-    // После последнего слова ничего напечатано не будет.
-    void spec_print() {}
-
-    template <typename Current>
-    void spec_print(Current current) {
-        logger << current;
-    }
-
-    template <typename Current, typename... Rest>
-    void spec_print(Current current, Rest... rest) {
-        spec_print(current);
-        logger << '\t';
-        spec_print(rest...);
-    }
-
 protected:
-    // Печатает в лог, добавляя в конец табуляцию.
-    template <typename... Args>
-    void print(Args... args) {
-        spec_print(args...);
-        logger << '\t';
-    }
+    logger lgg;
+    logger& common_lgg;
 
-    // Печатает в лог, добавляя в конец перевод строки.
-    template <typename... Args>
-    void println(Args... args) {
-        spec_print(args...);
-        logger << "\n";
-    }
-
-    std::ostream& logger;
+    unsigned int iter = 0;
+    int func_calc = 0;
 };
