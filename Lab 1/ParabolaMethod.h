@@ -45,6 +45,7 @@ public:
             }
 
             fx = f(x);
+            ++func_calc;
             // Печать в лог данных текущей итерации
             lgg.print(iter, x1, f1, x2, f2, x3, f3, x, fx);
             double x1_prev = x1, x3_prev = x3;
