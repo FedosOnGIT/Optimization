@@ -1,13 +1,12 @@
 #include <iostream>
 #include <cmath>
 
+#include "logger.h"
 #include "DichotMethod.h"
 #include "GoldenRatioMethod.h"
 #include "FibonacciMethod.h"
 #include "ParabolaMethod.h"
 #include "BrentMethod.h"
-
-#include "logger.h"
 
 // Вариант 7
 double main_func(double x) {
@@ -50,18 +49,6 @@ void test_method(logger& lgg, std::string const& methodName, Method&& method) {
 
 int main() {
     using namespace std;
-
-    /*
-    cout << "How many characters after the decimal point in epsilon?\n";
-    while(true) {
-        cin >> epsilon_degree;
-        if (epsilon_degree > 14) {
-            cout << "Too much. Entry less number.\n";
-        } else {
-            break;
-        }
-    }
-    */
 
     eps = 0.5;
     logger cout_log(&cout);
