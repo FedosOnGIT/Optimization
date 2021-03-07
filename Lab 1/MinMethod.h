@@ -19,10 +19,11 @@ public:
         : lgg(std::move(lgg)), common_lgg(c_lgg)
     {}
 
+    virtual ~MinMethod() = default;
+
     // Возвращает точку минимума у функции f на отрезке [l, r],
     // с погрешностью не более eps
     virtual double min(func_t const& f, double l, double r, double eps) = 0;
-
 protected:
     logger lgg;
     logger& common_lgg;

@@ -15,6 +15,7 @@
 #include "FibonacciMethod.h"
 #include "ParabolaMethod.h"
 #include "BrentMethod.h"
+#include "logger.h"
 
 namespace Ui {
     class MainWindow;
@@ -65,5 +66,5 @@ namespace Opt {
 
     extern const std::map<int, std::string> HEAD_BY_METHOD;
 
-    MinMethod* getMethod(MethodType methodType, double delta, std::ostream& logger);
+    void evaluate(MethodType methodType, Opt::FunctionData functionData, double eps, double delta, std::ostream& out);
 }

@@ -32,6 +32,8 @@ logger &logger::operator=(logger &&other)  noexcept {
     close();
     out = other.out;
     is_owner = other.is_owner;
+    other.out = nullptr;
+    other.is_owner = false;
     return *this;
 }
 

@@ -117,7 +117,7 @@ void MainWindow::findMinPushButtonClicked() {
     // Переход к главному виджету, где уже есть прорисованный график
     ui->stackedWidget->setCurrentIndex(1);
 
-    iterationTimer.start(SHOW_ITERATION_INTERVAL);
+    iterationTimer.start(SHOW_TIME_MS / iterations.size());
 }
 
 // Зеленый цвет
@@ -165,7 +165,7 @@ void MainWindow::resetPushButtonClicked() {
         customPlot->removeGraph(3);
     }
     customPlot->replot();
-    iterationTimer.start(SHOW_ITERATION_INTERVAL);
+    iterationTimer.start(SHOW_TIME_MS / iterations.size());
 }
 
 void MainWindow::listWidgetItemClicked(QListWidgetItem* item) {
@@ -241,8 +241,7 @@ void MainWindow::buildMainFunction() {
 
 void MainWindow::makeMethodIterations() {
     std::stringstream strStream;
-    MinMethod* method = Opt::getMethod(static_cast<Opt::MethodType>(methodType), delta, strStream);
-    method->min(functionData.f, functionData.left, functionData.right, eps);
+    Opt::evaluate(static_cast<Opt::MethodType>(methodType), functionData, eps, delta, strStream);
     std::string str;
 
     // Добавляем шапку
@@ -252,7 +251,6 @@ void MainWindow::makeMethodIterations() {
     while (getline(strStream, str)) {
         iterations.push_back(str);
     }
-    delete method;
 }
 
 void MainWindow::realtimeShowIteration() {

@@ -3,7 +3,7 @@
 #include "MinMethod.h"
 #include <cmath>
 
-class ParabolaMethod : MinMethod {
+class ParabolaMethod : public MinMethod {
 public:
     using MinMethod::MinMethod;
 
@@ -23,7 +23,7 @@ public:
         }
 
         // Печать в лог шапки таблицы
-        lgg.println("№", "x1", "f(x1)", "x2", "f(x2)", "x3", "f(x3)", "x", "f(x)", "scale");
+        lgg.println("№", "x1", "x3", "f(x1)", "f(x3)", "x2", "f(x2)", "x", "f(x)", "scale");
 
         // Завершаем, если находимся в eps окрестности
         if (x3 - x1 < 2*eps) {
@@ -47,7 +47,7 @@ public:
             fx = f(x);
             ++func_calc;
             // Печать в лог данных текущей итерации
-            lgg.print(iter, x1, f1, x2, f2, x3, f3, x, fx);
+            lgg.print(iter, x1, x3, f1, f3, x2, f2, x, fx);
             double x1_prev = x1, x3_prev = x3;
             // Правило выбора
             if (x <= x2) {

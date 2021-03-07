@@ -5,7 +5,7 @@
 #include <fstream>
 #include <utility>
 
-class GoldenRatioMethod : MinMethod {
+class GoldenRatioMethod : public MinMethod {
 public:
     using MinMethod::MinMethod;
 

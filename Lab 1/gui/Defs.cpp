@@ -26,24 +26,35 @@ const std::map<int, std::string> Opt::HEAD_BY_METHOD = {
     {Brent, "№	left	               right	               min	               f(min)	               2min	               f(2min)	               prev_2min	               f(prev_2min)	parabola_min	f(parabola_min)	scale             \n"}
 };
 
-MinMethod* Opt::getMethod(MethodType methodType, double delta, std::ostream& logger) {
+void Opt::evaluate(MethodType methodType, Opt::FunctionData functionData, double eps, double delta, std::ostream& out) {
     using namespace Opt;
+    logger log(&out, 15), cmn_log(nullptr);
+    MinMethod* method;
     switch (methodType) {
         case Dichot: {
-            return new DichotMethod(logger, delta);
+            method = new DichotMethod(std::move(log), cmn_log, delta);
+            break;
         }
         case GoldenRatio : {
-            return new GoldenRatioMethod(logger);
+            method = new GoldenRatioMethod(std::move(log), cmn_log);
+            break;
         }
         case Fibonacci: {
-            return new FibonacciMethod(logger);
+            method = new FibonacciMethod(std::move(log), cmn_log);
+            break;
         }
         case Parabola: {
-            return new ParabolaMethod(logger);
+            method = new ParabolaMethod(std::move(log), cmn_log);
+            break;
         }
         case Brent: {
-            return new BrentMethod(logger);
+            method = new BrentMethod(std::move(log), cmn_log);
+            break;
+        }
+        default: {
+            throw std::invalid_argument( "received wrong method");
         }
     }
-    throw std::invalid_argument( "received wrong method");
+    method->min(functionData.f, functionData.left, functionData.right, eps);
+    delete method;
 }

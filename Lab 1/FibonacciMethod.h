@@ -2,7 +2,7 @@
 
 #include "MinMethod.h"
 
-class FibonacciMethod : MinMethod {
+class FibonacciMethod : public MinMethod {
 public:
     using MinMethod::MinMethod;
 

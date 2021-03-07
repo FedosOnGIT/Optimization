@@ -2,7 +2,7 @@
 
 #include "MinMethod.h"
 
-class BrentMethod : MinMethod {
+class BrentMethod : public MinMethod {
 private:
     double const FACTOR = (3 - sqrt(5)) / 2;
 

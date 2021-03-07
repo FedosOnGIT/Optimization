@@ -4,7 +4,7 @@
 #include <fstream>
 #include <utility>
 
-class DichotMethod : MinMethod {
+class DichotMethod : public MinMethod {
 public:
     // Конструктор принимает дельту,
     // а так же имя файла для логирования, которое можно опустить.

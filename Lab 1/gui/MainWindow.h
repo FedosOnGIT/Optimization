@@ -53,7 +53,7 @@ private:
     constexpr static double MAX_EPS_VALUE = 1;
     constexpr static double MIN_EPS_VALUE = 0.00000000000002;
     constexpr static double MIN_DELTA_VALUE = MIN_EPS_VALUE / 2;
-    constexpr static double SHOW_ITERATION_INTERVAL = 200;
+    constexpr static double SHOW_TIME_MS = 10000;
 
 private:
     Ui::MainWindow* ui;
