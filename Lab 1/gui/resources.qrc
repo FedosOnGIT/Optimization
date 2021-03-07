@@ -1,0 +1,11 @@
+<RCC>
+    <qresource>
+        <file>images/delta.png</file>
+        <file>images/eps.png</file>
+        <file>images/deltaError.png</file>
+        <file>images/epsError.png</file>
+        <file>images/funcError.png</file>
+        <file>images/methodError.png</file>
+        <file>images/functions.png</file>
+    </qresource>
+</RCC>
