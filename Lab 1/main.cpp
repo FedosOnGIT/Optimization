@@ -41,8 +41,8 @@ template <typename Method, bool = std::is_same_v<
         MinMethod>>
 void test_method(logger& lgg, std::string const& methodName, Method&& method) {
     test_func(lgg, methodName, "f", std::forward<Method>(method), main_func, 6, 9.9);
-    //test_func(out, methodName, "poly_1", std::forward<Method>(method), polynom1, -0.6, 1.5);
-    //test_func(out, methodName, "poly_2", std::forward<Method>(method), polynom2, -2.2, 2.2);
+    //test_func(lgg, methodName, "poly_1", std::forward<Method>(method), polynom1, -0.6, 1.5);
+    //test_func(lgg, methodName, "poly_2", std::forward<Method>(method), polynom2, -2.2, 2.2);
 }
 
 
