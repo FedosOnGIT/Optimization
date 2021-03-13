@@ -1,7 +1,4 @@
 #include "MainWindow.h"
-#include "gui/ui_MainWindow.h"
-#include <iostream>
-#include <string>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -161,7 +158,7 @@ void MainWindow::resetPushButtonClicked() {
     QVector<double> x(0), y(0);
     customPlot->graph(1)->setData(x, y);
     customPlot->graph(2)->setData(x, y);
-    if (methodType == Opt::MethodType::Parabola) {
+    if (customPlot->graphCount() == 4) {
         customPlot->removeGraph(3);
     }
     customPlot->replot();
@@ -284,47 +281,20 @@ void MainWindow::realtimeShowIteration() {
         customPlot->graph(2)->setData(xr, yr);
         customPlot->graph(2)->setPen(pen);
 
-        if (methodType == Opt::MethodType::Parabola) {
-            if (customPlot->graphCount() == 3) {
-                customPlot->addGraph();
+        switch (methodType) {
+            case Opt::MethodType::Parabola : {
+                parabolaMethodBuildParabola(tmp_stream, l, r);
+                break;
             }
-            double x1 = l, x3 = r;
-            tmp_stream >> val;
-            double f1 = std::stod(val);
-            tmp_stream >> val;
-            double f3 = std::stod(val);
-            tmp_stream >> val;
-            double x2 = std::stod(val);
-            tmp_stream >> val;
-            double f2 = std::stod(val);
-
-            double a0 = f1;
-            double a1 = (f2 - f1) / (x2 - x1);
-            double a2 = ((f3 - f1) / (x3 - x1) - (f2 - f1) / (x2 - x1)) / (x3 - x2);
-
-            std::function<double(double)> parabola = [&a0, &a1, &a2, &x1, &x2, &x3](double x) {
-                return a0 + a1 * (x - x1) + a2 * (x - x1) * (x - x2);
-            };
-
-            QVector<double> xp(functionData.points / 100),  yp(functionData.points / 100);
-            for (int i = 0; i < functionData.points / 100; ++i) {
-                xp[i] = functionData.left + ((functionData.right - functionData.left) * i) / (functionData.points / 100);
-                yp[i] = parabola(xp[i]);
+            case Opt::MethodType::Brent : {
+                brentMethodBuildParabola(tmp_stream, l, r);
+                break;
             }
-            pen.setStyle(Qt::DashLine);
-            pen.setWidth(2);
-            pen.setColor(Qt::darkRed);
-            customPlot->graph(3)->setPen(pen);
-            customPlot->graph(3)->setName("parabola");
-            customPlot->graph(3)->setData(xp, yp);
         }
     } else {
         QVector<double> x(0), y(0);
         customPlot->graph(1)->setData(x, y);
         customPlot->graph(2)->setData(x, y);
-        if (methodType == Opt::MethodType::Parabola && customPlot->graphCount() == 4) {
-            customPlot->graph(3)->setData(x, y);
-        }
     }
 
     customPlot->replot();
@@ -349,10 +319,125 @@ void MainWindow::clearGraphs() {
     customPlot->graph(0)->setData(x, y);
     customPlot->graph(1)->setData(x, y);
     customPlot->graph(2)->setData(x, y);
-    if (methodType == Opt::MethodType::Parabola) {
+    if (customPlot->graphCount() == 4) {
         customPlot->removeGraph(3);
     }
     customPlot->replot();
+}
+
+void MainWindow::parabolaMethodBuildParabola(std::stringstream& str_stream, double l, double r) {
+    QCustomPlot* customPlot = ui->plotWidget;
+    if (customPlot->graphCount() == 3) {
+        customPlot->addGraph();
+    }
+    std::string val;
+    QPen pen;
+    double x1, f1, x2, f2, x3, f3;
+    x1 = l;
+    x3 = r;
+    initValue(str_stream, f1);
+    initValue(str_stream, f3);
+    initValue(str_stream, x2);
+    initValue(str_stream, f2);
+
+    double a0 = f1;
+    double a1 = (f2 - f1) / (x2 - x1);
+    double a2 = ((f3 - f1) / (x3 - x1) - (f2 - f1) / (x2 - x1)) / (x3 - x2);
+
+    std::function<double(double)> parabola = [&a0, &a1, &a2, &x1, &x2, &x3](double x) {
+        return a0 + a1 * (x - x1) + a2 * (x - x1) * (x - x2);
+    };
+
+    QVector<double> xp(functionData.points / 100),  yp(functionData.points / 100);
+    for (int i = 0; i < functionData.points / 100; ++i) {
+        xp[i] = functionData.left + ((functionData.right - functionData.left) * i) / (functionData.points / 100);
+        yp[i] = parabola(xp[i]);
+    }
+    pen.setStyle(Qt::DashLine);
+    pen.setWidth(2);
+    pen.setColor(Qt::darkRed);
+    customPlot->graph(3)->setPen(pen);
+    customPlot->graph(3)->setName("parabola");
+    customPlot->graph(3)->setData(xp, yp);
+}
+
+void MainWindow::brentMethodBuildParabola(std::stringstream& str_stream, double l, double r) {
+    QCustomPlot* customPlot = ui->plotWidget;
+    std::string val;
+    double x, fx, w, fw, v, fv;
+
+    initValue(str_stream, x);
+    initValue(str_stream, fx);
+    initValue(str_stream, w);
+    initValue(str_stream, fw);
+    initValue(str_stream, v);
+    initValue(str_stream, fv);
+
+    str_stream >> val;
+
+    if (val == "-") {
+        if (customPlot->graphCount() == 4) {
+            customPlot->removeGraph(3);
+        }
+        return;
+    }
+    if (customPlot->graphCount() == 3) {
+        customPlot->addGraph();
+    }
+
+    double x1, x2, x3, f1, f2, f3;
+    if (x < w) {
+        if (x < v) {
+            x1 = x;
+            f1 = fx;
+            if (v < w) {
+                x2 = v; f2 = fv; x3 = w; f3 = fw;
+            } else {
+                x2 = w; f2 = fw; x3 = v; f3 = fv;
+            }
+        } else {
+            x1 = v; f1 = fv; x2 = x; f2 = fx; x3 = w; f3 = fw;
+        }
+    } else {
+        if (w < v) {
+            x1 = w;
+            f1 = fw;
+            if (v < x) {
+                x2 = v; f2 = fv; x3 = x; f3 = fx;
+            } else {
+                x2 = x; f2 = fx; x3 = v; f3 = fv;
+            }
+        } else {
+            x1 = v; f1 = fv; x2 = w; f2 = fw; x3 = x; f3 = fx;
+        }
+    }
+
+    double a0 = f1;
+    double a1 = (f2 - f1) / (x2 - x1);
+    double a2 = ((f3 - f1) / (x3 - x1) - (f2 - f1) / (x2 - x1)) / (x3 - x2);
+
+    std::function<double(double)> parabola = [&a0, &a1, &a2, &x1, &x2, &x3](double x) {
+        return a0 + a1 * (x - x1) + a2 * (x - x1) * (x - x2);
+    };
+
+    QVector<double> xp(functionData.points / 100),  yp(functionData.points / 100);
+    for (int i = 0; i < functionData.points / 100; ++i) {
+        xp[i] = functionData.left + ((functionData.right - functionData.left) * i) / (functionData.points / 100);
+        yp[i] = parabola(xp[i]);
+    }
+    QPen pen;
+    pen.setStyle(Qt::DashLine);
+    pen.setWidth(2);
+    pen.setColor(Qt::darkRed);
+    customPlot->graph(3)->setPen(pen);
+    customPlot->graph(3)->setName("parabola");
+    customPlot->graph(3)->setData(xp, yp);
+}
+
+void MainWindow::initValue(std::stringstream& stream, double& val) {
+    std::string str;
+    stream >> str;
+    val = std::stod(str);
 }
 
 MainWindow::~MainWindow() {

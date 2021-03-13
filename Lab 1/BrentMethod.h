@@ -125,6 +125,7 @@ public:
             ++index;
             lgg.print(index, l, r, x, fx, w, fw, v, fv);
         }
+        lgg.print("-");
         common_lgg.print(func_comp);
         return x;
     }

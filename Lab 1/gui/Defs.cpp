@@ -23,7 +23,7 @@ const std::map<int, std::string> Opt::HEAD_BY_METHOD = {
     {GoldenRatio, "№	left	               right	               x1	                f(x1)	               x2	               f(x2)	               scale            \n"},
     {Fibonacci, "№	left	               right	               x1	                f(x1)	               x2	               f(x2)	                fib1	                               fib2	                               scale           \n"},
     {Parabola, "№	x1	                x3	              f(x1)	               f(x3)	               x2	                f(x2)	               x_min	                f(x_min)	               scale             \n"},
-    {Brent, "№	left	               right	               min	               f(min)	               2min	               f(2min)	               prev_2min	               f(prev_2min)	parabola_min	f(parabola_min)	scale             \n"}
+    {Brent, "№	left	               right	                min	                f(min)	               2min	               f(2min)	               prev_2min	               f(prev_2min)	 parabola?    new point               f(new point)             scale\n"}
 };
 
 void Opt::evaluate(MethodType methodType, Opt::FunctionData functionData, double eps, double delta, std::ostream& out) {

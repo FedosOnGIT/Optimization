@@ -9,11 +9,14 @@
 #include <vector>
 #include <utility>
 #include <mutex>
+#include <iostream>
 
 #include <QTimer>
 #include <QListWidget>
 
 #include "Defs.h"
+#include "gui/ui_MainWindow.h"
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -49,6 +52,13 @@ private:
     void buildMainFunction();
     void makeMethodIterations();
     void clearGraphs();
+
+    // построение аппроксимирующей параболы для метода парабол
+    void parabolaMethodBuildParabola(std::stringstream&, double, double);
+    // Специальный метод для метода Брента по построению вспомогательный параболы
+    void brentMethodBuildParabola(std::stringstream&, double, double);
+
+    void initValue(std::stringstream&, double&);
 
     constexpr static double MAX_EPS_VALUE = 1;
     constexpr static double MIN_EPS_VALUE = 0.00000000000002;
