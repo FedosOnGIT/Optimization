@@ -14,23 +14,25 @@ public:
     }
 
     double min(func_t const& f, double l, double r, double eps) override {
+        // Печать в лог шапки таблицы
+        lgg.println("№", "l", "r", "min", "f(min)", "2min",
+                    "f(2min)","prev_2min", "f(prev_2min)", "parabola?",
+                    "new point","f(new point)", "scale");
+
         double x = l + FACTOR * (r - l), w = x, v = x;
         double fx = f(x), fw = fx, fv = fx, parabola_min;
         double d = r - l, e = d, g;
 
-        // Печать в лог шапки таблицы
-        lgg.println("№", "l", "r", "min", "f(min)", "2min", "f(2min)", "prev_2min", "f(prev_2min)",
-                "parabola_min", "f(parabola_min)", "scale");
-
         unsigned int index = 0;
         unsigned int func_comp = 1;
+
+        lgg.print(index, l, r, x, fx, w, fw, "-", v, fv);
 
         // Условие выхода: расстояние от найденного минимума
         // до дальней границы отрезка меньше 2*eps
         while (std::abs(x - (l + r) / 2) + (r - l) / 2 >= 2*eps) {
             g = e, e = d;
 
-            lgg.print(index, l, r, x, fx, w, fw, v, fv);
             /* Парабола будет принята когда:
              * 1. Значения fx, fv, fw - будут попарно различны.
              * 2. Точка минимума параболы, проходящей через точки x, v, w, будет лежать внутри отрезка l r.
@@ -95,7 +97,7 @@ public:
             d = std::abs(parabola_min - x);
             double fu = f(parabola_min);
             ++func_comp;
-            lgg.println(parabola_min, fu, d/(r - l));
+            lgg.println((parabola_accepted ? "+" : "-"), parabola_min, fu, d/(r - l));
             // Изменение границ, пересчёт переменных.
             if (fu <= fx) {
                 if (parabola_min >= x) {
@@ -121,6 +123,7 @@ public:
                 }
             }
             ++index;
+            lgg.print(index, l, r, x, fx, w, fw, v, fv);
         }
         common_lgg.print(func_comp);
         return x;
