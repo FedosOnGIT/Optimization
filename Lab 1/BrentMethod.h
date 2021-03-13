@@ -26,7 +26,7 @@ public:
         unsigned int index = 0;
         unsigned int func_comp = 1;
 
-        lgg.print(index, l, r, x, fx, w, fw, "-", v, fv);
+        lgg.print(index, l, r, x, fx, w, fw, v, fv);
 
         // Условие выхода: расстояние от найденного минимума
         // до дальней границы отрезка меньше 2*eps
