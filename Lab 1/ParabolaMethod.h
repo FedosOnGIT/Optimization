@@ -31,6 +31,7 @@ public:
             return (x1 + x3) / 2;
         }
         double a1, a2, x, fx, x_prev;
+        iter = 0;
 
         while (true) {
             // Вычисление коэффициентов параболы
@@ -98,21 +99,22 @@ private:
         iter = 0;
         func_calc = 4;
 
-        while (x3 - x1 < eps && !(low <= f1 && low <= f3) && (iter < ITERATION_MAX)) {
+        while (x3 - x1 >= eps && !(low <= f1 && low <= f3) && (iter < ITERATION_MAX)) {
             if (f2_left < f2_right) {
                 x3 = x2_right;
-                x2_right = x1;
-                f2_right = f1;
+                x2_right = x2_left;
+                f2_right = f2_left;
                 x2_left = (x3 - x1) * FACTOR1 + x1;
                 f2_left = f(x2_left);
+                low = f2_left;
             } else {
                 x1 = x2_left;
                 x2_left = x2_right;
                 f2_left = f2_right;
                 x2_right = (x3 - x1) * FACTOR2 + x1;
                 f2_right = f(x2_right);
+                low = f2_right;
             }
-            low = std::min(f2_left, f2_right);
             ++iter;
             ++func_calc;
         }
