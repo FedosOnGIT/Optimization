@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 #include "logger.h"
 #include "DichotMethod.h"
@@ -45,6 +46,33 @@ void test_method(logger& lgg, std::string const& methodName, Method&& method) {
     //test_func(lgg, methodName, "poly_2", std::forward<Method>(method), polynom2, -2.2, 2.2);
 }
 
+std::string to_string_double(double x, int length = 3) {
+    return std::to_string(x).substr(0, length);
+}
+
+void extra_task() {
+    std::vector<double> x1 = {6.8, 7.2, 7.6, 8.0};
+    std::vector<double> x2 = {8.4, 8.5, 8.6, 8.7};
+    const double start_epsilon = 0.1;
+
+    logger graph_log("extra_task_graph_log.csv");
+    graph_log.println("log(eps)", "x1", "x2", "Parabola");
+
+    for (double l : x1) {
+        for (double r : x2) {
+            eps = start_epsilon;
+            for (int epsilon_degree = -1; epsilon_degree > -15; --epsilon_degree) {
+                graph_log.print(epsilon_degree, "\t");
+                graph_log.print(to_string_double(l), "\t", to_string_double(r), "\t");
+                ParabolaMethod method = ParabolaMethod(logger("extra_task_parabola_log.csv"), graph_log);
+                method.min(main_func, l, r, eps);
+                graph_log.println();
+                eps /= 10;
+            }
+            graph_log.println();
+        }
+    }
+}
 
 int main() {
     using namespace std;
@@ -78,4 +106,6 @@ int main() {
         cout_log.println();
         eps /= 2;
     }
+
+    extra_task();
 }
