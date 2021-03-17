@@ -7,19 +7,30 @@ class ParabolaMethod : public MinMethod {
 public:
     using MinMethod::MinMethod;
 
+    explicit ParabolaMethod(logger lgg, logger& c_lgg, double x2)
+            : MinMethod(std::move(lgg), c_lgg), is_x2_given(true), x2(x2) {}
+
     double min(func_t const& f, double l, double r, double eps) override {
         // print("left=", l, "right=", r);
 
         // Количество проделанных итераций
-        double x1, x2, x3, f1, f2, f3;
-        // Находим такие x1, x2, x3: x1 < x2 < x3 and f(x2) <= f(x1) and f(x2) <= f(x3)
-        initPoints(f, l, r, 2*eps, x1, x2, x3, f1, f2, f3);
-        // Печать в лог числа итераций, проделанных при инициализации начальных точек
-        // методом золотого сечения. Чаще всего около нулевое.
-        // println("init_iterations_count=", init_iter);
-        if (iter >= ITERATION_MAX) {
-            common_lgg.print(-func_calc);
-            return NAN;
+        double x1, x3, f1, f2, f3;
+        if (!is_x2_given) {
+            // Находим такие x1, x2, x3: x1 < x2 < x3 and f(x2) <= f(x1) and f(x2) <= f(x3)
+            initPoints(f, l, r, 2*eps, x1, x2, x3, f1, f2, f3);
+            // Печать в лог числа итераций, проделанных при инициализации начальных точек
+            // методом золотого сечения. Чаще всего около нулевое.
+            // println("init_iterations_count=", init_iter);
+            if (iter >= ITERATION_MAX) {
+                common_lgg.print(-func_calc);
+                return NAN;
+            }
+        } else {
+            f2 = f(x2);
+            x1 = l;
+            f1 = f(x1);
+            x3 = r;
+            f3 = f(x3);
         }
 
         // Печать в лог шапки таблицы
@@ -80,6 +91,9 @@ public:
     }
 
 private:
+    bool is_x2_given = false;
+    double x2;
+
     // Ищем x1, x2, x3 используя метод золотого сечения
     // Теперь l = x1, r = x3.
     // Возвращает количество проделанных итераций
