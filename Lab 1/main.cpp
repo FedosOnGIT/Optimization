@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <sstream>
 
 #include "logger.h"
 #include "DichotMethod.h"
@@ -42,12 +43,16 @@ template <typename Method, bool = std::is_same_v<
         MinMethod>>
 void test_method(logger& lgg, std::string const& methodName, Method&& method) {
     test_func(lgg, methodName, "f", std::forward<Method>(method), main_func, 6, 9.9);
-//    test_func(lgg, methodName, "poly_1", std::forward<Method>(method), polynom1, -0.6, 1.5);
-//    test_func(lgg, methodName, "poly_2", std::forward<Method>(method), polynom2, -2.2, 2.2);
+    test_func(lgg, methodName, "poly_1", std::forward<Method>(method), polynom1, -0.6, 1.5);
+    test_func(lgg, methodName, "poly_2", std::forward<Method>(method), polynom2, -2.2, 2.2);
 }
 
-std::string to_string_double(double x, int length = 3) {
-    return std::to_string(x).substr(0, length);
+std::string to_string_double(double x, int precision = 2) {
+    std::stringstream s;
+    s.setf(std::stringstream::fixed);
+    s.precision(precision);
+    s << x;
+    return s.str();
 }
 
 void main_task() {
