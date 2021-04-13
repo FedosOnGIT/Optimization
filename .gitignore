@@ -1,4 +1,6 @@
 **/cmake-build*/
 **/.idea/
 **/build*/
+**/out/
+*.iml
 gui.pro.user
