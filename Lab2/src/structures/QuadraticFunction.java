@@ -3,7 +3,7 @@ package structures;
 import java.util.ArrayList;
 import java.util.function.Function;
 
-public class QuadraticFunction {
+public class QuadraticFunction implements Function<Vector, Double> {
     private final int size;
     private final Function<Vector, Double> function;
     private final ArrayList<Double> eigenvalues;
@@ -24,7 +24,7 @@ public class QuadraticFunction {
         }
     }
 
-    public double apply(final Vector variable) {
+    public Double apply(final Vector variable) {
         assert variable.size() == size;
         return function.apply(variable);
     }
