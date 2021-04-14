@@ -13,7 +13,7 @@ public class ConjugateGradients implements QuadraticMethod {
         Vector slope = gradient.multiply(-1);
         Matrix A = function.getMatrix();
         while (gradientLength > epsilon) {
-            Vector help = A.multiply(slope).multiply(2);
+            Vector help = A.multiply(slope);
             double alpha = gradientLength * gradientLength / (help.multiply(slope));
             point.add(slope.multiply(alpha));
             gradient.add(help.multiply(alpha));
