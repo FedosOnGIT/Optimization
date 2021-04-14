@@ -93,6 +93,6 @@ public class Vector {
             System.out.print(coordinates[i]);
             System.out.print(" ");
         }
-        System.out.print("]");
+        System.out.println("]");
     }
 }

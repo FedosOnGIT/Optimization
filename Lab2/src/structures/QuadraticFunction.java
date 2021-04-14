@@ -25,7 +25,7 @@ public class QuadraticFunction implements Function<Vector, Double> {
 
     public Double apply(final Vector variable) {
         assert variable.size() == size;
-        return A.multiply(variable).multiply(variable) / 2 + B.multiply(variable) + C;
+        return A.multiply(variable).multiply(variable) + B.multiply(variable) + C;
     }
 
     public int size() {
@@ -41,7 +41,7 @@ public class QuadraticFunction implements Function<Vector, Double> {
     }
 
     public Vector applyGradient(final Vector variable) {
-        return A.multiply(variable).plus(B);
+        return A.multiply(variable).multiply(2).plus(B);
     }
 
     public Matrix getMatrix() {

@@ -8,7 +8,11 @@ import java.util.List;
 public class Testing {
     public static void main(String[] args) throws NotConvexFunctionException {
         QuadraticMethod method = new ConjugateGradients();
-        QuadraticFunction function = new QuadraticFunction(new DiagonalMatrix(new double[]{2, 2}), new Vector(new double[]{1, 0}), 0);
-        method.minimum(function, new Vector(new double[]{1, 3}), 0.00001).print();
+        Matrix hardMatrix = new SquareMatrix(new double[][]{{1, 0.5, 0}, {0.5, 1, 0}, {0, 0, 20}}, new double[]{0.5, 1.5, 20});
+        Vector hardVector = new Vector(new double[]{4, 7, 10});
+        QuadraticFunction function = new QuadraticFunction(hardMatrix, hardVector, 5);
+        Vector point = method.minimum(function, new Vector(new double[]{1, 1, 1}), 0.00001);
+        point.print();
+        System.out.println(function.apply(point));
     }
 }
