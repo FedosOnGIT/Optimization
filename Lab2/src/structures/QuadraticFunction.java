@@ -4,11 +4,11 @@ import java.util.function.Function;
 
 public class QuadraticFunction implements Function<Vector, Double> {
     private final int size;
-    private final MatrixMinimal A;
+    private final Matrix A;
     private final Vector B;
     private final double C;
 
-    public QuadraticFunction(final MatrixMinimal A,
+    public QuadraticFunction(final Matrix A,
                              final Vector B,
                              final double C) throws NotConvexFunctionException {
         if (A.size() != B.size()) {
@@ -44,7 +44,7 @@ public class QuadraticFunction implements Function<Vector, Double> {
         return A.multiply(variable).plus(B);
     }
 
-    public MatrixMinimal getMatrix() {
+    public Matrix getMatrix() {
         return A;
     }
 }

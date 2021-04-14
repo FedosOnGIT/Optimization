@@ -1,6 +1,6 @@
 package structures;
 
-public abstract class AbstractMatrix implements MatrixMinimal {
+public abstract class AbstractMatrix implements Matrix {
     protected int size;
     protected double minEigenvalue;
     protected double maxEigenvalue;

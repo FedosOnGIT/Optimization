@@ -14,7 +14,7 @@ public class Vector {
 
     public Vector(final int size) {
         if (size <= 0) {
-            throw new IllegalArgumentException("Size is less than one!");
+            throw new SizeException("Size is less than one!");
         }
         this.size = size;
         coordinates = new double[size];
@@ -79,7 +79,7 @@ public class Vector {
     public void normalise() {
         double length = length();
         if (length == 0) {
-            throw new IllegalArgumentException("Can't normalize, because vector length is 0!");
+            throw new SizeException("Can't normalize, because vector length is 0!");
         }
         for (int i = 0; i < size; i++) {
             coordinates[i] /= length;
