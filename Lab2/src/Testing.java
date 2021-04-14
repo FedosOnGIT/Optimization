@@ -1,14 +1,36 @@
+import methods.*;
 import quadraticMethods.*;
 import structures.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Testing {
+    QuadraticFunction generate(double lines, int number) throws NotConvexFunctionException {
+        assert lines >= 1;
+        double[] matrix = new double[number];
+        matrix[0] = 2;
+        matrix[number - 1] = lines * 2;
+        for (int i = 1; i < number - 1; i++) {
+            matrix[i] = Math.random() * (lines * 2 - 2) + 2;
+        }
+        double[] vector = new double[number];
+        for (int i = 0; i < number; i++) {
+            vector[i] = Math.random() * 2000;
+        }
+        return new QuadraticFunction(new DiagonalMatrix(matrix), new Vector(vector), Math.random() * 2000);
+    }
+
+    Vector generateVector(int number) {
+        double[] vector = new double[number];
+        for (int i = 0; i < number; i++) {
+            vector[i] = Math.random() * 2000;
+        }
+        return new Vector(vector);
+    }
+
     public static void main(String[] args) throws NotConvexFunctionException {
         QuadraticMethod method = new ConjugateGradients();
-        Matrix hardMatrix = new SquareMatrix(new double[][]{{2, 1, 0}, {1, 2, 0}, {0, 0, 40}}, new double[]{1, 3, 40});
-        Vector hardVector = new Vector(new double[]{4, 7, 10});
-        QuadraticFunction function = new QuadraticFunction(hardMatrix, hardVector, 5);
-        Vector point = method.minimum(function, new Vector(new double[]{1, 1, 1}), 0.00001);
-        point.print();
-        System.out.println(function.apply(point));
     }
 }
