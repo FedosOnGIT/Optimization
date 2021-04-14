@@ -3,11 +3,8 @@ package structures;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class DiagonalMatrix extends Matrix{
-    private final int size;
+public class DiagonalMatrix extends AbstractMatrix{
     private final double[] matrix;
-    private final double minEigenvalue;
-    private final double maxEigenvalue;
 
     public DiagonalMatrix(int size) {
         if (size <= 0) {
@@ -27,6 +24,7 @@ public class DiagonalMatrix extends Matrix{
         maxEigenvalue = Arrays.stream(matrix).max().orElseThrow();
     }
 
+    @Override
     public Vector multiply(Vector vector) {
         if (size != vector.size()) {
             throw new SizeException("Vector and matrix size are not equal!");
