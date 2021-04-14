@@ -18,7 +18,7 @@ public class Vector {
         }
         this.size = size;
         coordinates = new double[size];
-        IntStream.range(0, size).forEach(i -> coordinates[i] = 0);
+        Arrays.fill(coordinates, 0);
     }
 
     public int size() {
@@ -26,17 +26,23 @@ public class Vector {
     }
 
     public double getCoordinate(final int index) {
-        assert index < size;
+        if (index >= size) {
+            throw new IllegalArgumentException("Out of vector size");
+        }
         return coordinates[index];
     }
 
     public void setCoordinate(final int index, final double value) {
-        assert index < size;
+        if (index >= size) {
+            throw new IllegalArgumentException("Out of vector size");
+        }
         coordinates[index] = value;
     }
 
     public void add(Vector other) {
-        assert other.size() == size;
+        if (other.size >= size) {
+            throw new IllegalArgumentException("Vectors have different size");
+        }
         IntStream.range(0, size).forEach(i -> coordinates[i] += other.getCoordinate(i));
     }
 
