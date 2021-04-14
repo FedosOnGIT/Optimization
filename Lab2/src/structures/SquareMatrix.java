@@ -7,7 +7,7 @@ public class SquareMatrix extends AbstractMatrix{
 
     public SquareMatrix(final int size) {
         if (size <= 0) {
-            throw new SizeException("Size is less than one!");
+            throw new IllegalArgumentException("Size is less than one!");
         }
         this.size = size;
         matrix = new double[size][size];
@@ -23,11 +23,11 @@ public class SquareMatrix extends AbstractMatrix{
     public SquareMatrix(final double[][] matrix, final double[] eigenvalues) {
         this.size = matrix.length;
         if (Arrays.stream(matrix).noneMatch(arr -> arr.length == size)) {
-            throw new SizeException("Not a square matrix!");
+            throw new IllegalArgumentException("Not a square matrix!");
         }
         this.matrix = Arrays.copyOf(matrix, size);
         if (eigenvalues.length != size) {
-            throw new SizeException("Number of eigenvalues doesn't equals matrix size!");
+            throw new IllegalArgumentException("Number of eigenvalues doesn't equals matrix size!");
         }
         minEigenvalue = Arrays.stream(eigenvalues).min().orElseThrow();
         maxEigenvalue = Arrays.stream(eigenvalues).max().orElseThrow();
@@ -36,7 +36,7 @@ public class SquareMatrix extends AbstractMatrix{
     @Override
     public Vector multiply(final Vector vector) {
         if (vector.size() != size) {
-            throw new SizeException("Vector size and matrix size are different!");
+            throw new IllegalArgumentException("Vector size and matrix size are different!");
         }
         Vector result = new Vector(size);
         for (int i = 0; i < size; i++) {
