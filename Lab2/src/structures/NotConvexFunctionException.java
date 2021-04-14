@@ -3,7 +3,7 @@ package structures;
 import java.io.IOException;
 
 public class NotConvexFunctionException extends IOException {
-    NotConvexFunctionException(String message) {
+    public NotConvexFunctionException(String message) {
         super(message);
     }
 
@@ -13,8 +13,5 @@ public class NotConvexFunctionException extends IOException {
 
     public NotConvexFunctionException(Throwable cause) {
         super(cause);
-    }
-
-    public NotConvexFunctionException() {
     }
 }

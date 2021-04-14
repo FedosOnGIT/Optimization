@@ -1,32 +1,31 @@
 package structures;
 
-import java.util.ArrayList;
 import java.util.function.Function;
 
 public class QuadraticFunction implements Function<Vector, Double> {
     private final int size;
-    private final Function<Vector, Double> function;
-    private final ArrayList<Double> eigenvalues;
-    private final Function<Vector, Vector> gradient;
+    private final Matrix A;
+    private final Vector B;
+    private final double C;
 
-    public QuadraticFunction(final int size,
-                             final Function<Vector, Double> function,
-                             final ArrayList<Double> eigenvalues,
-                             final Function<Vector, Vector> gradient) throws NotConvexFunctionException {
-        assert eigenvalues.size() == size;
-        this.function = function;
-        this.size = size;
-        this.eigenvalues = eigenvalues;
-        this.eigenvalues.sort(Double::compare);
-        this.gradient = gradient;
-        if (eigenvalues.get(0) <= 0) {
-            throw new NotConvexFunctionException("Function is not convex!");
+    public QuadraticFunction(final Matrix A,
+                             final Vector B,
+                             final double C) throws NotConvexFunctionException {
+        if (A.size() != B.size()) {
+            throw new SizeException("Dimensions A and B are not equal!");
+        }
+        size = A.size();
+        this.A = A;
+        this.B = B;
+        this.C = C;
+        if (A.getMinEigenvalue() <= 0) {
+            throw new NotConvexFunctionException("All eigenvalues must be more than zero!");
         }
     }
 
     public Double apply(final Vector variable) {
         assert variable.size() == size;
-        return function.apply(variable);
+        return A.multiply(variable).multiply(variable) + B.multiply(variable) + C;
     }
 
     public int size() {
@@ -34,14 +33,18 @@ public class QuadraticFunction implements Function<Vector, Double> {
     }
 
     public double minEigenValue() {
-        return eigenvalues.get(0);
+        return A.getMinEigenvalue();
     }
 
     public double maxEigenValue() {
-        return eigenvalues.get(size - 1);
+        return A.getMaxEigenvalue();
     }
 
     public Vector applyGradient(final Vector variable) {
-        return gradient.apply(variable);
+        return A.multiply(variable).plus(B);
+    }
+
+    public Matrix getMatrix() {
+        return A;
     }
 }
