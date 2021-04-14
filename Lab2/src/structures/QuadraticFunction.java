@@ -4,15 +4,15 @@ import java.util.function.Function;
 
 public class QuadraticFunction implements Function<Vector, Double> {
     private final int size;
-    private final Matrix A;
+    private final MatrixMinimal A;
     private final Vector B;
     private final double C;
 
-    public QuadraticFunction(final Matrix A,
+    public QuadraticFunction(final MatrixMinimal A,
                              final Vector B,
                              final double C) throws NotConvexFunctionException {
         if (A.size() != B.size()) {
-            throw new SizeException("Dimensions A and B are not equal!");
+            throw new IllegalArgumentException("Dimensions A and B are not equal!");
         }
         size = A.size();
         this.A = A;
@@ -44,7 +44,7 @@ public class QuadraticFunction implements Function<Vector, Double> {
         return A.multiply(variable).plus(B);
     }
 
-    public Matrix getMatrix() {
+    public MatrixMinimal getMatrix() {
         return A;
     }
 }

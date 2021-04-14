@@ -1,6 +1,6 @@
 package quadraticMethods;
 
-import structures.Matrix;
+import structures.MatrixMinimal;
 import structures.QuadraticFunction;
 import structures.Vector;
 
@@ -11,7 +11,7 @@ public class ConjugateGradients implements QuadraticMethod {
         Vector gradient = function.applyGradient(point);
         double gradientLength = gradient.length();
         Vector slope = gradient.multiply(-1);
-        Matrix A = function.getMatrix();
+        MatrixMinimal A = function.getMatrix();
         while (gradientLength > epsilon) {
             Vector help = A.multiply(slope);
             double alpha = gradientLength * gradientLength / (help.multiply(slope));
