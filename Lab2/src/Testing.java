@@ -57,10 +57,10 @@ public class Testing {
     }
 
     public static void main(String[] args) throws NotConvexFunctionException {
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("first.txt")))) {
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("one.txt")))) {
             QuadraticFunction function = new QuadraticFunction(
-                    new DiagonalMatrix(new double[]{2, 3}),
-                    new Vector(new double[]{0, 0}),
+                    new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{5 - Math.sqrt(17), 5 + Math.sqrt(17)}),
+                    new Vector(new double[]{5, 6}),
                     0);
             write(new GradientDescent(), writer, function, "GradientDescent");
             writer.println();

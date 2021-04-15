@@ -20,7 +20,7 @@ public class ConjugateGradients implements QuadraticMethod {
             result.add(point);
             Vector help = A.multiply(slope);
             double alpha = gradientLength * gradientLength / (help.multiply(slope));
-            point.add(slope.multiply(alpha));
+            point = point.plus(slope.multiply(alpha));
             gradient.add(help.multiply(alpha));
             double newGradientLength = gradient.length();
             double beta = newGradientLength * newGradientLength / (gradientLength * gradientLength);
