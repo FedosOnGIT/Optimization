@@ -85,10 +85,14 @@ public class Testing {
                 .collect(Collectors.averagingInt(x -> x));
     }
 
+    private static PrintWriter createLogger(final String name) throws IOException {
+        return new PrintWriter(Files.newBufferedWriter(Path.of("logs/" + name + ".csv")));
+    }
+
     public static void test1() {
         Method[] methods = {new DichotMethod(EPS),
                             new GoldenRatioMethod()};
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("test1_log.csv")))) {
+        try (PrintWriter writer = createLogger("test1_log")) {
             writer.print("method name,");
             writer.println("avg iterations");
             Arrays.stream(methods)
@@ -106,6 +110,13 @@ public class Testing {
     }
 
     public static void main(String[] args) {
+        try {
+            Files.createDirectory(Path.of("logs"));
+        } catch (IOException e) {
+            System.err.println("Can't create logs folder");
+            return;
+        }
+
         test1();
     }
 }
