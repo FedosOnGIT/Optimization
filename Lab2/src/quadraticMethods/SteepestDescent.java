@@ -13,10 +13,6 @@ public class SteepestDescent implements QuadraticMethod {
     private final Method MinimizingFunction;
     private ArrayList<AlphaPair> alphas;
 
-    public SteepestDescent() {
-        MinimizingFunction = new DichotMethod(0.0001);
-    }
-
     public SteepestDescent(Method MinimizingFunction) {
         this.MinimizingFunction = MinimizingFunction;
     }

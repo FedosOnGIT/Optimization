@@ -6,12 +6,33 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Testing {
-    static QuadraticFunction generateFunction(int dimension, double condition) throws NotConvexFunctionException {
+    private static final double MAX_RANDOM_CORD = 20;
+    private static final double EPS = 1e-5;
+    private static final QuadraticFunction function1 = new QuadraticFunction(
+            new DiagonalMatrix(
+                    new double[]{4, 6}),
+            new Vector(new double[]{0, 0}),
+            0);
+    private static final QuadraticFunction function2 = new QuadraticFunction(
+            new DiagonalMatrix(
+                    new double[]{2, 4000}),
+            new Vector(new double[]{2, 10}),
+            0);
+    private static final QuadraticFunction function3 = new QuadraticFunction(
+            new SquareMatrix(
+                    new double[][]{{128, 126}, {126, 128}},
+                    new double[]{2, 254}),
+            new Vector(new double[]{-10, 30}),
+            13);
+
+    static QuadraticFunction generateFunction(int dimension, double condition) {
         assert condition >= 1;
         double[] matrix = new double[dimension];
         matrix[0] = 2;
@@ -28,69 +49,63 @@ public class Testing {
 
     static Vector generateVector(int number) {
         double[] vector = new double[number];
-        for (int i = 0; i < number; i++) {
-            vector[i] = Math.random() * 20;
-        }
+        Arrays.setAll(vector, i -> Math.random() * MAX_RANDOM_CORD);
         return new Vector(vector);
     }
 
-    static void generate() throws NotConvexFunctionException {
-        QuadraticMethod methodOne = new GradientDescent();
-        QuadraticMethod methodTwo = new SteepestDescent(new GoldenRatioMethod());
-        QuadraticMethod methodThree = new ConjugateGradients();
-        for (int i = 2; i < 100; i++) {
+    static void generate() {
+        QuadraticMethod[] methods = {
+                new GradientDescent(),
+                new SteepestDescent(new GoldenRatioMethod()),
+                new ConjugateGradients()};
+        for (int i = 2; i < 10000; i += 100) {
             for (double k = 1; k < 1000; k += 0.5) {
                 QuadraticFunction function = generateFunction(i, k);
                 Vector start = generateVector(i);
-                methodOne.minimum(function, start, 0.00001);
-                methodTwo.minimum(function, start, 0.00001);
-                methodThree.minimum(function, start, 0.00001);
+                Arrays.stream(methods).map(m -> m.minimum(function, start, EPS));
             }
         }
     }
 
-    static void write(QuadraticMethod method, PrintWriter writer, QuadraticFunction function, String name) {
-        MethodResult<Vector> result;
-        writer.println(name);
-        result = method
-                .minimum(function, generateVector(2), 0.00001);
-        writer.println(result.getMinimal().print());
+    static void write(QuadraticMethod method, PrintWriter writer, QuadraticFunction function) {
+        writer.println(method.getClass().getSimpleName());
+        MethodResult<Vector> result = method.minimum(function, generateVector(2), EPS);
+        writer.println(result.getMinimal().toString());
         writer.println(result.iterations());
         for (int i = 0; i < result.iterations(); i++) {
-            writer.println(result.get(i).print());
+            writer.println(result.get(i).toString());
         }
     }
 
-    static void steepest(PrintWriter writer, Method method, QuadraticFunction function, String name) {
-        SteepestDescent descent = new SteepestDescent(method);
-        writer.println(name);
-        MethodResult<Vector> result = descent.minimum(function, generateVector(2), 0.00001);
-        writer.println(result.getMinimal().print());
-        int number = 0;
-        ArrayList<AlphaPair> alphaPairs = descent.getAlphas();
-        for (AlphaPair alphaPair : alphaPairs) {
-            number += alphaPair.getIterations();
-        }
-        writer.println(result.iterations() + number);
-        for (int i = 0; i < result.iterations() - 1; i++) {
-            writer.print(result.get(i).print());
-            writer.print(" ");
-            writer.println(alphaPairs.get(i).getIterations());
-        }
-        writer.println(result.getMinimal().print());
+    private static double randomVectorTest(final QuadraticMethod method, final QuadraticFunction func) {
+        return Stream
+                .generate(() -> generateVector(2))
+                .limit(100)
+                .map(v -> method.minimum(func, v, EPS).iterations())
+                .collect(Collectors.averagingInt(x -> x));
     }
 
-    public static void main(String[] args) throws NotConvexFunctionException {
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("SteepestGradient.txt")))) {
-            QuadraticFunction function = new QuadraticFunction(
-                    new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{5 - Math.sqrt(17), 5 + Math.sqrt(17)}),
-                    new Vector(new double[]{5, 6}),
-                    0);
-            steepest(writer, new DichotMethod(0.00001), function, "DichotMethod");
-            writer.println();
-            steepest(writer, new GoldenRatioMethod(), function, "GoldenRationMethod");
-        } catch (final IOException e) {
-            System.out.println("Ty dolboeb!");
+    public static void test1() {
+        Method[] methods = {new DichotMethod(EPS),
+                            new GoldenRatioMethod()};
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("test1_log.csv")))) {
+            writer.print("method name,");
+            writer.println("avg iterations");
+            Arrays.stream(methods)
+                    .map(m -> Map.entry(
+                            m.getClass().getSimpleName(),
+                            randomVectorTest(new SteepestDescent(m), function3)))
+                    .forEach(me -> {
+                        writer.print(me.getKey());
+                        writer.print(",");
+                        writer.println(me.getValue());
+                    });
+        } catch (IOException e) {
+            System.err.println("Write or create file exception");
         }
+    }
+
+    public static void main(String[] args) {
+        test1();
     }
 }
