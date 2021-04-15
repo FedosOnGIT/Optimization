@@ -2,15 +2,13 @@ import methods.*;
 import quadraticMethods.*;
 import structures.*;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Testing {
     static QuadraticFunction generateFunction(int dimension, double condition) throws NotConvexFunctionException {
@@ -36,10 +34,17 @@ public class Testing {
         return new Vector(vector);
     }
 
-    static void generate(QuadraticMethod method) throws NotConvexFunctionException {
+    static void generate() throws NotConvexFunctionException {
+        QuadraticMethod methodOne = new GradientDescent();
+        QuadraticMethod methodTwo = new SteepestDescent(new GoldenRatioMethod());
+        QuadraticMethod methodThree = new ConjugateGradients();
         for (int i = 2; i < 100; i++) {
             for (double k = 1; k < 1000; k += 0.5) {
-                method.minimum(generateFunction(i, k), generateVector(i), 0.001);
+                QuadraticFunction function = generateFunction(i, k);
+                Vector start = generateVector(i);
+                methodOne.minimum(function, start, 0.00001);
+                methodTwo.minimum(function, start, 0.00001);
+                methodThree.minimum(function, start, 0.00001);
             }
         }
     }
@@ -56,17 +61,34 @@ public class Testing {
         }
     }
 
+    static void steepest(PrintWriter writer, Method method, QuadraticFunction function, String name) {
+        SteepestDescent descent = new SteepestDescent(method);
+        writer.println(name);
+        MethodResult<Vector> result = descent.minimum(function, generateVector(2), 0.00001);
+        writer.println(result.getMinimal().print());
+        int number = 0;
+        ArrayList<AlphaPair> alphaPairs = descent.getAlphas();
+        for (AlphaPair alphaPair : alphaPairs) {
+            number += alphaPair.getIterations();
+        }
+        writer.println(result.iterations() + number);
+        for (int i = 0; i < result.iterations() - 1; i++) {
+            writer.print(result.get(i).print());
+            writer.print(" ");
+            writer.println(alphaPairs.get(i).getIterations());
+        }
+        writer.println(result.getMinimal().print());
+    }
+
     public static void main(String[] args) throws NotConvexFunctionException {
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("one.txt")))) {
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("SteepestGradient.txt")))) {
             QuadraticFunction function = new QuadraticFunction(
                     new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{5 - Math.sqrt(17), 5 + Math.sqrt(17)}),
                     new Vector(new double[]{5, 6}),
                     0);
-            write(new GradientDescent(), writer, function, "GradientDescent");
+            steepest(writer, new DichotMethod(0.00001), function, "DichotMethod");
             writer.println();
-            write(new SteepestDescent(), writer, function, "SteepestDescent");
-            writer.println();
-            write(new ConjugateGradients(), writer, function, "ConjugatedGradients");
+            steepest(writer, new GoldenRatioMethod(), function, "GoldenRationMethod");
         } catch (final IOException e) {
             System.out.println("Ty dolboeb!");
         }

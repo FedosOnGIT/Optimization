@@ -24,7 +24,7 @@ public class GradientDescent implements QuadraticMethod {
                 alpha /= 2;
             }
         }
-        result.setMinimal(point);
+        result.add(point);
         return result;
     }
 }

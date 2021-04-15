@@ -40,7 +40,7 @@ public class SteepestDescent implements QuadraticMethod {
             point = helpPoint.plus(gradient.multiply(-alpha));
             gradient = function.applyGradient(point);
         }
-        result.setMinimal(point);
+        result.add(point);
         return result;
     }
 

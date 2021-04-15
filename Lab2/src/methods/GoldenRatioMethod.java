@@ -34,7 +34,7 @@ public class GoldenRatioMethod implements Method {
                 functionTwo = function.apply(alpha2);
             }
         }
-        result.setMinimal((end + start) / 2);
+        result.add((end + start) / 2);
         return result;
     }
 }

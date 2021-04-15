@@ -32,7 +32,7 @@ public class DichotMethod implements Method {
                 result.add(alpha2);
             }
         }
-        result.setMinimal((start + end) / 2);
+        result.add((start + end) / 2);
         return result;
     }
 }

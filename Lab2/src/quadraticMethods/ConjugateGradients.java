@@ -27,7 +27,7 @@ public class ConjugateGradients implements QuadraticMethod {
             slope = slope.multiply(beta).plus(gradient.multiply(-1));
             gradientLength = newGradientLength;
         }
-        result.setMinimal(point);
+        result.add(point);
         return result;
     }
 }
