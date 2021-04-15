@@ -1,15 +1,21 @@
 package quadraticMethods;
 
 
+import structures.MethodResult;
 import structures.QuadraticFunction;
 import structures.Vector;
 
+import java.util.ArrayList;
+
 public class GradientDescent implements QuadraticMethod {
+
     @Override
-    public Vector minimum(final QuadraticFunction function, Vector point, final double epsilon) {
+    public MethodResult<Vector> minimum(final QuadraticFunction function, Vector point, final double epsilon) {
+        MethodResult<Vector> result = new MethodResult<>();
         double alpha = 2/(function.minEigenValue() + function.maxEigenValue());
         Vector gradient = function.applyGradient(point);
         while (gradient.length() > epsilon) {
+            result.add(point);
             Vector newPoint = point.plus(gradient.multiply(-alpha));
             if (function.apply(newPoint) < function.apply(point)) {
                 point = newPoint;
@@ -18,6 +24,7 @@ public class GradientDescent implements QuadraticMethod {
                 alpha /= 2;
             }
         }
-        return point;
+        result.setMinimal(point);
+        return result;
     }
 }

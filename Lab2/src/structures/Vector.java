@@ -1,8 +1,12 @@
 package structures;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class Vector {
+    /**
+     * An array of {@link Double} vector's coo
+     */
     private final double[] coordinates;
     private final int size;
 
@@ -40,7 +44,7 @@ public class Vector {
     }
 
     public void add(Vector other) {
-        if (other.size >= size) {
+        if (other.size != size) {
             throw new IllegalArgumentException("Vectors have different size");
         }
         IntStream.range(0, size).forEach(i -> coordinates[i] += other.getCoordinate(i));
@@ -92,12 +96,12 @@ public class Vector {
         }
     }
 
-    public void print() {
-        System.out.print("[");
+    public String print() {
+        StringBuilder vector = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            System.out.print(coordinates[i]);
-            System.out.print(" ");
+            vector.append(coordinates[i]);
+            vector.append(" ");
         }
-        System.out.println("]");
+        return vector.toString();
     }
 }

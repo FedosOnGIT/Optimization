@@ -1,7 +1,6 @@
 package methods;
 
-import structures.QuadraticFunction;
-import structures.Vector;
+import structures.MethodResult;
 
 import java.util.function.Function;
 
@@ -13,9 +12,10 @@ public class DichotMethod implements Method {
     }
 
     @Override
-    public Double minimum(final Function<Double, Double> function,
-                          double start, double end,
-                          final double epsilon) {
+    public MethodResult<Double> minimum(final Function<Double, Double> function,
+                                double start, double end,
+                                final double epsilon) {
+        MethodResult<Double> result = new MethodResult<>();
         double delta = Math.min(this.delta, epsilon / 2);
         while (end - start > 2 * epsilon) {
             double alpha1 = (end + start - delta) / 2;
@@ -26,10 +26,13 @@ public class DichotMethod implements Method {
             Double two = function.apply(alpha2);
             if (one < two) {
                 end = alpha2;
+                result.add(alpha1);
             } else {
                 start = alpha1;
+                result.add(alpha2);
             }
         }
-        return (start + end) / 2;
+        result.setMinimal((start + end) / 2);
+        return result;
     }
 }

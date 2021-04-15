@@ -2,6 +2,12 @@ import methods.*;
 import quadraticMethods.*;
 import structures.*;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +31,7 @@ public class Testing {
     static Vector generateVector(int number) {
         double[] vector = new double[number];
         for (int i = 0; i < number; i++) {
-            vector[i] = Math.random() * 2000;
+            vector[i] = Math.random() * 20;
         }
         return new Vector(vector);
     }
@@ -38,15 +44,31 @@ public class Testing {
         }
     }
 
+    static void write(QuadraticMethod method, PrintWriter writer, QuadraticFunction function, String name) {
+        MethodResult<Vector> result;
+        writer.println(name);
+        result = method
+                .minimum(function, generateVector(2), 0.00001);
+        writer.println(result.getMinimal().print());
+        writer.println(result.iterations());
+        for (int i = 0; i < result.iterations(); i++) {
+            writer.println(result.get(i).print());
+        }
+    }
+
     public static void main(String[] args) throws NotConvexFunctionException {
-        // GradientDescent
-        // System.out.println("Gradient descent");
-        // generate(new GradientDescent());
-        // SteepestDescent
-        // System.out.println("Steepest descent");
-        // generate(new SteepestDescent(new GoldenRatioMethod()));
-        // ConjugateGradients
-        System.out.println("Conjugated gradients");
-        generate(new ConjugateGradients());
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("first.txt")))) {
+            QuadraticFunction function = new QuadraticFunction(
+                    new DiagonalMatrix(new double[]{2, 3}),
+                    new Vector(new double[]{0, 0}),
+                    0);
+            write(new GradientDescent(), writer, function, "GradientDescent");
+            writer.println();
+            write(new SteepestDescent(), writer, function, "SteepestDescent");
+            writer.println();
+            write(new ConjugateGradients(), writer, function, "ConjugatedGradients");
+        } catch (final IOException e) {
+            System.out.println("Ty dolboeb!");
+        }
     }
 }
