@@ -3,7 +3,6 @@ package structures;
 import java.util.ArrayList;
 
 public class MethodResult<T> {
-    private T minimal;
     private final ArrayList<T> points;
 
     public MethodResult() {
@@ -14,13 +13,8 @@ public class MethodResult<T> {
         return points.size();
     }
 
-    public void setMinimal(final T minimal) {
-        this.minimal = minimal;
-        points.add(minimal);
-    }
-
     public T getMinimal() {
-        return minimal;
+        return points.get(points.size()-1);
     }
 
     public T get(int index) {
