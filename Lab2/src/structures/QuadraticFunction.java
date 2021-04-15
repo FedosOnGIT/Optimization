@@ -10,17 +10,17 @@ public class QuadraticFunction implements Function<Vector, Double> {
 
     public QuadraticFunction(final Matrix A,
                              final Vector B,
-                             final double C) throws NotConvexFunctionException {
+                             final double C) {
         if (A.size() != B.size()) {
             throw new IllegalArgumentException("Dimensions A and B are not equal!");
+        }
+        if (A.getMinEigenvalue() <= 0) {
+            throw new IllegalArgumentException("All eigenvalues must be more than zero!");
         }
         size = A.size();
         this.A = A;
         this.B = B;
         this.C = C;
-        if (A.getMinEigenvalue() <= 0) {
-            throw new NotConvexFunctionException("All eigenvalues must be more than zero!");
-        }
     }
 
     public Double apply(final Vector variable) {
