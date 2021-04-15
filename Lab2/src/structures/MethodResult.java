@@ -24,8 +24,4 @@ public class MethodResult<T> {
     public void add(T element) {
         points.add(element);
     }
-
-    public int size() {
-        return points.size();
-    }
 }
