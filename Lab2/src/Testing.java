@@ -85,13 +85,21 @@ public class Testing {
                 .collect(Collectors.averagingInt(x -> x));
     }
 
+    private static void runIterations(final QuadraticMethod method, final String name, final QuadraticFunction function) {
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("logs/" + name + ".txt")))) {
+            write(method, writer, function);
+        } catch (final IOException e) {
+            System.out.println("Can't write!");
+        }
+    }
+
     private static PrintWriter createLogger(final String name) throws IOException {
-        return new PrintWriter(Files.newBufferedWriter(Path.of("logs/" + name + ".csv")));
+        return new PrintWriter(Files.newBufferedWriter(Path.of("logs/" + name + ".cvs")));
     }
 
     public static void test1() {
         Method[] methods = {new DichotMethod(EPS),
-                            new GoldenRatioMethod()};
+                new GoldenRatioMethod()};
         try (PrintWriter writer = createLogger("test1_log")) {
             writer.print("method name,");
             writer.println("avg iterations");
@@ -109,14 +117,42 @@ public class Testing {
         }
     }
 
+    public static void test2() throws IOException {
+        QuadraticFunction function1 = new QuadraticFunction(
+                new DiagonalMatrix(new double[]{4, 6}),
+                new Vector(new double[]{0, 0}),
+                0
+        );
+        runIterations(new GradientDescent(), "Function1_GradientDescent", function1);
+        runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function1_SteepestDescent", function1);
+        runIterations(new ConjugateGradients(), "Function1_ConjugateGradients", function1);
+        QuadraticFunction function2 = new QuadraticFunction(
+                new DiagonalMatrix(new double[]{2, 4000}),
+                new Vector(new double[]{2, 10}),
+                0
+        );
+        runIterations(new GradientDescent(), "Function2_GradientDescent", function2);
+        runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function2_SteepestGradient", function2);
+        runIterations(new ConjugateGradients(), "Function2_ConjugateGradients", function2);
+        QuadraticFunction function3 = new QuadraticFunction(
+                new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{10 - Math.sqrt(65), 10 + Math.sqrt(65)}),
+                new Vector(new double[]{5, 6}),
+                0
+        );
+        runIterations(new GradientDescent(), "Function3_GradientDescent", function3);
+        runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function3_SteepestGradient", function3);
+        runIterations(new ConjugateGradients(), "Function3_GradientDescent", function3);
+    }
+
     public static void main(String[] args) {
         try {
-            Files.createDirectory(Path.of("logs"));
+            if (!Files.isDirectory(Path.of("logs"))) {
+                Files.createDirectory(Path.of("logs"));
+            }
+            test2();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
-            return;
         }
 
-        test1();
     }
 }
