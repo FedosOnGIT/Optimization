@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,9 +66,7 @@ public class Testing {
         }
     }
 
-    static void write(QuadraticMethod method, PrintWriter writer, QuadraticFunction function) {
-        writer.println(method.getClass().getSimpleName());
-        MethodResult<Vector> result = method.minimum(function, generateVector(2), EPS);
+    static void writeAllResults(PrintWriter writer, MethodResult<Vector> result) {
         writer.println(result.getMinimal().toString());
         writer.println(result.iterations());
         for (int i = 0; i < result.iterations(); i++) {
@@ -86,8 +83,9 @@ public class Testing {
     }
 
     private static void runIterations(final QuadraticMethod method, final String name, final QuadraticFunction function) {
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(Path.of("logs/" + name + ".txt")))) {
-            write(method, writer, function);
+        try (PrintWriter writer = createLogger(name)) {
+            writer.println(method.getClass().getSimpleName());
+            writeAllResults(writer, method.minimum(function, generateVector(2), EPS));
         } catch (final IOException e) {
             System.out.println("Can't write!");
         }
@@ -118,27 +116,20 @@ public class Testing {
     }
 
     public static void test2() throws IOException {
-        QuadraticFunction function1 = new QuadraticFunction(
-                new DiagonalMatrix(new double[]{4, 6}),
-                new Vector(new double[]{0, 0}),
-                0
-        );
         runIterations(new GradientDescent(), "Function1_GradientDescent", function1);
         runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function1_SteepestDescent", function1);
         runIterations(new ConjugateGradients(), "Function1_ConjugateGradients", function1);
-        QuadraticFunction function2 = new QuadraticFunction(
-                new DiagonalMatrix(new double[]{2, 4000}),
-                new Vector(new double[]{2, 10}),
-                0
-        );
+
         runIterations(new GradientDescent(), "Function2_GradientDescent", function2);
         runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function2_SteepestGradient", function2);
         runIterations(new ConjugateGradients(), "Function2_ConjugateGradients", function2);
-        QuadraticFunction function3 = new QuadraticFunction(
-                new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{10 - Math.sqrt(65), 10 + Math.sqrt(65)}),
-                new Vector(new double[]{5, 6}),
-                0
-        );
+
+//        QuadraticFunction function3 = new QuadraticFunction(
+//                new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{10 - Math.sqrt(65), 10 + Math.sqrt(65)}),
+//                new Vector(new double[]{5, 6}),
+//                0
+//        );
+
         runIterations(new GradientDescent(), "Function3_GradientDescent", function3);
         runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function3_SteepestGradient", function3);
         runIterations(new ConjugateGradients(), "Function3_GradientDescent", function3);
