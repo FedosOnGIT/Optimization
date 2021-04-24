@@ -7,8 +7,11 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Testing {
@@ -57,7 +60,7 @@ public class Testing {
                 new GradientDescent(),
                 new SteepestDescent(new GoldenRatioMethod()),
                 new ConjugateGradients()};
-        for (int i = 2; i < 10000; i += 100) {
+        for (int i = 2; i < 10000; i += 500) {
             for (double k = 1; k < 1000; k += 0.5) {
                 QuadraticFunction function = generateFunction(i, k);
                 Vector start = generateVector(i);
@@ -116,23 +119,33 @@ public class Testing {
     }
 
     public static void test2() throws IOException {
-        runIterations(new GradientDescent(), "Function1_GradientDescent", function1);
-        runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function1_SteepestDescent", function1);
-        runIterations(new ConjugateGradients(), "Function1_ConjugateGradients", function1);
+        List<QuadraticMethod> methods = List.of(
+                new GradientDescent(),
+                new SteepestDescent(new GoldenRatioMethod()),
+                new ConjugateGradients()
+        );
+        List<QuadraticFunction> functions = List.of(
+                function1,
+                function2,
+                function3
+        );
 
-        runIterations(new GradientDescent(), "Function2_GradientDescent", function2);
-        runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function2_SteepestGradient", function2);
-        runIterations(new ConjugateGradients(), "Function2_ConjugateGradients", function2);
+        Map<Integer, QuadraticFunction> functionMap = IntStream.range(0, functions.size())
+                .boxed()
+                .collect(Collectors.toMap(Function.identity(), functions::get));
+        methods.forEach(
+                m -> functionMap.forEach(
+                        (key, value) -> runIterations(
+                                m,
+                                "Function" + (key + 1) + "_" + m.getClass().getSimpleName(),
+                                value
+                        )));
 
 //        QuadraticFunction function3 = new QuadraticFunction(
 //                new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{10 - Math.sqrt(65), 10 + Math.sqrt(65)}),
 //                new Vector(new double[]{5, 6}),
 //                0
 //        );
-
-        runIterations(new GradientDescent(), "Function3_GradientDescent", function3);
-        runIterations(new SteepestDescent(new GoldenRatioMethod()), "Function3_SteepestGradient", function3);
-        runIterations(new ConjugateGradients(), "Function3_GradientDescent", function3);
     }
 
     public static void main(String[] args) {
