@@ -1,26 +1,18 @@
 package quadraticMethods;
 
-import methods.DichotMethod;
 import methods.Method;
-import structures.AlphaPair;
-import structures.MethodResult;
-import structures.QuadraticFunction;
-import structures.Vector;
-
-import java.util.ArrayList;
+import structures.*;
 
 public class SteepestDescent implements QuadraticMethod {
     private final Method MinimizingFunction;
-    private ArrayList<AlphaPair> alphas;
 
     public SteepestDescent(Method MinimizingFunction) {
         this.MinimizingFunction = MinimizingFunction;
     }
 
     @Override
-    public MethodResult<Vector> minimum(QuadraticFunction function, Vector point, double epsilon) {
-        alphas = new ArrayList<>();
-        MethodResult<Vector> result = new MethodResult<>();
+    public SteepestDescentResult minimum(QuadraticFunction function, Vector point, double epsilon) {
+        SteepestDescentResult result = new SteepestDescentResult();
         Vector gradient = function.applyGradient(point);
         while (gradient.length() > epsilon) {
             result.add(point);
@@ -32,15 +24,11 @@ public class SteepestDescent implements QuadraticMethod {
                     2 / function.maxEigenValue(),
                     0.00001);
             double alpha = linearMinimization.getMinimal();
-            alphas.add(new AlphaPair(alpha, linearMinimization.iterations()));
+            result.addAlpha(new AlphaPair(alpha, linearMinimization.iterations()));
             point = helpPoint.plus(gradient.multiply(-alpha));
             gradient = function.applyGradient(point);
         }
         result.add(point);
         return result;
-    }
-
-    public ArrayList<AlphaPair> getAlphas() {
-        return alphas;
     }
 }
