@@ -6,15 +6,6 @@ import java.util.function.Function;
 
 public class BrentMethod implements Method {
     private final double Factor = (3 - Math.sqrt(5)) / 2;
-    private int sign(double argument) {
-        if (argument > 0) {
-            return 1;
-        }
-        if (argument < 0) {
-            return -1;
-        }
-        return 0;
-    }
 
     @Override
     public MethodResult<Double> minimum(Function<Double, Double> function, double start, double end, double epsilon) {
@@ -60,7 +51,7 @@ public class BrentMethod implements Method {
                 if (start <= parabolaMin && parabolaMin <= end && Math.abs(parabolaMin - x) < g / 2) {
                     parabolaAccepted = true;
                     if (parabolaMin - start < epsilon || end - parabolaMin < epsilon) {
-                        parabolaMin = x - sign(x - (start + end) / 2) * epsilon;
+                        parabolaMin = x - Math.signum(x - (start + end) / 2) * epsilon;
                     }
                 }
             }
@@ -74,7 +65,7 @@ public class BrentMethod implements Method {
                 }
             }
             if (Math.abs(parabolaMin - x) < epsilon) {
-                parabolaMin = x + sign(parabolaMin - x) * epsilon;
+                parabolaMin = x + Math.signum(parabolaMin - x) * epsilon;
             }
             d = Math.abs(parabolaMin - x);
             double fu = function.apply(parabolaMin);
