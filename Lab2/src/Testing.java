@@ -125,12 +125,6 @@ public class Testing {
                                 m,
                                 "test2_function" + (key + 1) + "_" + m.getClass().getSimpleName(),
                                 value)));
-
-//        QuadraticFunction function3 = new QuadraticFunction(
-//                new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{10 - Math.sqrt(65), 10 + Math.sqrt(65)}),
-//                new Vector(new double[]{5, 6}),
-//                0
-//        );
     }
 
     public static void test3() {
