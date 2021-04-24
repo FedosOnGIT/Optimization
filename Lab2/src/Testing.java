@@ -92,7 +92,7 @@ public class Testing {
     }
 
     private static PrintWriter createLogger(final String name) throws IOException {
-        return new PrintWriter(Files.newBufferedWriter(Path.of("logs/" + name + ".cvs")));
+        return new PrintWriter(Files.newBufferedWriter(Path.of("logs/" + name + ".csv")));
     }
 
     public static void test1() {
@@ -107,7 +107,7 @@ public class Testing {
                             m -> randomVectorTest(new SteepestDescent(m), function3)))
                     .forEach((key, value) -> {
                         writer.print(key);
-                        writer.print(",");
+                        writer.print(',');
                         writer.println(value);
                     });
         } catch (IOException e) {
@@ -153,7 +153,7 @@ public class Testing {
                                 .collect(Collectors.averagingInt(MethodResult::iterations));
 
                         writer.print(k);
-                        writer.print(" ");
+                        writer.print(',');
                         writer.println(avgIter);
                     }
                     writer.println();
