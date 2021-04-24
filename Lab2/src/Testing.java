@@ -4,6 +4,7 @@ import structures.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -67,14 +68,6 @@ public class Testing {
         return new Vector(vector);
     }
 
-    static void writeAllResults(PrintWriter writer, final MethodResult<Vector> result) {
-        writer.println(result.getMinimal().toString());
-        writer.println(result.iterations());
-        for (int i = 0; i < result.iterations(); i++) {
-            writer.println(result.get(i).toString());
-        }
-    }
-
     private static double randomVectorTest(final QuadraticMethod method, final QuadraticFunction func) {
         return Stream
                 .generate(() -> generateVector(2))
@@ -85,7 +78,7 @@ public class Testing {
 
     private static void runIterations(final QuadraticMethod method, final String name, final QuadraticFunction function) {
         try (PrintWriter writer = createLogger(name)) {
-            writeAllResults(writer, method.minimum(function, generateVector(2), EPS));
+            method.minimum(function, generateVector(2), EPS).write(writer);
         } catch (final IOException e) {
             System.out.println("Can't write!");
         }

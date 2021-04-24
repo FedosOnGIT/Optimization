@@ -1,5 +1,7 @@
 package structures;
 
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 public class MethodResult<T> {
@@ -23,5 +25,14 @@ public class MethodResult<T> {
 
     public void add(T element) {
         points.add(element);
+    }
+
+    public void write(PrintWriter writer) {
+        writer.println("min = " + getMinimal().toString());
+        writer.println("quadratic iterations = " + iterations());
+        writer.println("points:");
+        for (int i = 0; i < iterations(); i++) {
+            writer.println(get(i).toString());
+        }
     }
 }
