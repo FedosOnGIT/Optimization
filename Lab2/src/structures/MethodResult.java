@@ -28,11 +28,11 @@ public class MethodResult<T> {
     }
 
     public void write(PrintWriter writer) {
-        writer.println("min = " + getMinimal().toString());
+        writer.println("min = " + getMinimal());
         writer.println("quadratic iterations = " + iterations());
         writer.println("points:");
         for (int i = 0; i < iterations(); i++) {
-            writer.println(get(i).toString());
+            writer.println(get(i));
         }
     }
 }

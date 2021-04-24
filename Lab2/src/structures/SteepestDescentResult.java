@@ -23,12 +23,13 @@ public class SteepestDescentResult extends MethodResult<Vector> {
         writer.println("min = " + getMinimal().toString());
         writer.println("quadratic iterations = " + iterations());
         writer.println("points,alpha,linear iterations");
-        for (int i = 0; i < iterations(); i++) {
-            writer.print(get(i).toString());
+        for (int i = 0; i < iterations() - 1; i++) {
+            writer.print(get(i));
             writer.print(',');
             writer.print(getAlpha(i).getAlpha());
             writer.print(',');
             writer.println(getAlpha(i).getIterations());
         }
+        writer.print(get(iterations() - 1));
     }
 }

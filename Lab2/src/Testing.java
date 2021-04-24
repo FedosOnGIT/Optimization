@@ -4,7 +4,6 @@ import structures.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -91,7 +90,8 @@ public class Testing {
     public static void test1() {
         Method[] methods = {
                 new DichotMethod(EPS),
-                new GoldenRatioMethod()};
+                new GoldenRatioMethod(),
+                new BrentMethod()};
         try (PrintWriter writer = createLogger("test1")) {
             writer.println("method name,avg iterations");
             Arrays.stream(methods)
@@ -158,7 +158,7 @@ public class Testing {
             }
             double test = -0.1;
             test1();
-            //test2();
+            test2();
             //test3();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
