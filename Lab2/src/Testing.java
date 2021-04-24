@@ -101,7 +101,7 @@ public class Testing {
     public static void test1() {
         Method[] methods = {new DichotMethod(EPS),
                 new GoldenRatioMethod()};
-        try (PrintWriter writer = createLogger("test1_log")) {
+        try (PrintWriter writer = createLogger("test1")) {
             writer.print("method name,");
             writer.println("avg iterations");
             Arrays.stream(methods)
@@ -137,9 +137,8 @@ public class Testing {
                 m -> functionMap.forEach(
                         (key, value) -> runIterations(
                                 m,
-                                "Function" + (key + 1) + "_" + m.getClass().getSimpleName(),
-                                value
-                        )));
+                                "test2_function" + (key + 1) + "_" + m.getClass().getSimpleName(),
+                                value)));
 
 //        QuadraticFunction function3 = new QuadraticFunction(
 //                new SquareMatrix(new double[][]{{2, 1}, {1, 18}}, new double[]{10 - Math.sqrt(65), 10 + Math.sqrt(65)}),
