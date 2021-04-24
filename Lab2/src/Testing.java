@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 public class Testing {
     private static final double MAX_RANDOM_CORD = 20;
-    private static final double EPS = 1e-5;
+    private static final double EPS = 1e-2;
     private static final QuadraticFunction function1 = new QuadraticFunction(
             new DiagonalMatrix(
                     new double[]{4, 6}),
@@ -140,9 +140,7 @@ public class Testing {
                     System.out.println("Progress: n = " + n);
                     writer.println("n = " + n);
                     for (int k = 1; k <= 2000; k += 100) {
-                        if ((k - 1) % 100 == 0) {
-                            System.out.println((k - 1) / 20 + "%");
-                        }
+                        System.out.println((k - 1) / 20 + "%");
 
                         final int deg = n;
                         QuadraticFunction function = generateFunction(deg, k);

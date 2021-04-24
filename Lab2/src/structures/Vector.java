@@ -87,13 +87,14 @@ public class Vector {
         );
     }
 
-    public void normalise() {
+    public Vector normalise() {
         double length = length();
         if (length != 0) {
             for (int i = 0; i < size(); i++) {
                 coordinates[i] /= length;
             }
         }
+        return this;
     }
 
     @Override
