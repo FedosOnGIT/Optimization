@@ -33,6 +33,17 @@ public class Testing {
                     new double[]{2, 254}),
             new Vector(new double[]{-10, 30}),
             13);
+    private static final List<QuadraticFunction> functions = List.of(
+            function1,
+            function2,
+            function3
+    );
+    private static final List<QuadraticMethod> quadraticMethods = List.of(
+            new GradientDescent(),
+            new SteepestDescent(new GoldenRatioMethod()),
+            new ConjugateGradients()
+    );
+
 
     static QuadraticFunction generateFunction(int dimension, double condition) {
         assert condition >= 1;
@@ -40,8 +51,9 @@ public class Testing {
         matrix[0] = 2;
         matrix[dimension - 1] = condition * 2;
         for (int i = 1; i < dimension - 1; i++) {
-            matrix[i] = Math.random() * (condition * 2 - 2) + 2;
+            matrix[i] = Math.random() * (matrix[dimension - 1] - matrix[0]) + matrix[0];
         }
+        Arrays.parallelSort(matrix);
         double[] vector = new double[dimension];
         for (int i = 0; i < dimension; i++) {
             vector[i] = Math.random() * 2000;
@@ -55,21 +67,7 @@ public class Testing {
         return new Vector(vector);
     }
 
-    static void generate() {
-        QuadraticMethod[] methods = {
-                new GradientDescent(),
-                new SteepestDescent(new GoldenRatioMethod()),
-                new ConjugateGradients()};
-        for (int i = 2; i < 10000; i += 500) {
-            for (double k = 1; k < 1000; k += 0.5) {
-                QuadraticFunction function = generateFunction(i, k);
-                Vector start = generateVector(i);
-                Arrays.stream(methods).map(m -> m.minimum(function, start, EPS));
-            }
-        }
-    }
-
-    static void writeAllResults(PrintWriter writer, MethodResult<Vector> result) {
+    static void writeAllResults(PrintWriter writer, final MethodResult<Vector> result) {
         writer.println(result.getMinimal().toString());
         writer.println(result.iterations());
         for (int i = 0; i < result.iterations(); i++) {
@@ -81,13 +79,12 @@ public class Testing {
         return Stream
                 .generate(() -> generateVector(2))
                 .limit(100)
-                .map(v -> method.minimum(func, v, EPS).iterations())
-                .collect(Collectors.averagingInt(x -> x));
+                .map(v -> method.minimum(func, v, EPS))
+                .collect(Collectors.averagingInt(MethodResult::iterations));
     }
 
     private static void runIterations(final QuadraticMethod method, final String name, final QuadraticFunction function) {
         try (PrintWriter writer = createLogger(name)) {
-            writer.println(method.getClass().getSimpleName());
             writeAllResults(writer, method.minimum(function, generateVector(2), EPS));
         } catch (final IOException e) {
             System.out.println("Can't write!");
@@ -103,8 +100,7 @@ public class Testing {
                 new DichotMethod(EPS),
                 new GoldenRatioMethod()};
         try (PrintWriter writer = createLogger("test1")) {
-            writer.print("method name,");
-            writer.println("avg iterations");
+            writer.println("method name,avg iterations");
             Arrays.stream(methods)
                     .collect(Collectors.toMap(
                             m -> m.getClass().getSimpleName(),
@@ -120,21 +116,10 @@ public class Testing {
     }
 
     public static void test2() throws IOException {
-        List<QuadraticMethod> methods = List.of(
-                new GradientDescent(),
-                new SteepestDescent(new GoldenRatioMethod()),
-                new ConjugateGradients()
-        );
-        List<QuadraticFunction> functions = List.of(
-                function1,
-                function2,
-                function3
-        );
-
         Map<Integer, QuadraticFunction> functionMap = IntStream.range(0, functions.size())
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), functions::get));
-        methods.forEach(
+        quadraticMethods.forEach(
                 m -> functionMap.forEach(
                         (key, value) -> runIterations(
                                 m,
@@ -148,12 +133,45 @@ public class Testing {
 //        );
     }
 
+    public static void test3() {
+        quadraticMethods.stream().forEach(m -> {
+            try (PrintWriter writer = createLogger("test3_" + m.getClass().getSimpleName())) {
+                for (int n = 10; n <= 10000; n *= 10) {
+                    System.out.println("Progress: n = " + n);
+                    writer.println("n = " + n);
+                    for (int k = 1; k <= 2000; k += 100) {
+                        if ((k - 1) % 100 == 0) {
+                            System.out.println((k - 1) / 20 + "%");
+                        }
+
+                        final int deg = n;
+                        QuadraticFunction function = generateFunction(deg, k);
+
+                        Double avgIter = IntStream.range(0, 5)
+                                .mapToObj(x -> {
+                                    Vector start = generateVector(deg);
+                                    return m.minimum(function, start, EPS);
+                                })
+                                .collect(Collectors.averagingInt(MethodResult::iterations));
+
+                        writer.print(k);
+                        writer.print(" ");
+                        writer.println(avgIter);
+                    }
+                    writer.println();
+                }
+            } catch (IOException e) {
+                System.err.println("Write or create file exception");
+            }
+        });
+    }
+
     public static void main(String[] args) {
         try {
             if (!Files.isDirectory(Path.of("logs"))) {
                 Files.createDirectory(Path.of("logs"));
             }
-            test2();
+            test3();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
         }
