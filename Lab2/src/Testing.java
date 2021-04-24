@@ -115,7 +115,7 @@ public class Testing {
         }
     }
 
-    public static void test2() throws IOException {
+    public static void test2() {
         Map<Integer, QuadraticFunction> functionMap = IntStream.range(0, functions.size())
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), functions::get));
@@ -134,7 +134,7 @@ public class Testing {
     }
 
     public static void test3() {
-        quadraticMethods.stream().forEach(m -> {
+        quadraticMethods.forEach(m -> {
             try (PrintWriter writer = createLogger("test3_" + m.getClass().getSimpleName())) {
                 for (int n = 10; n <= 10000; n *= 10) {
                     System.out.println("Progress: n = " + n);
