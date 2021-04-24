@@ -99,19 +99,20 @@ public class Testing {
     }
 
     public static void test1() {
-        Method[] methods = {new DichotMethod(EPS),
+        Method[] methods = {
+                new DichotMethod(EPS),
                 new GoldenRatioMethod()};
         try (PrintWriter writer = createLogger("test1")) {
             writer.print("method name,");
             writer.println("avg iterations");
             Arrays.stream(methods)
-                    .map(m -> Map.entry(
-                            m.getClass().getSimpleName(),
-                            randomVectorTest(new SteepestDescent(m), function3)))
-                    .forEach(me -> {
-                        writer.print(me.getKey());
+                    .collect(Collectors.toMap(
+                            m -> m.getClass().getSimpleName(),
+                            m -> randomVectorTest(new SteepestDescent(m), function3)))
+                    .forEach((key, value) -> {
+                        writer.print(key);
                         writer.print(",");
-                        writer.println(me.getValue());
+                        writer.println(value);
                     });
         } catch (IOException e) {
             System.err.println("Write or create file exception");
