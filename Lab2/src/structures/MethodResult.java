@@ -48,7 +48,7 @@ public abstract class MethodResult<T> {
     public void write(PrintWriter writer) {
         writeMainResult(writer);
         writer.println(tableHeader());
-        for (int i = 0; i < iterations(); i++) {
+        for (int i = 0; i < points.size(); i++) {
             writer.println(getTableLine(i));
         }
     }
