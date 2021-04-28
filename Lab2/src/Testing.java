@@ -87,12 +87,12 @@ public class Testing {
         return new PrintWriter(Files.newBufferedWriter(Path.of("logs/" + name + ".csv")));
     }
 
-    public static void test1() {
+    public static void task1() {
         Method[] methods = {
                 new DichotMethod(EPS),
                 new GoldenRatioMethod(),
                 new BrentMethod()};
-        try (PrintWriter writer = createLogger("test1")) {
+        try (PrintWriter writer = createLogger("task1")) {
             writer.println("method name,avg iterations");
             Arrays.stream(methods)
                     .collect(Collectors.toMap(
@@ -108,7 +108,7 @@ public class Testing {
         }
     }
 
-    public static void test2() {
+    public static void task2() {
         Map<Integer, QuadraticFunction> functionMap = IntStream.range(0, FUNCTIONS.size())
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), FUNCTIONS::get));
@@ -116,13 +116,13 @@ public class Testing {
                 m -> functionMap.forEach(
                         (key, value) -> runIterations(
                                 m,
-                                "test2_function" + (key + 1) + "_" + m.getClass().getSimpleName(),
+                                "task2_function" + (key + 1) + "_" + m.getClass().getSimpleName(),
                                 value)));
     }
 
-    public static void test3() {
+    public static void task3() {
         quadraticMethods.forEach(m -> {
-            try (PrintWriter writer = createLogger("test3_" + m.getClass().getSimpleName())) {
+            try (PrintWriter writer = createLogger("task3_" + m.getClass().getSimpleName())) {
                 for (int n = 10; n <= 10000; n *= 10) {
                     System.out.println("Progress: n = " + n);
                     writer.println("n = " + n);
@@ -156,9 +156,9 @@ public class Testing {
             if (!Files.isDirectory(Path.of("logs"))) {
                 Files.createDirectory(Path.of("logs"));
             }
-            test1();
-            test2();
-            test3();
+            task1();
+            task2();
+            task3();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
         }
