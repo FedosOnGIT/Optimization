@@ -12,7 +12,7 @@ public abstract class MethodResult<T> {
     }
 
     public int iterations() {
-        return points.size();
+        return points.size() - 1;
     }
 
     public T getMinimal() {
