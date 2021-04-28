@@ -14,11 +14,10 @@ public class QuadraticMethodResult extends MethodResult<Vector> {
     }
 
     @Override
-    protected String tableHeader() {
+    protected String variablesHeader() {
         return IntStream.rangeClosed(1, func.size())
                 .mapToObj(i -> "x" + i)
-                .collect(Collectors.joining(","))
-                + ",func";
+                .collect(Collectors.joining(","));
     }
 
     @Override

@@ -32,13 +32,17 @@ public abstract class MethodResult<T> {
         writer.println("quadratic iterations = " + iterations());
     }
 
-    protected abstract String tableHeader();
+    protected String tableHeader() {
+        return "№," + variablesHeader() + ",func";
+    }
+
+    protected abstract String variablesHeader();
 
     protected abstract String getTableLine(int i);
 
     protected String getTableLinePrefix(int i, Function<T, Double> func) {
         T point = get(i);
-        return point + "," + func.apply(point);
+        return i + "," + point + "," + func.apply(point);
     }
 
     public void write(PrintWriter writer) {

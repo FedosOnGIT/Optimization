@@ -13,8 +13,8 @@ public class LinearMethodResult extends MethodResult<Double> {
     }
 
     @Override
-    protected String tableHeader() {
-        return "x,func";
+    protected String variablesHeader() {
+        return "x";
     }
 
     @Override
