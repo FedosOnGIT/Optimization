@@ -1,15 +1,15 @@
 package quadraticMethods;
 
 
-import structures.MethodResult;
 import structures.QuadraticFunction;
+import structures.QuadraticMethodResult;
 import structures.Vector;
 
 public class GradientDescent implements QuadraticMethod {
 
     @Override
-    public MethodResult<Vector> minimum(final QuadraticFunction function, Vector point, final double epsilon) {
-        MethodResult<Vector> result = new MethodResult<>();
+    public QuadraticMethodResult minimum(final QuadraticFunction function, Vector point, final double epsilon) {
+        QuadraticMethodResult result = new QuadraticMethodResult(function);
         double alpha = 2/(function.minEigenValue() + function.maxEigenValue());
         Vector gradient = function.applyGradient(point);
         while (gradient.length() > epsilon) {

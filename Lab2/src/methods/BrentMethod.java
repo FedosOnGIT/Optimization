@@ -1,6 +1,6 @@
 package methods;
 
-import structures.MethodResult;
+import structures.LinearMethodResult;
 
 import java.util.function.Function;
 
@@ -8,8 +8,8 @@ public class BrentMethod implements Method {
     private final double Factor = (3 - Math.sqrt(5)) / 2;
 
     @Override
-    public MethodResult<Double> minimum(Function<Double, Double> function, double start, double end, double epsilon) {
-        MethodResult<Double> result = new MethodResult<>();
+    public LinearMethodResult minimum(Function<Double, Double> function, double start, double end, double epsilon) {
+        LinearMethodResult result = new LinearMethodResult(function);
         double x = start + Factor * (end - start), w = x, v = x;
         double fx = function.apply(x), fw = fx, fv = fx, parabolaMin = 0;
         double d = end - start, e = d, g;

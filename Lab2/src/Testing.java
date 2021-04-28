@@ -1,5 +1,11 @@
-import methods.*;
-import quadraticMethods.*;
+import methods.BrentMethod;
+import methods.DichotMethod;
+import methods.GoldenRatioMethod;
+import methods.Method;
+import quadraticMethods.ConjugateGradients;
+import quadraticMethods.GradientDescent;
+import quadraticMethods.QuadraticMethod;
+import quadraticMethods.SteepestDescent;
 import structures.*;
 
 import java.io.IOException;
@@ -158,7 +164,7 @@ public class Testing {
             }
             task1();
             task2();
-            task3();
+            //task3();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
         }

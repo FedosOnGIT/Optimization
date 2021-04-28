@@ -1,10 +1,9 @@
 package structures;
 
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 
-public class MethodResult<T> {
+public abstract class MethodResult<T> {
     private final ArrayList<T> points;
 
     public MethodResult() {
@@ -27,12 +26,10 @@ public class MethodResult<T> {
         points.add(element);
     }
 
-    public void write(PrintWriter writer) {
+    protected void writeHeader(PrintWriter writer) {
         writer.println("min = " + getMinimal());
         writer.println("quadratic iterations = " + iterations());
-        writer.println("points:");
-        for (int i = 0; i < iterations(); i++) {
-            writer.println(get(i));
-        }
     }
+
+    public abstract void write(PrintWriter writer);
 }

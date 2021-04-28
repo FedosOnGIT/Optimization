@@ -6,8 +6,12 @@ import java.util.ArrayList;
 /**
  * @author Vladislav Gusev (vladislav.sg@yandex.ru)
  */
-public class SteepestDescentResult extends MethodResult<Vector> {
+public class SteepestDescentResult extends QuadraticMethodResult {
     private final ArrayList<AlphaPair> alphas = new ArrayList<>();
+
+    public SteepestDescentResult(QuadraticFunction func) {
+        super(func);
+    }
 
     public void addAlpha(final AlphaPair e) {
         alphas.add(e);
@@ -19,15 +23,15 @@ public class SteepestDescentResult extends MethodResult<Vector> {
 
     @Override
     public void write(PrintWriter writer) {
-        writer.println("min = " + getMinimal().toString());
-        writer.println("quadratic iterations = " + iterations());
-        writer.println("points,alpha,linear iterations");
+        writeHeader(writer);
+        writer.println(tableHeader() + ",alpha,linear iterations");
         for (int i = 0; i < iterations() - 1; i++) {
             writer.print(get(i));
             writer.print(',');
-            writer.print(getAlpha(i).getAlpha());
+            AlphaPair alpha = getAlpha(i);
+            writer.print(alpha.getAlpha());
             writer.print(',');
-            writer.println(getAlpha(i).getIterations());
+            writer.println(alpha.getIterations());
         }
         writer.print(get(iterations() - 1));
     }

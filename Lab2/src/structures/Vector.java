@@ -1,6 +1,7 @@
 package structures;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Vector {
     /**
@@ -99,9 +100,7 @@ public class Vector {
 
     @Override
     public String toString() {
-        final StringBuilder vector = new StringBuilder();
-        Arrays.stream(coordinates).forEach((x) -> vector.append(x).append(" "));
-        return vector.toString();
+        return Arrays.stream(coordinates).mapToObj(Double::toString).collect(Collectors.joining(","));
     }
 
     private void sizeAssert(Vector other) {

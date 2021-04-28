@@ -1,17 +1,15 @@
 package quadraticMethods;
 
 import structures.Matrix;
-import structures.MethodResult;
 import structures.QuadraticFunction;
+import structures.QuadraticMethodResult;
 import structures.Vector;
-
-import java.util.ArrayList;
 
 public class ConjugateGradients implements QuadraticMethod {
 
     @Override
-    public MethodResult<Vector> minimum(final QuadraticFunction function, Vector point, final double epsilon) {
-        MethodResult<Vector> result = new MethodResult<>();
+    public QuadraticMethodResult minimum(final QuadraticFunction function, Vector point, final double epsilon) {
+        QuadraticMethodResult result = new QuadraticMethodResult(function);
         Vector gradient = function.applyGradient(point);
         double gradientLength = gradient.length();
         Vector slope = gradient.multiply(-1);

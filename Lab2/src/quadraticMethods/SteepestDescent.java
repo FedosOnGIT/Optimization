@@ -12,7 +12,7 @@ public class SteepestDescent implements QuadraticMethod {
 
     @Override
     public SteepestDescentResult minimum(QuadraticFunction function, Vector point, double epsilon) {
-        SteepestDescentResult result = new SteepestDescentResult();
+        SteepestDescentResult result = new SteepestDescentResult(function);
         Vector gradient = function.applyGradient(point);
         while (gradient.length() > epsilon) {
             result.add(point);

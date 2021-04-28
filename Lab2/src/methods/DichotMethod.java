@@ -1,6 +1,6 @@
 package methods;
 
-import structures.MethodResult;
+import structures.LinearMethodResult;
 
 import java.util.function.Function;
 
@@ -12,10 +12,10 @@ public class DichotMethod implements Method {
     }
 
     @Override
-    public MethodResult<Double> minimum(final Function<Double, Double> function,
-                                double start, double end,
-                                final double epsilon) {
-        MethodResult<Double> result = new MethodResult<>();
+    public LinearMethodResult minimum(final Function<Double, Double> function,
+                                      double start, double end,
+                                      final double epsilon) {
+        LinearMethodResult result = new LinearMethodResult(function);
         double delta = Math.min(this.delta, epsilon / 2);
         while (end - start > 2 * epsilon) {
             double alpha1 = (end + start - delta) / 2;

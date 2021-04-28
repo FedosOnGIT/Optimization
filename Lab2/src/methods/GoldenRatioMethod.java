@@ -1,8 +1,6 @@
 package methods;
 
-import structures.MethodResult;
-import structures.QuadraticFunction;
-import structures.Vector;
+import structures.LinearMethodResult;
 
 import java.util.function.Function;
 
@@ -11,8 +9,8 @@ public class GoldenRatioMethod implements Method {
     private final double FactorTwo = 2.0/(Math.sqrt(5.0) + 1.0);
 
     @Override
-    public MethodResult<Double> minimum(final Function<Double, Double> function, double start, double end, final double epsilon) {
-        MethodResult<Double> result = new MethodResult<>();
+    public LinearMethodResult minimum(final Function<Double, Double> function, double start, double end, final double epsilon) {
+        LinearMethodResult result = new LinearMethodResult(function);
         double alpha1 = (end - start) * FactorOne + start;
         double alpha2 = (end - start) * FactorTwo + start;
         double functionOne = function.apply(alpha1);
