@@ -1,6 +1,5 @@
 package structures;
 
-import java.io.PrintWriter;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -14,6 +13,7 @@ public class QuadraticMethodResult extends MethodResult<Vector> {
         this.func = func;
     }
 
+    @Override
     protected String tableHeader() {
         return IntStream.rangeClosed(1, func.size())
                 .mapToObj(i -> "x" + i)
@@ -22,11 +22,7 @@ public class QuadraticMethodResult extends MethodResult<Vector> {
     }
 
     @Override
-    public void write(PrintWriter writer) {
-        writeHeader(writer);
-        writer.println(tableHeader());
-        for (int i = 0; i < iterations(); i++) {
-            writer.println(get(i));
-        }
+    protected String getTableLine(int i) {
+        return getTableLinePrefix(i, func);
     }
 }

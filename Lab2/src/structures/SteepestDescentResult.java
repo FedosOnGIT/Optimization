@@ -1,6 +1,5 @@
 package structures;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -22,17 +21,17 @@ public class SteepestDescentResult extends QuadraticMethodResult {
     }
 
     @Override
-    public void write(PrintWriter writer) {
-        writeHeader(writer);
-        writer.println(tableHeader() + ",alpha,linear iterations");
-        for (int i = 0; i < iterations() - 1; i++) {
-            writer.print(get(i));
-            writer.print(',');
+    protected String tableHeader() {
+        return super.tableHeader() + ",alpha,linear iterations";
+    }
+
+    @Override
+    protected String getTableLine(int i) {
+        String ret = super.getTableLine(i);
+        if (i < alphas.size()) {
             AlphaPair alpha = getAlpha(i);
-            writer.print(alpha.getAlpha());
-            writer.print(',');
-            writer.println(alpha.getIterations());
+            ret += "," + alpha.getAlpha() + "," + alpha.getIterations();
         }
-        writer.print(get(iterations() - 1));
+        return ret;
     }
 }

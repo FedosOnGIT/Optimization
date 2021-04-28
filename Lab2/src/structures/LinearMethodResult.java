@@ -1,6 +1,5 @@
 package structures;
 
-import java.io.PrintWriter;
 import java.util.function.Function;
 
 /**
@@ -13,14 +12,13 @@ public class LinearMethodResult extends MethodResult<Double> {
         this.func = func;
     }
 
-    public void write(PrintWriter writer) {
-        writeHeader(writer);
-        writer.println("x,func");
-        for (int i = 0; i < iterations(); i++) {
-            Double point = get(i);
-            writer.print(point);
-            writer.print(',');
-            writer.println(func.apply(point));
-        }
+    @Override
+    protected String tableHeader() {
+        return "x,func";
+    }
+
+    @Override
+    protected String getTableLine(int i) {
+        return getTableLinePrefix(i, func);
     }
 }

@@ -2,6 +2,7 @@ package structures;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public abstract class MethodResult<T> {
     private final ArrayList<T> points;
@@ -26,10 +27,25 @@ public abstract class MethodResult<T> {
         points.add(element);
     }
 
-    protected void writeHeader(PrintWriter writer) {
+    private void writeMainResult(PrintWriter writer) {
         writer.println("min = " + getMinimal());
         writer.println("quadratic iterations = " + iterations());
     }
 
-    public abstract void write(PrintWriter writer);
+    protected abstract String tableHeader();
+
+    protected abstract String getTableLine(int i);
+
+    protected String getTableLinePrefix(int i, Function<T, Double> func) {
+        T point = get(i);
+        return point + "," + func.apply(point);
+    }
+
+    public void write(PrintWriter writer) {
+        writeMainResult(writer);
+        writer.println(tableHeader());
+        for (int i = 0; i < iterations(); i++) {
+            writer.println(getTableLine(i));
+        }
+    }
 }
