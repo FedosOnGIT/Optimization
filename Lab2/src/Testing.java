@@ -17,26 +17,26 @@ import java.util.stream.Stream;
 public class Testing {
     private static final double MAX_RANDOM_CORD = 20;
     private static final double EPS = 1e-2;
-    private static final QuadraticFunction function1 = new QuadraticFunction(
+    private static final QuadraticFunction FUNCTION_1 = new QuadraticFunction(
             new DiagonalMatrix(
                     new double[]{4, 6}),
             new Vector(new double[]{0, 0}),
             0);
-    private static final QuadraticFunction function2 = new QuadraticFunction(
+    private static final QuadraticFunction FUNCTION_2 = new QuadraticFunction(
             new DiagonalMatrix(
                     new double[]{2, 4000}),
             new Vector(new double[]{2, 10}),
             0);
-    private static final QuadraticFunction function3 = new QuadraticFunction(
+    private static final QuadraticFunction FUNCTION_3 = new QuadraticFunction(
             new SquareMatrix(
                     new double[][]{{128, 126}, {126, 128}},
                     new double[]{2, 254}),
             new Vector(new double[]{-10, 30}),
             13);
-    private static final List<QuadraticFunction> functions = List.of(
-            function1,
-            function2,
-            function3
+    private static final List<QuadraticFunction> FUNCTIONS = List.of(
+            FUNCTION_1,
+            FUNCTION_2,
+            FUNCTION_3
     );
     private static final List<QuadraticMethod> quadraticMethods = List.of(
             new GradientDescent(),
@@ -97,7 +97,7 @@ public class Testing {
             Arrays.stream(methods)
                     .collect(Collectors.toMap(
                             m -> m.getClass().getSimpleName(),
-                            m -> randomVectorTest(new SteepestDescent(m), function3)))
+                            m -> randomVectorTest(new SteepestDescent(m), FUNCTION_3)))
                     .forEach((key, value) -> {
                         writer.print(key);
                         writer.print(',');
@@ -109,9 +109,9 @@ public class Testing {
     }
 
     public static void test2() {
-        Map<Integer, QuadraticFunction> functionMap = IntStream.range(0, functions.size())
+        Map<Integer, QuadraticFunction> functionMap = IntStream.range(0, FUNCTIONS.size())
                 .boxed()
-                .collect(Collectors.toMap(Function.identity(), functions::get));
+                .collect(Collectors.toMap(Function.identity(), FUNCTIONS::get));
         quadraticMethods.forEach(
                 m -> functionMap.forEach(
                         (key, value) -> runIterations(
@@ -157,8 +157,8 @@ public class Testing {
                 Files.createDirectory(Path.of("logs"));
             }
             test1();
-            //test2();
-            //test3();
+            test2();
+            test3();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
         }
