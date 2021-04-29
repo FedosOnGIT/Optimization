@@ -21,7 +21,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Testing {
-    private static final double MAX_RANDOM_CORD = 20;
     private static final double EPS = 1e-2;
     public static final QuadraticFunction FUNCTION_1 = new QuadraticFunction(
             new DiagonalMatrix(
@@ -43,6 +42,11 @@ public class Testing {
             FUNCTION_1,
             FUNCTION_2,
             FUNCTION_3
+    );
+    public static final List<Vector> FUNCTIONS_MIN = List.of(
+            new Vector(new double[]{.0, .0}),
+            new Vector(new double[]{-1., -0.0025}),
+            new Vector(new double[]{1265./127, -1275./127})
     );
     public static final List<QuadraticMethod> QUADRATIC_METHODS = List.of(
             new GradientDescent(),
@@ -71,23 +75,23 @@ public class Testing {
         return new QuadraticFunction(new DiagonalMatrix(matrix), new Vector(vector), Math.random() * 2000);
     }
 
-    static Vector generateVector(int number) {
+    static Vector generateVector(int number, double max_cord) {
         double[] vector = new double[number];
-        Arrays.setAll(vector, i -> Math.random() * MAX_RANDOM_CORD);
+        Arrays.setAll(vector, i -> Math.random() * max_cord);
         return new Vector(vector);
     }
 
     private static double randomVectorTest(final QuadraticMethod method, final QuadraticFunction func) {
         return Stream
-                .generate(() -> generateVector(2))
+                .generate(() -> generateVector(2, 20))
                 .limit(100)
                 .map(v -> method.minimum(func, v, EPS))
                 .collect(Collectors.averagingInt(MethodResult::iterations));
     }
 
-    private static void runIterations(final QuadraticMethod method, final String name, final QuadraticFunction function) {
+    private static void runIterations(final QuadraticMethod method, final Vector start, final String name, final QuadraticFunction function) {
         try (PrintWriter writer = createLogger(name)) {
-            method.minimum(function, generateVector(2), EPS).write(writer);
+            method.minimum(function, start, EPS).write(writer);
         } catch (final IOException e) {
             System.out.println("Can't write!");
         }
@@ -122,6 +126,7 @@ public class Testing {
                 m -> functionMap.forEach(
                         (key, value) -> runIterations(
                                 m,
+                                FUNCTIONS_MIN.get(key).plus(generateVector(2, 0.001)),
                                 "task2_function" + (key + 1) + "_" + m.getClass().getSimpleName(),
                                 value)));
     }
@@ -140,7 +145,7 @@ public class Testing {
 
                         Double avgIter = IntStream.range(0, 5)
                                 .mapToObj(x -> {
-                                    Vector start = generateVector(deg);
+                                    Vector start = generateVector(deg, 20);
                                     return m.minimum(function, start, EPS);
                                 })
                                 .collect(Collectors.averagingInt(MethodResult::iterations));
@@ -162,7 +167,7 @@ public class Testing {
             if (!Files.isDirectory(Path.of("logs"))) {
                 Files.createDirectory(Path.of("logs"));
             }
-            task1();
+            //task1();
             task2();
             //task3();
         } catch (IOException e) {
