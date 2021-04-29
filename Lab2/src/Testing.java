@@ -49,6 +49,10 @@ public class Testing {
             new SteepestDescent(new GoldenRatioMethod()),
             new ConjugateGradients()
     );
+    public static final List<Method> LINEAR_METHODS = List.of(
+            new DichotMethod(EPS/10),
+            new GoldenRatioMethod(),
+            new BrentMethod());
 
 
     static QuadraticFunction generateFunction(int dimension, double condition) {
@@ -94,13 +98,9 @@ public class Testing {
     }
 
     public static void task1() {
-        Method[] methods = {
-                new DichotMethod(EPS),
-                new GoldenRatioMethod(),
-                new BrentMethod()};
         try (PrintWriter writer = createLogger("task1")) {
             writer.println("method name,avg iterations");
-            Arrays.stream(methods)
+            LINEAR_METHODS.stream()
                     .collect(Collectors.toMap(
                             m -> m.getClass().getSimpleName(),
                             m -> randomVectorTest(new SteepestDescent(m), FUNCTION_3)))

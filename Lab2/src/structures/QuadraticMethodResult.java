@@ -10,6 +10,7 @@ public class QuadraticMethodResult extends MethodResult<Vector> {
     private final QuadraticFunction func;
 
     public QuadraticMethodResult(QuadraticFunction func) {
+        super(func);
         this.func = func;
     }
 
@@ -18,10 +19,5 @@ public class QuadraticMethodResult extends MethodResult<Vector> {
         return IntStream.rangeClosed(1, func.size())
                 .mapToObj(i -> "x" + i)
                 .collect(Collectors.joining(","));
-    }
-
-    @Override
-    protected String getTableLine(int i) {
-        return getTableLinePrefix(i, func);
     }
 }
