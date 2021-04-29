@@ -6,9 +6,11 @@ import java.util.function.Function;
 
 public abstract class MethodResult<T> {
     private final ArrayList<T> points;
+    private final Function<T, Double> optimizedFunc;
 
-    public MethodResult() {
-        points = new ArrayList<>();
+    public MethodResult(Function<T, Double> optimizedFunc) {
+        this.points = new ArrayList<>();
+        this.optimizedFunc = optimizedFunc;
     }
 
     public int iterations() {
@@ -28,7 +30,7 @@ public abstract class MethodResult<T> {
     }
 
     private void writeMainResult(PrintWriter writer) {
-        writer.println("min = " + getMinimal());
+        writer.println("min = " + optimizedFunc.apply(getMinimal()));
         writer.println("quadratic iterations = " + iterations());
     }
 
@@ -38,11 +40,9 @@ public abstract class MethodResult<T> {
 
     protected abstract String variablesHeader();
 
-    protected abstract String getTableLine(int i);
-
-    protected String getTableLinePrefix(int i, Function<T, Double> func) {
+    protected String getTableLine(int i) {
         T point = get(i);
-        return i + "," + point + "," + func.apply(point);
+        return i + "," + point + "," + optimizedFunc.apply(point);
     }
 
     public void write(PrintWriter writer) {
