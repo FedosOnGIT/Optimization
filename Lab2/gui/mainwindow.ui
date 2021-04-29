@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>704</width>
+    <height>501</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Lab 2 - Multidimensional minimization</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="contextMenuPolicy">
+    <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="minimumSize">
+       <size>
+        <width>530</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="toolTipDuration">
+       <number>-1</number>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="startWidget">
+       <widget class="QPushButton" name="pushButtonEvaluate">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>460</y>
+          <width>80</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Evaluate</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="widget_2" native="true">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>190</y>
+          <width>289</width>
+          <height>109</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(46, 42, 255);
+</string>
+        </property>
+        <widget class="QLabel" name="label_3">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>261</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выберите метод одномерной&lt;/p&gt;&lt;p&gt;минимизации:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBoxChoose1DMethod">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>261</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Метод дихотомии</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Метод золотого сечения</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="widget_3" native="true">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>30</y>
+          <width>639</width>
+          <height>119</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(46, 42, 255);
+</string>
+        </property>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>10</y>
+           <width>211</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Выберите функцию:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBoxChooseFunction">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>40</y>
+           <width>261</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>f</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>g</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>h</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="widget_4" native="true">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>190</y>
+          <width>289</width>
+          <height>109</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(46, 42, 255);</string>
+        </property>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>261</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Выберите метод минимизации:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBoxChooseMethod">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>261</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Метод градиентного спуска</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Метод наискорейшего спуска</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Метод сопряженных градиентов</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="widget_5" native="true">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>320</y>
+          <width>289</width>
+          <height>109</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(46, 42, 255);</string>
+        </property>
+        <widget class="QLabel" name="label_4">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>261</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Введите начальную точку:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEditX">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>40</y>
+           <width>211</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(3, 3, 3);</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEditY">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>80</y>
+           <width>211</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(2, 2, 3);</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>x = </string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_6">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>80</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>y = </string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="widget_6" native="true">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>320</y>
+          <width>289</width>
+          <height>109</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(46, 42, 255);</string>
+        </property>
+        <widget class="QComboBox" name="comboBox">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>50</y>
+           <width>231</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>-</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function1_ConjugateGradients</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function1_GradientDescent</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function1_SteepestDescent</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function2_ConjugateGradients</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function2_GradientDescent</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function2_SteepestDescent</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function3_ConjugateGradients</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function3_GradientDescent</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>function3_SteepestDescent</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="plotWidget">
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QWidget" name="widget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>31</height>
+           </size>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButtonReset">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Reset</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QSlider" name="horizontalSlider">
+             <property name="minimumSize">
+              <size>
+               <width>168</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="tickPosition">
+              <enum>QSlider::NoTicks</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pushButtonBack">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Back</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="3">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Iterations</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCustomPlot" name="widgetPlot" native="true">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+   <slots>
+    <slot>slot1()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButtonEvaluate</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>stackedWidgetGoToPlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>488</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>273</x>
+     <y>209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonBack</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>stackedWidgetGoToStart()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBoxChooseFunction</sender>
+   <signal>activated(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>comboBoxChooseFunctionActivated(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBoxChooseMethod</sender>
+   <signal>activated(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>comboBoxChooseMethodActivated(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>170</x>
+     <y>241</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBoxChoose1DMethod</sender>
+   <signal>activated(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>comboBoxChoose1DMethodActivated(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>520</x>
+     <y>271</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox</sender>
+   <signal>activated(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>comboBoxTestChosen(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>525</x>
+     <y>381</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>stackedWidgetGoToPlot()</slot>
+  <slot>stackedWidgetGoToStart()</slot>
+  <slot>comboBoxChooseFunctionActivated(int)</slot>
+  <slot>comboBoxChooseMethodActivated(int)</slot>
+  <slot>comboBoxChoose1DMethodActivated(int)</slot>
+  <slot>comboBoxTestChosen(int)</slot>
+ </slots>
+</ui>
