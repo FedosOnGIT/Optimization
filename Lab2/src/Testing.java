@@ -23,28 +23,28 @@ import java.util.stream.Stream;
 public class Testing {
     private static final double MAX_RANDOM_CORD = 20;
     private static final double EPS = 1e-2;
-    private static final QuadraticFunction FUNCTION_1 = new QuadraticFunction(
+    public static final QuadraticFunction FUNCTION_1 = new QuadraticFunction(
             new DiagonalMatrix(
                     new double[]{4, 6}),
             new Vector(new double[]{0, 0}),
             0);
-    private static final QuadraticFunction FUNCTION_2 = new QuadraticFunction(
+    public static final QuadraticFunction FUNCTION_2 = new QuadraticFunction(
             new DiagonalMatrix(
                     new double[]{2, 4000}),
             new Vector(new double[]{2, 10}),
             0);
-    private static final QuadraticFunction FUNCTION_3 = new QuadraticFunction(
+    public static final QuadraticFunction FUNCTION_3 = new QuadraticFunction(
             new SquareMatrix(
                     new double[][]{{128, 126}, {126, 128}},
                     new double[]{2, 254}),
             new Vector(new double[]{-10, 30}),
             13);
-    private static final List<QuadraticFunction> FUNCTIONS = List.of(
+    public static final List<QuadraticFunction> FUNCTIONS = List.of(
             FUNCTION_1,
             FUNCTION_2,
             FUNCTION_3
     );
-    private static final List<QuadraticMethod> quadraticMethods = List.of(
+    public static final List<QuadraticMethod> QUADRATIC_METHODS = List.of(
             new GradientDescent(),
             new SteepestDescent(new GoldenRatioMethod()),
             new ConjugateGradients()
@@ -118,7 +118,7 @@ public class Testing {
         Map<Integer, QuadraticFunction> functionMap = IntStream.range(0, FUNCTIONS.size())
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), FUNCTIONS::get));
-        quadraticMethods.forEach(
+        QUADRATIC_METHODS.forEach(
                 m -> functionMap.forEach(
                         (key, value) -> runIterations(
                                 m,
@@ -127,7 +127,7 @@ public class Testing {
     }
 
     public static void task3() {
-        quadraticMethods.forEach(m -> {
+        QUADRATIC_METHODS.forEach(m -> {
             try (PrintWriter writer = createLogger("task3_" + m.getClass().getSimpleName())) {
                 for (int n = 10; n <= 10000; n *= 10) {
                     System.out.println("Progress: n = " + n);
