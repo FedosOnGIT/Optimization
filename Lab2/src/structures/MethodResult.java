@@ -30,7 +30,7 @@ public abstract class MethodResult<T> {
     }
 
     private void writeMainResult(PrintWriter writer) {
-        writer.println("min = " + optimizedFunc.apply(getMinimal()));
+        writer.println("min_point = " + getMinimal());
         writer.println("quadratic iterations = " + iterations());
     }
 
