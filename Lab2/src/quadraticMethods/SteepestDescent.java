@@ -3,6 +3,8 @@ package quadraticMethods;
 import methods.Method;
 import structures.*;
 
+import static methods.Method.MAX_ITER;
+
 public class SteepestDescent implements QuadraticMethod {
     private final Method MinimizingFunction;
 
@@ -14,7 +16,7 @@ public class SteepestDescent implements QuadraticMethod {
     public SteepestDescentResult minimum(QuadraticFunction function, Vector point, double epsilon) {
         SteepestDescentResult result = new SteepestDescentResult(function);
         Vector gradient = function.applyGradient(point);
-        while (gradient.length() > epsilon) {
+        for (int i = 0; i < MAX_ITER && gradient.length() > epsilon; ++i) {
             result.add(point);
             final Vector helpPoint = point;
             final Vector helpGradient = gradient;

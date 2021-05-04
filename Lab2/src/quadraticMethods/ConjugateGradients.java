@@ -5,6 +5,8 @@ import structures.QuadraticFunction;
 import structures.QuadraticMethodResult;
 import structures.Vector;
 
+import static methods.Method.MAX_ITER;
+
 public class ConjugateGradients implements QuadraticMethod {
 
     @Override
@@ -14,7 +16,7 @@ public class ConjugateGradients implements QuadraticMethod {
         double gradientLength = gradient.length();
         Vector slope = gradient.multiply(-1);
         Matrix A = function.getMatrix();
-        while (gradientLength > epsilon) {
+        for (int i = 0; i < MAX_ITER && gradientLength > epsilon; ++i) {
             result.add(point);
             Vector help = A.multiply(slope);
             double alpha = gradientLength * gradientLength / (help.multiply(slope));
