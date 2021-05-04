@@ -5,6 +5,8 @@ import structures.QuadraticFunction;
 import structures.QuadraticMethodResult;
 import structures.Vector;
 
+import static methods.Method.MAX_ITER;
+
 public class GradientDescent implements QuadraticMethod {
 
     @Override
@@ -12,7 +14,7 @@ public class GradientDescent implements QuadraticMethod {
         QuadraticMethodResult result = new QuadraticMethodResult(function);
         double alpha = 2/(function.minEigenValue() + function.maxEigenValue());
         Vector gradient = function.applyGradient(point);
-        while (gradient.length() > epsilon) {
+        for (int i = 0; i < MAX_ITER && gradient.length() > epsilon; ++i) {
             result.add(point);
             Vector newPoint = point.plus(gradient.multiply(-alpha));
             if (function.apply(newPoint) < function.apply(point)) {
