@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
   // setGeometry(400, 250, 542, 390);
   // setupEllipseData(ui->widgetPlot);
-  // setupDemo(4);
+  setupDemo(1);
   //setupPlayground(ui->widgetPlot);
   // 0:  setupQuadraticDemo(ui->widgetPlot);
    // 1:
@@ -209,6 +209,19 @@ void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_p
     in >> str >> str >> str >> str;
     int iterations = std::stoi(str);
 
+    QCustomPlot* customPlot = ui->widgetPlot;
+
+    const int SHIFT = 20;
+
+    double lower_pixel_pos_xAxis = customPlot->xAxis->coordToPixel(customPlot->xAxis->range().lower);
+    double upper_pixel_pos_xAxis = customPlot->xAxis->coordToPixel(customPlot->xAxis->range().upper);
+    double lower_pixel_pos_yAxis = customPlot->yAxis->coordToPixel(customPlot->yAxis->range().lower);
+    double upper_pixel_pos_yAxis = customPlot->yAxis->coordToPixel(customPlot->yAxis->range().upper);
+    double c = (upper_pixel_pos_yAxis - lower_pixel_pos_yAxis) / (upper_pixel_pos_xAxis - lower_pixel_pos_xAxis);
+
+    customPlot->xAxis->setRange(x_prev - SHIFT, x_prev + SHIFT);
+    customPlot->yAxis->setRange(y_prev - SHIFT * c, y_prev + SHIFT * c);
+
     in.ignore();
     std::getline(in, str);
     std::getline(in, str);
@@ -216,7 +229,6 @@ void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_p
     x_prev = std::stod(tokens[1]), y_prev = std::stod(tokens[2]);
     double f_begin = curve.evaluate(x_prev, y_prev);
 
-    QCustomPlot* customPlot = ui->widgetPlot;
     drawEllipses(customPlot, pen, curve, f_begin, f_end, 20);
 
     for (int i = 1; i <= iterations; ++i) {
@@ -229,6 +241,9 @@ void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_p
         line->setHead(QCPLineEnding::esSpikeArrow);
         x_prev = x, y_prev = y;
     }
+
+    customPlot->xAxis->setLabel("x1");
+    customPlot->yAxis->setLabel("x2");
 
     customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 
@@ -248,37 +263,40 @@ void MainWindow::drawEllipses(QCustomPlot* customPlot, QPen pen, SecondOrderCurv
 
     for (size_t i = 0; i <= CNT; ++i) {
         double f = f_end + (f_begin - f_end) / CNT * i;
-        SecondOrderCurve current_curve = curve;
-        current_curve.set_a0(current_curve.get_a0() - f);
-        std::optional<QRectF> ellipseRect = current_curve.getEllipseData();
-        if (!ellipseRect.has_value()) {
-            continue;
-        }
-        RotatableEllipse* ellipse = new RotatableEllipse(customPlot, transform);
-        ellipse->topLeft->setCoords(ellipseRect->left() + dx, ellipseRect->top() + dy);
-        ellipse->bottomRight->setCoords(ellipseRect->right() + dx, ellipseRect->bottom() + dy);
+        SecondOrderCurve cur_curve = curve;
+        cur_curve.set_a0(cur_curve.get_a0() - f);
+        RotatableEllipse* ellipse = new RotatableEllipse(customPlot, cur_curve);
         ellipse->setPen(pen);
-
-        if (i == CNT) {
-            double center = std::max(ellipse->bottomRight->key() - ellipse->topLeft->key(), ellipse->bottomRight->value() - ellipse->topLeft->value());
-            center /= 4;
-            double shift = std::max(std::max(std::abs(ellipse->topLeft->key()), std::abs(ellipse->bottomRight->key())),
-                                    std::max(std::abs(ellipse->topLeft->value()), std::abs(ellipse->bottomRight->value()))
-            );
-            customPlot->xAxis->setRange(-shift - center, shift + center);
-            y_center = shift + center;
-        }
+//        if (i == CNT) {
+//            double center = std::max(ellipse->bottomRight->key() - ellipse->topLeft->key(), ellipse->bottomRight->value() - ellipse->topLeft->value());
+//            center /= 4;
+//            double shift = std::max(std::max(std::abs(ellipse->topLeft->key()), std::abs(ellipse->bottomRight->key())),
+//                                    std::max(std::abs(ellipse->topLeft->value()), std::abs(ellipse->bottomRight->value()))
+//            );
+//            customPlot->xAxis->setRange(-shift - center, shift + center);
+//            y_center = shift + center;
+//        }
     }
 
-    double lower_pixel_pos_xAxis = customPlot->xAxis->coordToPixel(customPlot->xAxis->range().lower);
-    double upper_pixel_pos_xAxis = customPlot->xAxis->coordToPixel(customPlot->xAxis->range().upper);
+//    double lower_pixel_pos_xAxis = customPlot->xAxis->coordToPixel(customPlot->xAxis->range().lower);
+//    double upper_pixel_pos_xAxis = customPlot->xAxis->coordToPixel(customPlot->xAxis->range().upper);
 
-    double lower_pixel_pos_yAxis = customPlot->yAxis->coordToPixel(customPlot->yAxis->range().lower);
-    double upper_pixel_pos_yAxis = customPlot->yAxis->coordToPixel(customPlot->yAxis->range().upper);
+//    double lower_pixel_pos_yAxis = customPlot->yAxis->coordToPixel(customPlot->yAxis->range().lower);
+//    double upper_pixel_pos_yAxis = customPlot->yAxis->coordToPixel(customPlot->yAxis->range().upper);
 
-    double c = (upper_pixel_pos_yAxis - lower_pixel_pos_yAxis) / (upper_pixel_pos_xAxis - lower_pixel_pos_xAxis);
+//    double c = (upper_pixel_pos_yAxis - lower_pixel_pos_yAxis) / (upper_pixel_pos_xAxis - lower_pixel_pos_xAxis);
 
-    customPlot->yAxis->setRange(customPlot->xAxis->range().lower, customPlot->xAxis->range().upper * c);
+//    customPlot->yAxis->setRange(customPlot->xAxis->range().lower, customPlot->xAxis->range().upper * c);
+
+    customPlot->addGraph();
+    QVector<double> x = {0, 0};
+    QVector<double> y = {0, 0};
+    QCPGraph* point = customPlot->graph(customPlot->graphCount() - 1);
+    point->setData(x, y);
+    QPen point_pen;
+    point_pen.setWidth(5);
+    point_pen.setColor(Qt::red);
+    point->setPen(point_pen);
 }
 
 std::vector<std::string> MainWindow::split(std::string const& str, std::string const& delimiter) {

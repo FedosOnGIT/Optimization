@@ -48,413 +48,366 @@
        <number>0</number>
       </property>
       <widget class="QWidget" name="startWidget">
-       <widget class="QPushButton" name="pushButtonEvaluate">
-        <property name="geometry">
-         <rect>
-          <x>610</x>
-          <y>460</y>
-          <width>80</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Evaluate</string>
-        </property>
-       </widget>
-       <widget class="QWidget" name="widget_2" native="true">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>190</y>
-          <width>289</width>
-          <height>109</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(46, 42, 255);
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0" colspan="2">
+         <widget class="QWidget" name="widget_3" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(46, 42, 255);
 </string>
-        </property>
-        <widget class="QLabel" name="label_3">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>261</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выберите метод одномерной&lt;/p&gt;&lt;p&gt;минимизации:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="comboBoxChoose1DMethod">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>70</y>
-           <width>261</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>Метод дихотомии</string>
           </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Метод золотого сечения</string>
+          <widget class="QLabel" name="label">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>10</y>
+             <width>211</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Выберите функцию:</string>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="comboBoxChooseFunction">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>40</y>
+             <width>261</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <item>
+            <property name="text">
+             <string>f</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>g</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>h</string>
+            </property>
+           </item>
+          </widget>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QWidget" name="widget_4" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(46, 42, 255);</string>
           </property>
-         </item>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="widget_3" native="true">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>30</y>
-          <width>639</width>
-          <height>119</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(46, 42, 255);
+          <widget class="QLabel" name="label_2">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>261</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Выберите метод минимизации:</string>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="comboBoxChooseMethod">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>40</y>
+             <width>261</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <item>
+            <property name="text">
+             <string>Метод градиентного спуска</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Метод наискорейшего спуска</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Метод сопряженных градиентов</string>
+            </property>
+           </item>
+          </widget>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QWidget" name="widget_2" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(46, 42, 255);
 </string>
-        </property>
-        <widget class="QLabel" name="label">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>10</y>
-           <width>211</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Выберите функцию:</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="comboBoxChooseFunction">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>40</y>
-           <width>261</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>f</string>
           </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>g</string>
+          <widget class="QLabel" name="label_3">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>261</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выберите метод одномерной&lt;/p&gt;&lt;p&gt;минимизации:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="comboBoxChoose1DMethod">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>70</y>
+             <width>261</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <item>
+            <property name="text">
+             <string>Метод дихотомии</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Метод золотого сечения</string>
+            </property>
+           </item>
+          </widget>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QWidget" name="widget_5" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(46, 42, 255);</string>
           </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>h</string>
+          <widget class="QLabel" name="label_4">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>261</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Введите начальную точку:</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineEditX">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>40</y>
+             <width>211</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(3, 3, 3);</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineEditY">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>80</y>
+             <width>211</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(2, 2, 3);</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_5">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>40</y>
+             <width>31</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>x = </string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_6">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>80</y>
+             <width>31</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>y = </string>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QWidget" name="widget_6" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(46, 42, 255);</string>
           </property>
-         </item>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="widget_4" native="true">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>190</y>
-          <width>289</width>
-          <height>109</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(46, 42, 255);</string>
-        </property>
-        <widget class="QLabel" name="label_2">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>261</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Выберите метод минимизации:</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="comboBoxChooseMethod">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>40</y>
-           <width>261</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <item>
+          <widget class="QComboBox" name="comboBox">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>40</y>
+             <width>231</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <item>
+            <property name="text">
+             <string>-</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function1_ConjugateGradients</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function1_GradientDescent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function1_SteepestDescent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function2_ConjugateGradients</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function2_GradientDescent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function2_SteepestDescent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function3_ConjugateGradients</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function3_GradientDescent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>function3_SteepestDescent</string>
+            </property>
+           </item>
+          </widget>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QPushButton" name="pushButtonEvaluate">
           <property name="text">
-           <string>Метод градиентного спуска</string>
+           <string>Evaluate</string>
           </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Метод наискорейшего спуска</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Метод сопряженных градиентов</string>
-          </property>
-         </item>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="widget_5" native="true">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>320</y>
-          <width>289</width>
-          <height>109</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(46, 42, 255);</string>
-        </property>
-        <widget class="QLabel" name="label_4">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>261</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Введите начальную точку:</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEditX">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>40</y>
-           <width>211</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(3, 3, 3);</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEditY">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>80</y>
-           <width>211</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(2, 2, 3);</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_5">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>40</y>
-           <width>31</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x = </string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_6">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>80</y>
-           <width>31</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>y = </string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="widget_6" native="true">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>320</y>
-          <width>289</width>
-          <height>109</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(46, 42, 255);</string>
-        </property>
-        <widget class="QComboBox" name="comboBox">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>50</y>
-           <width>231</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>-</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function1_ConjugateGradients</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function1_GradientDescent</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function1_SteepestDescent</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function2_ConjugateGradients</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function2_GradientDescent</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function2_SteepestDescent</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function3_ConjugateGradients</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function3_GradientDescent</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>function3_SteepestDescent</string>
-          </property>
-         </item>
-        </widget>
-       </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="plotWidget">
-       <layout class="QGridLayout" name="gridLayout_3">
+       <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
          <widget class="QWidget" name="widget" native="true">
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>31</height>
+            <height>26</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>31</height>
+            <height>26</height>
            </size>
           </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="1">
-            <widget class="QPushButton" name="pushButtonReset">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Reset</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QSlider" name="horizontalSlider">
-             <property name="minimumSize">
-              <size>
-               <width>168</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="tickPosition">
-              <enum>QSlider::NoTicks</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QPushButton" name="pushButtonBack">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>80</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Back</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="4">
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="3">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Iterations</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QWidget" name="horizontalLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>191</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="pushButtonBack">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Back</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButtonReset">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QScrollBar" name="horizontalScrollBar">
+           <property name="geometry">
+            <rect>
+             <x>260</x>
+             <y>0</y>
+             <width>160</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
          </widget>
         </item>
         <item row="1" column="0">
