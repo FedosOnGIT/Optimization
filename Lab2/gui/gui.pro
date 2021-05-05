@@ -12,13 +12,11 @@ TARGET = gui
 TEMPLATE = app
 
 SOURCES += main.cpp\
-           RotatableEllipse.cpp \
            SecondOrderCurve.cpp \
            mainwindow.cpp \
            qcustomplot.cpp
 
 HEADERS += mainwindow.h \
-           RotatableEllipse.h \
            SecondOrderCurve.h \
            qcustomplot.h
 

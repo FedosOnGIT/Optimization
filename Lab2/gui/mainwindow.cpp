@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
   // setGeometry(400, 250, 542, 390);
   // setupEllipseData(ui->widgetPlot);
-  setupDemo(1);
+  // setupDemo(1);
   //setupPlayground(ui->widgetPlot);
   // 0:  setupQuadraticDemo(ui->widgetPlot);
    // 1:
@@ -190,7 +190,7 @@ void MainWindow::comboBoxTestChosen(int index) {
 
 std::ifstream* MainWindow::getInput(QString const& methodFileName) {
     std::string strMethodFileName = methodFileName.toUtf8().constData();
-    std::string absolute_path = "/Users/aleksandrslastin/Desktop/Studying/Optimization/Lab2/logs/task2_" + strMethodFileName + ".csv";
+    std::string absolute_path = "D:\\prog\\ITMO\\4-term\\MetOpt\\task2_" + strMethodFileName + ".csv";
     return new std::ifstream(absolute_path);
 }
 
@@ -210,6 +210,7 @@ void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_p
     int iterations = std::stoi(str);
 
     QCustomPlot* customPlot = ui->widgetPlot;
+    customPlot->clearPlottables();
 
     const int SHIFT = 20;
 
@@ -246,27 +247,31 @@ void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_p
     customPlot->yAxis->setLabel("x2");
 
     customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
-
+    customPlot->rescaleAxes();
     customPlot->replot();
 }
 
 void MainWindow::drawEllipses(QCustomPlot* customPlot, QPen pen, SecondOrderCurve& curve, double f_begin, double f_end, size_t CNT) {
-    std::optional<QTransform> mainTransform = curve.getTransformToCanonicalForm();
-    if (!mainTransform.has_value()) {
-        return;
-    }
-    double m11 = mainTransform->m11(), m12 = mainTransform->m12(), m21 = mainTransform->m21(), m22 = mainTransform->m22();
-    QTransform transform = QTransform(m11, m12, m21, m22, 0, 0);
-    double dx = mainTransform->dx(), dy = mainTransform->dy();
-    --CNT;
-    double y_center;
+    const int pointCount = 500;
+    const double a0 = curve.get_a0();
 
     for (size_t i = 0; i <= CNT; ++i) {
-        double f = f_end + (f_begin - f_end) / CNT * i;
-        SecondOrderCurve cur_curve = curve;
-        cur_curve.set_a0(cur_curve.get_a0() - f);
-        RotatableEllipse* ellipse = new RotatableEllipse(customPlot, cur_curve);
-        ellipse->setPen(pen);
+        double f = f_end + (f_begin - f_end) * i / CNT;
+        curve.set_a0(a0 - f);
+        QCPCurve *parEllipse = new QCPCurve(customPlot->xAxis, customPlot->yAxis);
+
+        QVector<QCPCurveData> dataEllipse(pointCount);
+        for (int i=0; i<pointCount; ++i) {
+          double phi = i/(double)(pointCount-1)*2*M_PI;
+          double x, y;
+          curve.getParametrized(phi, x, y);
+          dataEllipse[i] = QCPCurveData(i, x, y);
+        }
+        parEllipse->data()->set(dataEllipse, true);
+        parEllipse->setPen(pen);
+
+        //RotatableEllipse* ellipse = new RotatableEllipse(customPlot, cur_curve);
+        //ellipse->setPen(pen);
 //        if (i == CNT) {
 //            double center = std::max(ellipse->bottomRight->key() - ellipse->topLeft->key(), ellipse->bottomRight->value() - ellipse->topLeft->value());
 //            center /= 4;
@@ -277,6 +282,7 @@ void MainWindow::drawEllipses(QCustomPlot* customPlot, QPen pen, SecondOrderCurv
 //            y_center = shift + center;
 //        }
     }
+    curve.set_a0(a0);
 
 //    double lower_pixel_pos_xAxis = customPlot->xAxis->coordToPixel(customPlot->xAxis->range().lower);
 //    double upper_pixel_pos_xAxis = customPlot->xAxis->coordToPixel(customPlot->xAxis->range().upper);

@@ -45,7 +45,6 @@
 #include <QMainWindow>
 #include <QTimer>
 
-#include "RotatableEllipse.h"
 #include "SecondOrderCurve.h"
 #include "qcustomplot.h"
 
