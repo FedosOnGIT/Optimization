@@ -9,30 +9,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>704</width>
-    <height>501</height>
+    <width>705</width>
+    <height>460</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Lab 2 - Multidimensional minimization</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="contextMenuPolicy">
     <enum>Qt::DefaultContextMenu</enum>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <property name="leftMargin">
-     <number>0</number>
-    </property>
-    <property name="topMargin">
-     <number>0</number>
-    </property>
-    <property name="rightMargin">
-     <number>0</number>
-    </property>
-    <property name="bottomMargin">
-     <number>0</number>
-    </property>
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="minimumSize">
@@ -47,374 +38,1049 @@
       <property name="lineWidth">
        <number>0</number>
       </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
       <widget class="QWidget" name="startWidget">
-       <layout class="QGridLayout" name="gridLayout_3">
+       <layout class="QGridLayout" name="gridLayout_9">
         <item row="0" column="0" colspan="2">
-         <widget class="QWidget" name="widget_3" native="true">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(46, 42, 255);
-</string>
-          </property>
-          <widget class="QLabel" name="label">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>10</y>
-             <width>211</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Выберите функцию:</string>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="comboBoxChooseFunction">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>40</y>
-             <width>261</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <item>
-            <property name="text">
-             <string>f</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>g</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>h</string>
-            </property>
-           </item>
-          </widget>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QWidget" name="widget_4" native="true">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(46, 42, 255);</string>
-          </property>
-          <widget class="QLabel" name="label_2">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>261</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Выберите метод минимизации:</string>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="comboBoxChooseMethod">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>40</y>
-             <width>261</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <item>
-            <property name="text">
-             <string>Метод градиентного спуска</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Метод наискорейшего спуска</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Метод сопряженных градиентов</string>
-            </property>
-           </item>
-          </widget>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QWidget" name="widget_2" native="true">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(46, 42, 255);
-</string>
-          </property>
-          <widget class="QLabel" name="label_3">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>261</width>
-             <height>41</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выберите метод одномерной&lt;/p&gt;&lt;p&gt;минимизации:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="comboBoxChoose1DMethod">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>70</y>
-             <width>261</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <item>
-            <property name="text">
-             <string>Метод дихотомии</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Метод золотого сечения</string>
-            </property>
-           </item>
-          </widget>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QWidget" name="widget_5" native="true">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(46, 42, 255);</string>
-          </property>
-          <widget class="QLabel" name="label_4">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>261</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Введите начальную точку:</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineEditX">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>40</y>
-             <width>211</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(3, 3, 3);</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="lineEditY">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>80</y>
-             <width>211</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(2, 2, 3);</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_5">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>40</y>
-             <width>31</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>x = </string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_6">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>80</y>
-             <width>31</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>y = </string>
-           </property>
-          </widget>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QWidget" name="widget_6" native="true">
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(46, 42, 255);</string>
-          </property>
-          <widget class="QComboBox" name="comboBox">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>40</y>
-             <width>231</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <item>
-            <property name="text">
-             <string>-</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function1_ConjugateGradients</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function1_GradientDescent</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function1_SteepestDescent</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function2_ConjugateGradients</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function2_GradientDescent</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function2_SteepestDescent</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function3_ConjugateGradients</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function3_GradientDescent</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>function3_SteepestDescent</string>
-            </property>
-           </item>
-          </widget>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QPushButton" name="pushButtonEvaluate">
-          <property name="text">
-           <string>Evaluate</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="plotWidget">
-       <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="0">
-         <widget class="QWidget" name="widget" native="true">
+         <widget class="QWidget" name="widgetChooseFunc" native="true">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>26</height>
+            <width>667</width>
+            <height>160</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>26</height>
+            <height>16777215</height>
            </size>
           </property>
-          <widget class="QWidget" name="horizontalLayoutWidget">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>191</width>
-             <height>26</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QPushButton" name="pushButtonBack">
-              <property name="minimumSize">
-               <size>
-                <width>80</width>
-                <height>24</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>24</height>
-               </size>
-              </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="minimumSize">
+              <size>
+               <width>103</width>
+               <height>142</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>103</width>
+               <height>142</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Choose function:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListWidget" name="listWidget">
+             <property name="minimumSize">
+              <size>
+               <width>420</width>
+               <height>140</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>420</width>
+               <height>140</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectItems</enum>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>400</width>
+               <height>300</height>
+              </size>
+             </property>
+             <property name="textElideMode">
+              <enum>Qt::ElideLeft</enum>
+             </property>
+             <property name="viewMode">
+              <enum>QListView::IconMode</enum>
+             </property>
+             <item>
               <property name="text">
-               <string>Back</string>
+               <string/>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButtonReset">
-              <property name="minimumSize">
-               <size>
-                <width>80</width>
-                <height>24</height>
-               </size>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/images/f.png</normaloff>:/images/images/f.png</iconset>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>24</height>
-               </size>
-              </property>
+             </item>
+             <item>
               <property name="text">
-               <string>Reset</string>
+               <string/>
               </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QScrollBar" name="horizontalScrollBar">
-           <property name="geometry">
-            <rect>
-             <x>260</x>
-             <y>0</y>
-             <width>160</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/images/g.png</normaloff>:/images/images/g.png</iconset>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/images/h.png</normaloff>:/images/images/h.png</iconset>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QWidget" name="widgetChoose2D" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>330</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="minimumSize">
+              <size>
+               <width>210</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>210</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Choose 2D minimization method:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>56</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="0">
+            <widget class="QComboBox" name="comboBoxChoose2DMethod">
+             <property name="minimumSize">
+              <size>
+               <width>210</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>210</width>
+               <height>24</height>
+              </size>
+             </property>
+             <item>
+              <property name="text">
+               <string>Gradient Descent</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Steepest Descent</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Conjugate Gradients</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <spacer name="horizontalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1">
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="1">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QWidget" name="widgetChoose1D" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>330</width>
+            <height>110</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);
+background-image: url(:/images/images/mem_less.jpeg);</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="1" column="1">
+            <widget class="QComboBox" name="comboBoxChoose1DMethod">
+             <property name="minimumSize">
+              <size>
+               <width>210</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>210</width>
+               <height>24</height>
+              </size>
+             </property>
+             <item>
+              <property name="text">
+               <string>Dichot</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Golden Ratio</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Brent</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>38</width>
+               <height>43</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="labelChoose1DFunc">
+             <property name="minimumSize">
+              <size>
+               <width>210</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>210</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Choose 1D minimization method:&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="0">
+            <spacer name="horizontalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="0">
+            <spacer name="verticalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QWidget" name="widgetStartPoint" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>330</width>
+            <height>115</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_4">
+             <property name="minimumSize">
+              <size>
+               <width>210</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>210</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Enter start point:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="lineEditX">
+             <property name="minimumSize">
+              <size>
+               <width>250</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>250</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(3, 3, 3);
+color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="minimumSize">
+              <size>
+               <width>23</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>23</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>y = </string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>21</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="minimumSize">
+              <size>
+               <width>23</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>23</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>x = </string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="lineEditY">
+             <property name="minimumSize">
+              <size>
+               <width>250</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>250</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(2, 2, 3);
+color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <spacer name="horizontalSpacer_10">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer_11">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="2">
+            <spacer name="horizontalSpacer_12">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="3" column="2">
+            <spacer name="verticalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QWidget" name="widgetAccuracy" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>330</width>
+            <height>115</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_8">
+           <item row="1" column="2" colspan="2">
+            <widget class="QLineEdit" name="lineEditEps">
+             <property name="minimumSize">
+              <size>
+               <width>250</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>250</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(3, 3, 3);
+color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" colspan="2">
+            <widget class="QLabel" name="label_8">
+             <property name="minimumSize">
+              <size>
+               <width>210</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>210</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Enter accuracy:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="label_9">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>eps  =</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>46</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="0">
+            <spacer name="horizontalSpacer_13">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="0">
+            <spacer name="horizontalSpacer_14">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="1">
+            <spacer name="verticalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="labelError">
+            <property name="minimumSize">
+             <size>
+              <width>250</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>250</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 4, 0);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_15">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButtonEvaluate">
+            <property name="minimumSize">
+             <size>
+              <width>80</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Evaluate</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="plotWidget">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <widget class="QPushButton" name="pushButtonBack">
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Back</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>50</width>
+              <height>13</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelIterations">
+            <property name="minimumSize">
+             <size>
+              <width>56</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>56</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Iterations</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QScrollBar" name="scrollBarIterations">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="pageStep">
+             <number>1</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="invertedAppearance">
+             <bool>false</bool>
+            </property>
+            <property name="invertedControls">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelIterationNumber">
+            <property name="minimumSize">
+             <size>
+              <width>115</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>250</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Iteration number = </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButtonSettings">
+            <property name="minimumSize">
+             <size>
+              <width>80</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Settings</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item row="1" column="0">
          <widget class="QCustomPlot" name="widgetPlot" native="true">
           <property name="enabled">
            <bool>true</bool>
           </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="0">
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>359</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="1">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>10</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1">
+            <widget class="QScrollArea" name="scrollArea">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>150</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="scrollAreaWidgetContents">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>284</width>
+                <height>148</height>
+               </rect>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_5">
+               <item row="0" column="0" colspan="2">
+                <widget class="QCheckBox" name="checkBoxLevelLines">
+                 <property name="text">
+                  <string>Level lines</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" colspan="2">
+                <widget class="QCheckBox" name="checkBoxDescentArrows">
+                 <property name="text">
+                  <string>Descent arrows</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QCheckBox" name="checkBoxX1Axis">
+                 <property name="text">
+                  <string>x-axis</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QCheckBox" name="checkBoxX1AxisName">
+                 <property name="text">
+                  <string>x-axis name</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QCheckBox" name="checkBoxX2Axis">
+                 <property name="text">
+                  <string>y-axis</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QCheckBox" name="checkBoxX2AxisName">
+                 <property name="text">
+                  <string>y-axis name</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
@@ -436,7 +1102,9 @@
    </slots>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButtonEvaluate</sender>
@@ -471,26 +1139,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>comboBoxChooseFunction</sender>
+   <sender>comboBoxChoose2DMethod</sender>
    <signal>activated(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>comboBoxChooseFunctionActivated(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>180</x>
-     <y>81</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>353</x>
-     <y>245</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBoxChooseMethod</sender>
-   <signal>activated(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>comboBoxChooseMethodActivated(int)</slot>
+   <slot>comboBoxChoose2DMethodActivated(int)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>170</x>
@@ -519,18 +1171,146 @@
    </hints>
   </connection>
   <connection>
-   <sender>comboBox</sender>
-   <signal>activated(int)</signal>
+   <sender>checkBoxLevelLines</sender>
+   <signal>stateChanged(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>comboBoxTestChosen(int)</slot>
+   <slot>checkBoxLevelLines(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>525</x>
-     <y>381</y>
+     <x>535</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
-     <x>353</x>
-     <y>245</y>
+     <x>351</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxDescentArrows</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>checkBoxDescentArrows(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>535</x>
+     <y>106</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxX1Axis</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>checkBoxX1Axis(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>464</x>
+     <y>138</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxX1AxisName</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>checkBoxX1AxisName(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>607</x>
+     <y>138</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxX2Axis</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>checkBoxX2Axis(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>464</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxX2AxisName</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>checkBoxX2AxisName(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>607</x>
+     <y>170</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonSettings</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>pushButtonSettingsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>653</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scrollBarIterations</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>scrollBarIterationsValueChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>250</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listWidget</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>listWidgetChooseFuncItemClicked(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>406</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>352</x>
+     <y>229</y>
     </hint>
    </hints>
   </connection>
@@ -539,8 +1319,18 @@
   <slot>stackedWidgetGoToPlot()</slot>
   <slot>stackedWidgetGoToStart()</slot>
   <slot>comboBoxChooseFunctionActivated(int)</slot>
-  <slot>comboBoxChooseMethodActivated(int)</slot>
+  <slot>comboBoxChoose2DMethodActivated(int)</slot>
   <slot>comboBoxChoose1DMethodActivated(int)</slot>
   <slot>comboBoxTestChosen(int)</slot>
+  <slot>checkBoxLevelLines(int)</slot>
+  <slot>checkBoxDescentArrows(int)</slot>
+  <slot>checkBoxX1Axis(int)</slot>
+  <slot>checkBoxX1AxisName(int)</slot>
+  <slot>checkBoxX2Axis(int)</slot>
+  <slot>checkBoxX2AxisName(int)</slot>
+  <slot>pushButtonSettingsClicked()</slot>
+  <slot>pushButtonResetClicked()</slot>
+  <slot>scrollBarIterationsValueChanged(int)</slot>
+  <slot>listWidgetChooseFuncItemClicked(QListWidgetItem*)</slot>
  </slots>
 </ui>

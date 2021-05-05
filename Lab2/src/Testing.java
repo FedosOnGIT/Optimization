@@ -126,7 +126,7 @@ public class Testing {
                 m -> functionMap.forEach(
                         (key, value) -> runIterations(
                                 m,
-                                FUNCTIONS_MIN.get(key).plus(generateVector(2, 0.001)),
+                                FUNCTIONS_MIN.get(key).plus(generateVector(2, 0.1)),
                                 "task2_function" + (key + 1) + "_" + m.getClass().getSimpleName(),
                                 value)));
     }

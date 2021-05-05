@@ -1,13 +1,13 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QtMath>
 
 struct SecondOrderCurve {
     SecondOrderCurve(double a11, double a12, double a22, double a1, double a2, double a0);
 
     double evaluate(double x, double y);
-    std::optional<QTransform> getTransformToCanonicalForm();
-    std::optional<QRectF> getEllipseData();
+    void getParametrized(double phi, double& x, double& y);
 
     double get_a11();
     double set_a11(double a11);
@@ -29,11 +29,7 @@ struct SecondOrderCurve {
     double set_a0(double a0);
 
 private:
-    std::optional<QTransform> getTransformToCanonicalForm(double& a11, double& a12, double& a22, double& a1, double& a2, double& a0);
-    void rotateCoordinates(double& m11, double& m21, double& m12, double& m22,
-                           double& a11, double& a12, double& a22, double& a1, double& a2);
     bool is_zero(double val);
-    void initSame(double& a11, double& a12, double& a22, double& a1, double& a2, double& a0);
 
 private:
     constexpr static double EPS = 1e-14;

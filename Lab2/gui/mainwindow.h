@@ -45,13 +45,16 @@
 #include <QMainWindow>
 #include <QTimer>
 
-#include "RotatableEllipse.h"
 #include "SecondOrderCurve.h"
 #include "qcustomplot.h"
 
 #include <fstream>
 #include <vector>
+#include <iostream>
 #include <string>
+
+// QListWidgetItem *itemF, *itemG;
+// itemF = __qlistwidgetitem;
 
 namespace Ui {
 class MainWindow;
@@ -63,45 +66,35 @@ class MainWindow : public QMainWindow
   
 public:
   explicit MainWindow(QWidget *parent = 0);
-  ~MainWindow();
-  
-  void setupDemo(int demoIndex);
-  void setupQuadraticDemo(QCustomPlot *customPlot);
-  void setupSimpleDemo(QCustomPlot *customPlot);
-  void setupSincScatterDemo(QCustomPlot *customPlot);
-  void setupScatterStyleDemo(QCustomPlot *customPlot);
-  void setupLineStyleDemo(QCustomPlot *customPlot);
-  void setupScatterPixmapDemo(QCustomPlot *customPlot);
-  void setupDateDemo(QCustomPlot *customPlot);
-  void setupTextureBrushDemo(QCustomPlot *customPlot);
-  void setupMultiAxisDemo(QCustomPlot *customPlot);
-  void setupLogarithmicDemo(QCustomPlot *customPlot);
-  void setupRealtimeDataDemo(QCustomPlot *customPlot);
-  void setupParametricCurveDemo(QCustomPlot *customPlot);
-  void setupBarChartDemo(QCustomPlot *customPlot);
-  void setupStatisticalDemo(QCustomPlot *customPlot);
-  void setupSimpleItemDemo(QCustomPlot *customPlot);
-  void setupItemDemo(QCustomPlot *customPlot);
-  void setupStyledDemo(QCustomPlot *customPlot);
-  void setupAdvancedAxesDemo(QCustomPlot *customPlot);
-  void setupColorMapDemo(QCustomPlot *customPlot);
-  void setupFinancialDemo(QCustomPlot *customPlot);
-  void setupPolarPlotDemo(QCustomPlot *customPlot);
+    ~MainWindow() {
+
+    }
   
   void setupPlayground(QCustomPlot *customPlot);
 
   void setupEllipseData(QCustomPlot *customPlot);
   
 private slots:
-  void realtimeDataSlot();
-  void bracketDataSlot();
-  void screenShot();
-  void allScreenShots();
-
   void stackedWidgetGoToPlot();
+
+  void pushButtonResetClicked();
+
+  void pushButtonSettingsClicked();
+  void checkBoxLevelLines(int);
+  void checkBoxDescentArrows(int);
+  void checkBoxX1Axis(int);
+  void checkBoxX1AxisName(int);
+  void checkBoxX2Axis(int);
+  void checkBoxX2AxisName(int);
+
+  void listWidgetChooseFuncItemClicked(QListWidgetItem*);
+  void comboBoxChoose2DMethodActivated(int);
+  void comboBoxChoose1DMethodActivated(int);
   void stackedWidgetGoToStart();
 
   void comboBoxTestChosen(int);
+
+  void scrollBarIterationsValueChanged(int);
 
 private:
   std::ifstream* getInput(QString const&);
@@ -110,13 +103,24 @@ private:
 
   std::vector<std::string> split(std::string const& str, std::string const& delimiter);
 
+  void setChecked(QCheckBox* checkBox) {
+      checkBox->setChecked(true);
+  }
 
 private:
   Ui::MainWindow *ui;
-  QString demoName;
-  QTimer dataTimer;
-  QCPItemTracer *itemDemoPhaseTracer;
-  int currentDemoIndex;
+
+  int funcType = -1, method2Type = 0, method1Type = 0;
+  double x, y, eps;
+
+  int settingsClickedCnt = 0;
+
+  std::vector<QPointF> const MIN_POINTS = {QPointF(0, 0), QPointF(-1, -0.0025), QPointF(1265./127, -1275./127)};
+  std::vector<QCPItemLine*> methodLines;
+  std::vector<QCPCurve*> levelLines;
+
+  int prev_scroll_value = -1;
+  int valueCheckBoxDescentArrows = 2;
 };
 
 #endif // MAINWINDOW_H
