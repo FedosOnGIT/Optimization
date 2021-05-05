@@ -167,8 +167,8 @@ public class Testing {
             if (!Files.isDirectory(Path.of("logs"))) {
                 Files.createDirectory(Path.of("logs"));
             }
-            //task1();
-            task2();
+            task1();
+            //task2();
             //task3();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
