@@ -57,6 +57,7 @@ void MainWindow::stackedWidgetGoToPlot() {
     program += " " + std::to_string(eps);
     if (method2Type == 1) {
         program += " " + std::to_string(method1Type);
+        program += " " + std::to_string(1000);
     }
 
     int returnCode = system(program.data());
@@ -116,7 +117,6 @@ void MainWindow::drawMethod(std::ifstream& in, SecondOrderCurve& curve, QPen pen
     int iterations = std::stoi(str);
 
     QCustomPlot* customPlot = ui->widgetPlot;
-    customPlot->clearPlottables();
 
     const int SHIFT = 20;
 
