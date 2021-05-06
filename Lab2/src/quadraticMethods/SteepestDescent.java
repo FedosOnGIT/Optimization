@@ -22,8 +22,7 @@ public class SteepestDescent implements QuadraticMethod {
             final Vector helpGradient = gradient;
             MethodResult<Double> linearMinimization = MinimizingFunction.minimum(
                     coefficient -> function.apply(helpPoint.plus(helpGradient.multiply(-coefficient))),
-                    0,
-                    2 / function.maxEigenValue(),
+                    0, 1,
                     0.00001);
             double alpha = linearMinimization.getMinimal();
             result.addAlpha(new AlphaPair(alpha, linearMinimization.iterations()));

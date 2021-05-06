@@ -180,10 +180,6 @@ void MainWindow::comboBoxTestChosen(int index) {
     drawMethod(in, pcurve, pen);
 }
 
-std::ifstream* MainWindow::getInput(QString const& methodFileName) {
-
-}
-
 void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_ptr<SecondOrderCurve>& pcurve, QPen pen) {
     SecondOrderCurve& curve = *pcurve.get();
     std::ifstream& in = *input.get();
@@ -200,6 +196,7 @@ void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_p
     int iterations = std::stoi(str);
 
     QCustomPlot* customPlot = ui->widgetPlot;
+    customPlot->clearPlottables();
 
     const int SHIFT = 20;
 
@@ -244,7 +241,6 @@ void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_p
     customPlot->yAxis->setLabel("y");
 
     customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
-
     customPlot->rescaleAxes();
     customPlot->replot();
 }
@@ -268,7 +264,6 @@ void MainWindow::drawEllipses(QCustomPlot* customPlot, QPen pen, SecondOrderCurv
         }
         parEllipse->data()->set(dataEllipse, true);
         parEllipse->setPen(pen);
-
         levelLines.push_back(parEllipse);
     }
     curve.set_a0(a0);
