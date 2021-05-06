@@ -1,49 +1,8 @@
-/***************************************************************************
-**                                                                        **
-**  QCustomPlot, an easy to use, modern plotting widget for Qt            **
-**  Copyright (C) 2011-2021 Emanuel Eichhammer                            **
-**                                                                        **
-**  This program is free software: you can redistribute it and/or modify  **
-**  it under the terms of the GNU General Public License as published by  **
-**  the Free Software Foundation, either version 3 of the License, or     **
-**  (at your option) any later version.                                   **
-**                                                                        **
-**  This program is distributed in the hope that it will be useful,       **
-**  but WITHOUT ANY WARRANTY; without even the implied warranty of        **
-**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         **
-**  GNU General Public License for more details.                          **
-**                                                                        **
-**  You should have received a copy of the GNU General Public License     **
-**  along with this program.  If not, see http://www.gnu.org/licenses/.   **
-**                                                                        **
-****************************************************************************
-**           Author: Emanuel Eichhammer                                   **
-**  Website/Contact: http://www.QCustomPlot.com/                          **
-**             Date: 29.03.21                                             **
-**          Version: 2.1.0                                                **
-****************************************************************************/
-
-/************************************************************************************************************
-**                                                                                                         **
-**  This is the example code for QCustomPlot.                                                              **
-**                                                                                                         **
-**  It demonstrates basic and some advanced capabilities of the widget. The interesting code is inside     **
-**  the "setup(...)Demo" functions of MainWindow.                                                          **
-**                                                                                                         **
-**  In order to see a demo in action, call the respective "setup(...)Demo" function inside the             **
-**  MainWindow constructor. Alternatively you may call setupDemo(i) where i is the index of the demo       **
-**  you want (for those, see MainWindow constructor comments). All other functions here are merely a       **
-**  way to easily create screenshots of all demos for the website. I.e. a timer is set to successively     **
-**  setup all the demos and make a screenshot of the window area and save it in the ./screenshots          **
-**  directory.                                                                                             **
-**                                                                                                         **
-*************************************************************************************************************/
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#  include <QDesktopWidget>
+#include <QDesktopWidget>
 #endif
 #include <QScreen>
 #include <QMessageBox>
@@ -63,42 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
   setChecked(ui->checkBoxX1AxisName);
   setChecked(ui->checkBoxX2Axis);
   setChecked(ui->checkBoxX2AxisName);
-}
-
-void MainWindow::setupEllipseData(QCustomPlot *customPlot) {
-
-    // QuadraticForm form(64, 126, 64, -10, 30, 13);
-
-    double x_first = 17.459755513012528;
-    double y_first = 18.075788301505654;
-    // double c_first = form.evaluate(x_first, y_first);
-
-    double x_min = -2.3999995381227683;
-    double y_min =  -0.20000054552562138;
-    // double c_min = form.evaluate(x_min, y_min);
-
-
-
-    // RotatableEllipse* ellipse = new RotatableEllipse(customPlot, 60);
-    QCPItemEllipse* ellipse = new QCPItemEllipse(customPlot);
-
-    ellipse->topLeft->setCoords(0, 2);
-    ellipse->bottomRight->setCoords(1, 1);
-
-    QCPAxisRect* axisRect = new QCPAxisRect(customPlot);
-    axisRect->addAxis(QCPAxis::atLeft, customPlot->xAxis);
-    axisRect->addAxis(QCPAxis::atBottom, customPlot->yAxis);
-
-    ellipse->setClipToAxisRect(true);
-    ellipse->setClipToAxisRect(axisRect);
-
-    customPlot->xAxis2->setVisible(false);
-    customPlot->yAxis2->setVisible(false);
-
-    customPlot->xAxis->setRange(-4, 1);
-    customPlot->yAxis->setRange(-4, 1);
-
-    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 }
 
 void MainWindow::stackedWidgetGoToPlot() {
@@ -126,7 +49,7 @@ void MainWindow::stackedWidgetGoToPlot() {
 
     ui->labelError->setText("");
 
-    std::string program = "java -jar /Users/aleksandrslastin/Desktop/Studying/Optimization/Lab2/artifacts/Lab2.jar";
+    std::string program = "java -jar ..\\artifacts\\Lab2.jar";
     program += " " + std::to_string(funcType);
     program += " " + std::to_string(method2Type);
     program += " " + std::to_string(x);
@@ -163,26 +86,23 @@ void MainWindow::stackedWidgetGoToStart() {
 }
 
 void MainWindow::comboBoxTestChosen(int index) {
-    std::unique_ptr<SecondOrderCurve> pcurve;
+    std::ifstream in("./gui_logs.txt");
     QPen pen;
+    SecondOrderCurve pcurve;
     if (index == 0) {
-        pcurve = std::make_unique<SecondOrderCurve>(2, 0, 3, 0, 0, 0);
+        pcurve = SecondOrderCurve(2, 0, 3, 0, 0, 0);
         pen = QPen(Qt::blue);
     } else if (index == 1) {
-        pcurve = std::make_unique<SecondOrderCurve>(1, 0, 2000, 2, 10, 0);
+        pcurve = SecondOrderCurve(1, 0, 2000, 2, 10, 0);
         pen = QPen(Qt::red);
     } else {
-        pcurve = std::make_unique<SecondOrderCurve>(64, 126, 64, -10, 30, 13);
+        pcurve = SecondOrderCurve(64, 126, 64, -10, 30, 13);
         pen = QPen(Qt::darkGreen);
     }
-
-    std::unique_ptr<std::ifstream> in = std::unique_ptr<std::ifstream>(new std::ifstream("./gui_logs.txt"));
     drawMethod(in, pcurve, pen);
 }
 
-void MainWindow::drawMethod(std::unique_ptr<std::ifstream>& input, std::unique_ptr<SecondOrderCurve>& pcurve, QPen pen) {
-    SecondOrderCurve& curve = *pcurve.get();
-    std::ifstream& in = *input.get();
+void MainWindow::drawMethod(std::ifstream& in, SecondOrderCurve& curve, QPen pen) {
     std::string delimiter = ",";
     std::vector<std::string> tokens;
     std::string str;

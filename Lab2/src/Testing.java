@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 public class Testing {
     private static final double EPS = 1e-2;
+    private static final double ALPHA = 1000;
     public static final QuadraticFunction FUNCTION_1 = new QuadraticFunction(
             new DiagonalMatrix(
                     new double[]{4, 6}),
@@ -50,7 +51,7 @@ public class Testing {
     );
     public static final List<QuadraticMethod> QUADRATIC_METHODS = List.of(
             new GradientDescent(),
-            new SteepestDescent(new GoldenRatioMethod()),
+            new SteepestDescent(new GoldenRatioMethod(), ALPHA),
             new ConjugateGradients()
     );
     public static final List<Method> LINEAR_METHODS = List.of(
@@ -107,7 +108,7 @@ public class Testing {
             LINEAR_METHODS.stream()
                     .collect(Collectors.toMap(
                             m -> m.getClass().getSimpleName(),
-                            m -> randomVectorTest(new SteepestDescent(m), FUNCTION_3)))
+                            m -> randomVectorTest(new SteepestDescent(m, ALPHA), FUNCTION_3)))
                     .forEach((key, value) -> {
                         writer.print(key);
                         writer.print(',');
@@ -126,7 +127,7 @@ public class Testing {
                 m -> functionMap.forEach(
                         (key, value) -> runIterations(
                                 m,
-                                FUNCTIONS_MIN.get(key).plus(generateVector(2, 0.1)),
+                                FUNCTIONS_MIN.get(key).plus(generateVector(2, 0.001)),
                                 "task2_function" + (key + 1) + "_" + m.getClass().getSimpleName(),
                                 value)));
     }
@@ -168,7 +169,7 @@ public class Testing {
                 Files.createDirectory(Path.of("logs"));
             }
             task1();
-            //task2();
+            task2();
             //task3();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
