@@ -30,7 +30,7 @@ public class Testing {
             0);
     public static final QuadraticFunction FUNCTION_2 = new QuadraticFunction(
             new DiagonalMatrix(
-                    new double[]{2, 4000}),
+                    new double[]{2, 100}),
             new Vector(new double[]{2, 10}),
             0);
     public static final QuadraticFunction FUNCTION_3 = new QuadraticFunction(

@@ -94,7 +94,7 @@ void MainWindow::comboBoxTestChosen(int index) {
         pcurve = SecondOrderCurve(2, 0, 3, 0, 0, 0);
         pen = QPen(Qt::blue);
     } else if (index == 1) {
-        pcurve = SecondOrderCurve(1, 0, 2000, 2, 10, 0);
+        pcurve = SecondOrderCurve(1, 0, 100, 2, 10, 0);
         pen = QPen(Qt::red);
     } else {
         pcurve = SecondOrderCurve(64, 126, 64, -10, 30, 13);
