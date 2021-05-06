@@ -154,6 +154,7 @@ void MainWindow::stackedWidgetGoToStart() {
     ui->checkBoxX1AxisName->setCheckState(Qt::Checked);
     ui->checkBoxX2Axis->setCheckState(Qt::Checked);
     ui->checkBoxX2AxisName->setCheckState(Qt::Checked);
+    ui->pushButtonSettings->setVisible(false);
     ui->stackedWidget->setCurrentIndex(0);
     ui->widgetPlot->clearItems();
     ui->widgetPlot->clearGraphs();
