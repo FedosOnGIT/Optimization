@@ -88,8 +88,12 @@ private:
   size_t const ELLIPSES_CNT = 20;
 
   std::string const PATH_JAR =
+        #ifdef _WIN32
+          "..\\artifacts\\Lab2.jar";
+        #else
           "/Users/aleksandrslastin/Desktop/Studying/Optimization/Lab2/artifacts/Lab2.jar";
-          // "..\\artifacts\\Lab2.jar";
+        #endif
+
 
 private:
   Ui::MainWindow* ui;
