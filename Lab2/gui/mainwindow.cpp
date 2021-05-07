@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+  ui->labelAlpha->setVisible(false);
+  ui->lineEditAlpha->setVisible(false);
   ui->labelChoose1DFunc->setVisible(false);
   ui->comboBoxChoose1DMethod->setVisible(false);
   ui->scrollArea->setVisible(false);
@@ -63,42 +65,6 @@ MainWindow::MainWindow(QWidget *parent) :
   setChecked(ui->checkBoxX1AxisName);
   setChecked(ui->checkBoxX2Axis);
   setChecked(ui->checkBoxX2AxisName);
-}
-
-void MainWindow::setupEllipseData(QCustomPlot *customPlot) {
-
-    // QuadraticForm form(64, 126, 64, -10, 30, 13);
-
-    double x_first = 17.459755513012528;
-    double y_first = 18.075788301505654;
-    // double c_first = form.evaluate(x_first, y_first);
-
-    double x_min = -2.3999995381227683;
-    double y_min =  -0.20000054552562138;
-    // double c_min = form.evaluate(x_min, y_min);
-
-
-
-    // RotatableEllipse* ellipse = new RotatableEllipse(customPlot, 60);
-    QCPItemEllipse* ellipse = new QCPItemEllipse(customPlot);
-
-    ellipse->topLeft->setCoords(0, 2);
-    ellipse->bottomRight->setCoords(1, 1);
-
-    QCPAxisRect* axisRect = new QCPAxisRect(customPlot);
-    axisRect->addAxis(QCPAxis::atLeft, customPlot->xAxis);
-    axisRect->addAxis(QCPAxis::atBottom, customPlot->yAxis);
-
-    ellipse->setClipToAxisRect(true);
-    ellipse->setClipToAxisRect(axisRect);
-
-    customPlot->xAxis2->setVisible(false);
-    customPlot->yAxis2->setVisible(false);
-
-    customPlot->xAxis->setRange(-4, 1);
-    customPlot->yAxis->setRange(-4, 1);
-
-    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
 }
 
 void MainWindow::stackedWidgetGoToPlot() {
@@ -123,6 +89,14 @@ void MainWindow::stackedWidgetGoToPlot() {
         ui->labelError->setText("Invalid eps: eps must be >= 0");
         return;
     }
+    double alpha;
+    if (ui->lineEditAlpha->isVisible()) {
+        alpha = ui->lineEditAlpha->text().toDouble(&ok);
+        if (!ok || alpha <= 0) {
+            ui->labelError->setText("Invalid alpha: alpha must be > 0");
+            return;
+        }
+    }
 
     ui->labelError->setText("");
 
@@ -135,6 +109,9 @@ void MainWindow::stackedWidgetGoToPlot() {
     if (method2Type == 1) {
         program += " " + std::to_string(method1Type);
     }
+//    if (ui->lineEditAlpha->isVisible()) {
+//        program += " " + std::to_string(alpha);
+//    }
 
     int returnCode = system(program.data());
     if (returnCode != 0) {
@@ -154,7 +131,6 @@ void MainWindow::stackedWidgetGoToStart() {
     ui->checkBoxX1AxisName->setCheckState(Qt::Checked);
     ui->checkBoxX2Axis->setCheckState(Qt::Checked);
     ui->checkBoxX2AxisName->setCheckState(Qt::Checked);
-    ui->pushButtonSettings->setVisible(false);
     ui->stackedWidget->setCurrentIndex(0);
     ui->widgetPlot->clearItems();
     ui->widgetPlot->clearGraphs();
@@ -344,6 +320,8 @@ void MainWindow::comboBoxChoose2DMethodActivated(int type) {
     method2Type = type;
     ui->labelChoose1DFunc->setVisible(type == 1);
     ui->comboBoxChoose1DMethod->setVisible(type == 1);
+    ui->labelAlpha->setVisible(type == 1);
+    ui->lineEditAlpha->setVisible(type == 1);
 }
 
 void MainWindow::comboBoxChoose1DMethodActivated(int index) {
