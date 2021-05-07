@@ -96,6 +96,7 @@ void MainWindow::stackedWidgetGoToStart() {
     levelLinesDelta.clear();
     levelLinesIterations.clear();
     methodIterations.clear();
+    isDelta = true;
 
     ui->stackedWidget->setCurrentIndex(0);
 }
