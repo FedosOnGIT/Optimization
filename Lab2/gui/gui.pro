@@ -1,6 +1,3 @@
-#
-#  QCustomPlot widgetPlot Examples
-#
 
 QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
@@ -12,15 +9,17 @@ TARGET = gui
 TEMPLATE = app
 
 SOURCES += main.cpp\
+           MainWindow.cpp \
            SecondOrderCurve.cpp \
-           mainwindow.cpp \
            qcustomplot.cpp
 
-HEADERS += mainwindow.h \
+HEADERS += \
+           MainWindow.h \
            SecondOrderCurve.h \
            qcustomplot.h
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    MainWindow.ui
 
 RESOURCES += \
     resources.qrc
