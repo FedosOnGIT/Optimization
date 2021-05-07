@@ -16,7 +16,7 @@ public class DichotMethod implements Method {
                                       double start, double end,
                                       final double epsilon) {
         LinearMethodResult result = new LinearMethodResult(function);
-        double delta = Math.min(this.delta, epsilon / 2);
+        double delta = Math.min(this.delta, epsilon / 10);
         while (end - start > 2 * epsilon) {
             double alpha1 = (end + start - delta) / 2;
             double alpha2 = (end + start + delta) / 2;

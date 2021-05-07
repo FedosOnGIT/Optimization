@@ -49,15 +49,15 @@ public class Testing {
             new Vector(new double[]{-1., -0.0025}),
             new Vector(new double[]{1265./127, -1275./127})
     );
+    public static final List<Method> LINEAR_METHODS = List.of(
+            new DichotMethod(EPS/10),
+            new GoldenRatioMethod(),
+            new BrentMethod());
     public static final List<QuadraticMethod> QUADRATIC_METHODS = List.of(
             new GradientDescent(),
             new SteepestDescent(new GoldenRatioMethod(), ALPHA),
             new ConjugateGradients()
     );
-    public static final List<Method> LINEAR_METHODS = List.of(
-            new DichotMethod(EPS/10),
-            new GoldenRatioMethod(),
-            new BrentMethod());
 
 
     static QuadraticFunction generateFunction(int dimension, double condition) {
