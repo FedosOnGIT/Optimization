@@ -4,6 +4,7 @@
 #include <QtMath>
 
 struct SecondOrderCurve {
+    SecondOrderCurve() = default;
     SecondOrderCurve(double a11, double a12, double a22, double a1, double a2, double a0);
 
     double evaluate(double x, double y);

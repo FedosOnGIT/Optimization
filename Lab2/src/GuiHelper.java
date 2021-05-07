@@ -28,7 +28,7 @@ public class GuiHelper {
      * Логи итераций будут записаны в файл .\gui_logs.txt
      */
     public static void main(String[] args) throws IOException {
-        if (args == null || args.length != 5 && args.length != 6)
+        if (args == null || args.length != 5 && args.length != 7)
             throw new IllegalArgumentException("Illegal arguments count");
 
         int funcId = Integer.parseInt(args[0]);
@@ -44,12 +44,14 @@ public class GuiHelper {
         QuadraticFunction function = Testing.FUNCTIONS.get(funcId);
         QuadraticMethod method;
         if (methodId == 1) {
-            if (args.length != 6) {
+            if (args.length != 7) {
                 throw new IllegalArgumentException("Linear Method number is absent");
             }
             int linearMethodId = Integer.parseInt(args[5]);
+            double alpha = Double.parseDouble(args[6]);
+            assert(alpha > 0);
             sizeAssert(linearMethodId, Testing.LINEAR_METHODS.size(), "Linear Method number");
-            method = new SteepestDescent(Testing.LINEAR_METHODS.get(linearMethodId));
+            method = new SteepestDescent(Testing.LINEAR_METHODS.get(linearMethodId), alpha);
         } else {
             if (args.length != 5) {
                 throw new IllegalArgumentException("Used Quadratic Method not use Linear Methods");
