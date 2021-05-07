@@ -13,7 +13,7 @@ public class BrentMethod implements Method {
         double x = start + Factor * (end - start), w = x, v = x;
         double fx = function.apply(x), fw = fx, fv = fx, parabolaMin = 0;
         double d = end - start, e = d, g;
-        while (Math.abs(x - (start + end) / 2 + (start - end) / 2) >= 2 * epsilon) {
+        while (Math.abs(x - (start + end) / 2 + (end - start) / 2) >= 2 * epsilon) {
             result.add(x);
             g = e;
             e = d;
