@@ -46,7 +46,7 @@ public class Testing {
     );
     public static final List<Vector> FUNCTIONS_MIN = List.of(
             new Vector(new double[]{.0, .0}),
-            new Vector(new double[]{-1., -0.0025}),
+            new Vector(new double[]{-1., -0.1}),
             new Vector(new double[]{1265./127, -1275./127})
     );
     public static final List<Method> LINEAR_METHODS = List.of(
@@ -85,7 +85,7 @@ public class Testing {
     private static double randomVectorTest(final QuadraticMethod method, final QuadraticFunction func) {
         return Stream
                 .generate(() -> generateVector(2, 20))
-                .limit(100)
+                .limit(1000)
                 .map(v -> method.minimum(func, v, EPS))
                 .collect(Collectors.averagingInt(MethodResult::iterations));
     }
@@ -169,7 +169,7 @@ public class Testing {
                 Files.createDirectory(Path.of("logs"));
             }
             task1();
-            task2();
+            //task2();
             //task3();
         } catch (IOException e) {
             System.err.println("Can't create logs folder");
