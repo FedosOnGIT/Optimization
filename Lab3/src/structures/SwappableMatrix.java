@@ -1,3 +1,5 @@
+package structures;
+
 import java.util.stream.IntStream;
 
 /**
@@ -15,6 +17,16 @@ class SwappableMatrix implements Matrix {
     @Override
     public double get(int i, int j) {
         return original.get(permutation[i], j);
+    }
+
+    @Override
+    public Vector getRow(int index) {
+        return null;
+    }
+
+    @Override
+    public Vector getColumn(int index) {
+        return null;
     }
 
     @Override
