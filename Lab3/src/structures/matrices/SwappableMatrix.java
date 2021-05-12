@@ -1,11 +1,9 @@
-package structures;
+package structures.matrices;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
-/**
- * @author Vladislav Gusev (vladislav.sg@yandex.ru)
- */
-class SwappableMatrix extends AbstractMatrix {
+class SwappableMatrix implements Matrix {
     private final Matrix original;
     private final int[] permutation;
 
@@ -20,11 +18,16 @@ class SwappableMatrix extends AbstractMatrix {
     }
 
     @Override
+    public void set(int i, int j, double value) {
+        original.set(permutation[i], j, value);
+    }
+
+    @Override
     public int size() {
         return original.size();
     }
 
-    public void swapLines(int i, int j) {
+    public void swapRows(int i, int j) {
         permutation[i] ^= permutation[j];
         permutation[j] ^= permutation[i];
         permutation[i] ^= permutation[j];

@@ -1,10 +1,10 @@
-package structures;
+package structures.matrices;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class ProfileMatrix extends AbstractMatrix {
+public class ProfileMatrix implements Matrix {
     private final double[] diagonal;
     private final List<Double> down;
     private final List<Double> up;
@@ -12,11 +12,11 @@ public class ProfileMatrix extends AbstractMatrix {
     private final int[] indexDown;
     private final int size;
 
-    private void downProfile(final double[]... values) {
+    private void downProfile(double[]... values) {
 
     }
 
-    ProfileMatrix(final double[]... values) {
+    ProfileMatrix(double[]... values) {
         assert values.length > 0;
         this.size = values.length;
         for (double[] array : values) {
@@ -35,7 +35,7 @@ public class ProfileMatrix extends AbstractMatrix {
         fill(up, indexUp, true, values);
     }
 
-    private void fill(final List<Double> triangle, final int[] positions, final boolean up, final double[]... values) {
+    private void fill(List<Double> triangle, int[] positions, boolean up, double[]... values) {
         positions[0] = 1;
         for (int i = 0; i < size; i++) {
             int profile = i;
@@ -60,25 +60,30 @@ public class ProfileMatrix extends AbstractMatrix {
     }
 
     @Override
-    public double get(final int row, final int column) {
-        if (row == column) {
-            return diagonal[row];
+    public double get(int i, int j) {
+        if (i == j) {
+            return diagonal[i];
         }
-        if (column < row) {
-            int profile = indexDown[row + 1] - indexDown[row];
-            if (row - profile > column) {
+        if (j < i) {
+            int profile = indexDown[i + 1] - indexDown[i];
+            if (i - profile > j) {
                 return 0;
             } else {
-                return down.get(indexDown[row] + column + profile - row);
+                return down.get(indexDown[i] + j + profile - i);
             }
         } else {
-            int profile = indexUp[column + 1] - indexUp[column];
-            if (column - profile > row) {
+            int profile = indexUp[j + 1] - indexUp[j];
+            if (j - profile > i) {
                 return 0;
             } else {
-                return up.get(indexUp[column] + row + profile - column);
+                return up.get(indexUp[j] + i + profile - j);
             }
         }
+    }
+
+    @Override
+    public void set(int i, int j, double value) {
+
     }
 
     @Override
