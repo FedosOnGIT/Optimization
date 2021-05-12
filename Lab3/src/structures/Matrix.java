@@ -1,11 +1,11 @@
 package structures;
 
 public interface Matrix {
-    double get(int row, int column);
+    double get(final int row, final int column);
 
-    Vector getRow(int index);
+    Vector getRow(final int index);
 
-    Vector getColumn(int index);
+    Vector getColumn(final int index);
 
     int size();
 }
