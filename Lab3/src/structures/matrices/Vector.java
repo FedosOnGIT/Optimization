@@ -61,4 +61,9 @@ public class Vector {
     public int size() {
         return size;
     }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(values);
+    }
 }

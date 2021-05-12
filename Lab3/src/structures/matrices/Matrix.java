@@ -1,11 +1,16 @@
 package structures.matrices;
 
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public interface Matrix {
     double get(int i, int j);
 
     void set(int i, int j, double value);
+
+    int size();
 
     default Vector getRow(int i) {
         return new Vector(IntStream.range(0, size()).mapToDouble(j -> get(i, j)).toArray());
@@ -31,5 +36,10 @@ public interface Matrix {
         }
     }
 
-    int size();
+    static String toString(Matrix matrix) {
+        return IntStream.range(0, matrix.size())
+                .mapToObj(matrix::getRow)
+                .map(Objects::toString)
+                .collect(Collectors.joining("\n"));
+    }
 }
