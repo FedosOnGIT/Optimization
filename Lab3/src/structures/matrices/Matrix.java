@@ -8,7 +8,7 @@ import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public abstract class Matrix<T extends Number> {
+public abstract class Matrix<T> {
     public abstract int size();
 
     public abstract int rowsCount();
@@ -68,9 +68,9 @@ public abstract class Matrix<T extends Number> {
                 .collect(Collectors.joining(", ", "[", "]"));
     }
 
-    public static <T extends Number> Vector<T> mul(Matrix<T> matrix, Vector<T> vector) {
+    public static <T> Vector<T> multiply(Matrix<T> matrix, Vector<T> vector) {
         assert matrix.columnsCount() == vector.size();
-        return new Vector<>(IntStream.range(0, matrix.rowsCount()).mapToObj(i -> matrix.getRow(i).scalar(vector)));
+        return new Vector<>(IntStream.range(0, matrix.rowsCount()).mapToObj(i -> new MatrixRow<>(matrix, i).scalar(vector)));
     }
 
 }

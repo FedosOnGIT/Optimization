@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Vector<T extends Number> extends Tuple<T> {
+public class Vector<T> extends Tuple<T> {
     private final List<Element<T>> elements;
 
     public Vector(List<Element<T>> elements) {
@@ -19,7 +19,7 @@ public class Vector<T extends Number> extends Tuple<T> {
     }
 
     public Vector(int size, Element<T> element) {
-        this(IntStream.range(0, size).mapToObj(i -> element.copy()));
+        this(IntStream.range(0, size).mapToObj(i -> element));
     }
 
     @Override

@@ -2,7 +2,7 @@ package structures.matrices;
 
 import structures.elements.Element;
 
-public class DenseMatrix<T extends Number> extends Matrix<T> {
+public class DenseMatrix<T> extends Matrix<T> {
     final int rows, columns;
     final Vector<T> vector;
 
@@ -11,6 +11,10 @@ public class DenseMatrix<T extends Number> extends Matrix<T> {
         this.rows = rows;
         this.columns = columns;
         this.vector = vector;
+    }
+
+    public DenseMatrix(int rows, int columns, Element<T> value) {
+        this(rows, columns, new Vector<T>(rows * columns, value));
     }
 
     @Override

@@ -5,7 +5,7 @@ import structures.elements.Element;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-class SwappableMatrix<T extends Number> extends Matrix<T> {
+public class SwappableMatrix<T> extends Matrix<T> {
     private final Matrix<T> original;
     private final int[] permutation;
 

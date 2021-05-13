@@ -5,11 +5,11 @@ import structures.elements.Element;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class MatrixVector<T extends Number> extends Tuple<T> {
+public abstract class MatrixVector<T> extends Tuple<T> {
     protected final Matrix<T> matrix;
     protected final int index;
 
-    MatrixVector(Matrix<T> matrix, int index) {
+    public MatrixVector(Matrix<T> matrix, int index) {
         this.matrix = matrix;
         this.index = index;
     }

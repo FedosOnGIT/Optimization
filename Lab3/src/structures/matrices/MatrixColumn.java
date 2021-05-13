@@ -2,8 +2,8 @@ package structures.matrices;
 
 import structures.elements.Element;
 
-public class MatrixColumn<T extends Number> extends MatrixVector<T> {
-    MatrixColumn(Matrix<T> matrix, int index) {
+public class MatrixColumn<T> extends MatrixVector<T> {
+    public MatrixColumn(Matrix<T> matrix, int index) {
         super(matrix, index);
     }
 
@@ -19,7 +19,7 @@ public class MatrixColumn<T extends Number> extends MatrixVector<T> {
 
     @Override
     public int size() {
-        return matrix.columnsCount();
+        return matrix.rowsCount();
     }
 
 }

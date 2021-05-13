@@ -2,7 +2,7 @@ package structures.matrices;
 
 import structures.elements.Element;
 
-public class SparseMatrix<T extends Number> extends Matrix<T> {
+public class SparseMatrix<T> extends Matrix<T> {
     @Override
     public int size() {
         return 0;
