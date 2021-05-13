@@ -1,10 +1,13 @@
 package structures.matrices;
 
+import structures.elements.Element;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class ProfileMatrix implements Matrix {
+public class ProfileMatrix<T extends Number> extends Matrix<T> {
+    /*
     private final double[] diagonal;
     private final List<Double> down;
     private final List<Double> up;
@@ -89,5 +92,31 @@ public class ProfileMatrix implements Matrix {
     @Override
     public int size() {
         return size;
+    }
+     */
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public int rowsCount() {
+        return 0;
+    }
+
+    @Override
+    public int columnsCount() {
+        return 0;
+    }
+
+    @Override
+    protected Element<T> getImpl(int i, int j) {
+        return null;
+    }
+
+    @Override
+    protected void setImpl(int i, int j, Element<T> value) {
+
     }
 }

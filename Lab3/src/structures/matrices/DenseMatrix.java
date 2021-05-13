@@ -1,34 +1,41 @@
 package structures.matrices;
 
-public class DenseMatrix implements Matrix {
-    final int rows, columns;
-    final double[] values;
+import structures.elements.Element;
 
-    public DenseMatrix(int rows, int columns, double... values) {
-        assert rows >= 1 && columns >= 1;
+public class DenseMatrix<T extends Number> extends Matrix<T> {
+    final int rows, columns;
+    final Vector<T> values;
+
+    public DenseMatrix(int rows, int columns, Vector<T> values) {
+        assert rows > 0 && columns > 0 && rows * columns == values.size();
         this.rows = rows;
         this.columns = columns;
         this.values = values;
     }
 
-    private void checkPos(int i, int j) {
-        assert i >= 0 && i < rows && j >= 0 && j < columns;
-    }
-
-    @Override
-    public double get(int i, int j) {
-        checkPos(i, j);
-        return values[i * columns + j];
-    }
-
-    @Override
-    public void set(int i, int j, double value) {
-        checkPos(i, j);
-        values[i * columns + j] = value;
-    }
-
     @Override
     public int size() {
-        return values.length;
+        return values.size();
     }
+
+    @Override
+    public int rowsCount() {
+        return rows;
+    }
+
+    @Override
+    public int columnsCount() {
+        return columns;
+    }
+
+    @Override
+    protected Element<T> getImpl(int i, int j) {
+        return values.get(i * columns + j);
+    }
+
+    @Override
+    protected void setImpl(int i, int j, Element<T> value) {
+        values.set(i * columns + j, value);
+    }
+
 }

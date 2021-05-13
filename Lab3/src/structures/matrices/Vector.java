@@ -1,69 +1,44 @@
 package structures.matrices;
 
+import structures.elements.Element;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Vector {
-    private double[] values;
-    private int size;
+public class Vector<T extends Number> extends Tuple<T> {
+    private final List<Element<T>> values;
 
-    private void init(double... values) {
+    public Vector(List<Element<T>> values) {
         this.values = values;
-        size = values.length;
     }
 
-    public Vector(double... values) {
-        init(values);
+    public Vector(int size, Element<T> value) {
+        values = IntStream.range(0, size).mapToObj(i -> value.copy()).collect(Collectors.toList());
     }
 
-    public Vector(int size) {
-        this(new double[size]);
+    @Override
+    public Element<T> get(int index) {
+        return values.get(index);
     }
 
-    public double get(int index) {
-        assert size > index && index >= 0;
-        return values[index];
+    @Override
+    public void set(int index, Element<T> value) {
+        values.set(index, value);
     }
 
-    public void set(int index, double value) {
-        assert size > index && index >= 0;
-        values[index] = value;
-    }
-
-    private Vector apply(IntFunction<Double> function) {
-        for (int i = 0; i < size; i++) {
-            values[i] = function.apply(i);
-        }
-        return this;
-    }
-
-    public Vector plus(Vector other) {
-        if (size > other.size) {
-            init(Arrays.copyOf(values, other.size));
-        }
-        return apply(i -> values[i] + other.values[i]);
-    }
-
-    public Vector multiply(double alpha) {
-        return apply(i -> values[i] * alpha);
-    }
-
-    public double norm() {
-        return Math.sqrt(IntStream.range(0, size).mapToDouble(i -> values[i] * values[i]).sum());
-    }
-
-    public Vector normalize() {
-        double norm = norm();
-        return apply(i -> values[i] / norm);
-    }
-
+    @Override
     public int size() {
-        return size;
+        return values.size();
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(values);
+        return values.toString();
     }
 }

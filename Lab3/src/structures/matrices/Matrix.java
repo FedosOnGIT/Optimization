@@ -1,45 +1,71 @@
 package structures.matrices;
 
-import java.util.Arrays;
+import structures.elements.Element;
+
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public interface Matrix {
-    double get(int i, int j);
+public abstract class Matrix<T extends Number> {
+    public abstract int size();
 
-    void set(int i, int j, double value);
+    public abstract int rowsCount();
 
-    int size();
+    public abstract int columnsCount();
 
-    default Vector getRow(int i) {
-        return new Vector(IntStream.range(0, size()).mapToDouble(j -> get(i, j)).toArray());
+    private void checkCell(int i, int j) {
+        assert i >= 0 && j >= 0 && i < rowsCount() && j < columnsCount();
     }
 
-    default void setRow(int i, Vector row) {
+    protected abstract Element<T> getImpl(int i, int j);
+
+    protected abstract void setImpl(int i, int j, Element<T> value);
+
+    public Element<T> get(int i, int j) {
+        checkCell(i, j);
+        return getImpl(i, j);
+    }
+
+    public void set(int i, int j, Element<T> value) {
+        checkCell(i, j);
+        setImpl(i, j, value);
+    }
+
+    private Vector<T> getVector(IntFunction<Element<T>> mapper) {
+        return new Vector<T>(IntStream.range(0, size()).mapToObj(mapper).collect(Collectors.toList()));
+    }
+
+    public Vector<T> getRow(int i) {
+        return getVector(j -> get(i, j));
+    }
+
+    public Vector<T> getColumn(int j) {
+        return getVector(i -> get(i, j));
+    }
+
+    private void setVector(Consumer<Integer> setter) {
         int size = size();
-        assert row.size() == size;
         for (int j = 0; j < size; j++) {
-            set(i, j, row.get(j));
+            setter.accept(j);
         }
     }
 
-    default Vector getColumn(int j) {
-        return new Vector(IntStream.range(0, size()).mapToDouble(i -> get(i, j)).toArray());
+    public void setRow(int i, Vector<T> row) {
+        setVector(j -> set(i, j, row.get(j)));
     }
 
-    default void setColumn(int j, Vector column) {
-        int size = size();
-        assert column.size() == size;
-        for (int i = 0; i < size; i++) {
-            set(i, j, column.get(i));
-        }
+    public void setColumn(int j, Vector<T> column) {
+        setVector(i -> set(i, j, column.get(i)));
     }
 
-    static String toString(Matrix matrix) {
-        return IntStream.range(0, matrix.size())
-                .mapToObj(matrix::getRow)
+    @Override
+    public String toString() {
+        return IntStream.range(0, size())
+                .mapToObj(this::getRow)
                 .map(Objects::toString)
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(", ", "[", "]"));
     }
+
 }
