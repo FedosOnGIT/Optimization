@@ -20,8 +20,8 @@ class SwappableMatrix<T extends Number> extends Matrix<T> {
     }
 
     @Override
-    protected void setImpl(int i, int j, Element<T> value) {
-        original.set(permutation[i], j, value);
+    protected void setImpl(int i, int j, Element<T> element) {
+        original.set(permutation[i], j, element);
     }
 
     @Override

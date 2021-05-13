@@ -15,26 +15,26 @@ public abstract class Matrix<T extends Number> {
 
     public abstract int columnsCount();
 
+    protected abstract Element<T> getImpl(int i, int j);
+
+    protected abstract void setImpl(int i, int j, Element<T> element);
+
     private void checkCell(int i, int j) {
         assert i >= 0 && j >= 0 && i < rowsCount() && j < columnsCount();
     }
-
-    protected abstract Element<T> getImpl(int i, int j);
-
-    protected abstract void setImpl(int i, int j, Element<T> value);
 
     public Element<T> get(int i, int j) {
         checkCell(i, j);
         return getImpl(i, j);
     }
 
-    public void set(int i, int j, Element<T> value) {
+    public void set(int i, int j, Element<T> element) {
         checkCell(i, j);
-        setImpl(i, j, value);
+        setImpl(i, j, element);
     }
 
     private Vector<T> getVector(IntFunction<Element<T>> mapper) {
-        return new Vector<T>(IntStream.range(0, size()).mapToObj(mapper).collect(Collectors.toList()));
+        return new Vector<>(IntStream.range(0, size()).mapToObj(mapper));
     }
 
     public Vector<T> getRow(int i) {
@@ -66,6 +66,11 @@ public abstract class Matrix<T extends Number> {
                 .mapToObj(this::getRow)
                 .map(Objects::toString)
                 .collect(Collectors.joining(", ", "[", "]"));
+    }
+
+    public static <T extends Number> Vector<T> mul(Matrix<T> matrix, Vector<T> vector) {
+        assert matrix.columnsCount() == vector.size();
+        return new Vector<>(IntStream.range(0, matrix.rowsCount()).mapToObj(i -> matrix.getRow(i).scalar(vector)));
     }
 
 }

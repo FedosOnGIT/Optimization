@@ -4,18 +4,18 @@ import structures.elements.Element;
 
 public class DenseMatrix<T extends Number> extends Matrix<T> {
     final int rows, columns;
-    final Vector<T> values;
+    final Vector<T> vector;
 
-    public DenseMatrix(int rows, int columns, Vector<T> values) {
-        assert rows > 0 && columns > 0 && rows * columns == values.size();
+    public DenseMatrix(int rows, int columns, Vector<T> vector) {
+        assert rows > 0 && columns > 0 && rows * columns == vector.size();
         this.rows = rows;
         this.columns = columns;
-        this.values = values;
+        this.vector = vector;
     }
 
     @Override
     public int size() {
-        return values.size();
+        return vector.size();
     }
 
     @Override
@@ -30,12 +30,12 @@ public class DenseMatrix<T extends Number> extends Matrix<T> {
 
     @Override
     protected Element<T> getImpl(int i, int j) {
-        return values.get(i * columns + j);
+        return vector.get(i * columns + j);
     }
 
     @Override
-    protected void setImpl(int i, int j, Element<T> value) {
-        values.set(i * columns + j, value);
+    protected void setImpl(int i, int j, Element<T> element) {
+        vector.set(i * columns + j, element);
     }
 
 }
