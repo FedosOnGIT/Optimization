@@ -63,6 +63,14 @@ public class DoubleElement extends Element<Double> {
     }
 
     @Override
+    protected Element<Double> minImpl(Element<Double> element) {
+        if (value >= element.get()) {
+            return element;
+        }
+        return this;
+    }
+
+    @Override
     public String toString() {
         return String.valueOf(value);
     }

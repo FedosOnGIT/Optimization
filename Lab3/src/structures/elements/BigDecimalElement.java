@@ -67,6 +67,14 @@ public class BigDecimalElement extends Element<BigDecimal> {
     }
 
     @Override
+    protected Element<BigDecimal> minImpl(Element<BigDecimal> element) {
+        if (value.compareTo(element.get()) >= 0) {
+            return element;
+        }
+        return this;
+    }
+
+    @Override
     public String toString() {
         return value.toString();
     }
