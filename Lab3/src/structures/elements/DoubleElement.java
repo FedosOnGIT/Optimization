@@ -1,25 +1,13 @@
 package structures.elements;
 
 public class DoubleElement extends Element<Double> {
-    private double value;
+    private final static DoubleElement ZERO = new DoubleElement(0d);
+    private final static DoubleElement ONE = new DoubleElement(1d);
 
-    DoubleElement(double value) {
+    private final Double value;
+
+    DoubleElement(Double value) {
         this.value = value;
-    }
-
-    @Override
-    public Element<Double> copy() {
-        return new DoubleElement(value);
-    }
-
-    @Override
-    public Element<Double> getZero() {
-        return new DoubleElement(0);
-    }
-
-    @Override
-    public Element<Double> getOne() {
-        return new DoubleElement(1);
     }
 
     @Override
@@ -28,51 +16,78 @@ public class DoubleElement extends Element<Double> {
     }
 
     @Override
-    public void set(Double value) {
-        this.value = value;
+    public Element<Double> getZero() {
+        return ZERO;
     }
 
     @Override
-    protected void divImpl(Double value) {
-        this.value /= value;
+    public Element<Double> getOne() {
+        return ONE;
     }
 
     @Override
-    protected void mulImpl(Double value) {
-        this.value *= value;
+    protected Element<Double> pack(Double value) {
+        return new DoubleElement(value);
     }
 
     @Override
-    protected void addImpl(Double value) {
-        this.value += value;
+    protected Double divideImpl(Double value) {
+        return this.value / value;
     }
 
     @Override
-    protected void subImpl(Double value) {
-        this.value -= value;
+    protected Double multiplyImpl(Double value) {
+        return this.value * value;
     }
 
     @Override
-    protected void sqrtImpl() {
-        value = Math.sqrt(value);
+    protected Double addImpl(Double value) {
+        return this.value + value;
     }
 
     @Override
-    protected void negateImpl() {
-        value = -value;
+    protected Double subtractImpl(Double value) {
+        return this.value - value;
     }
 
     @Override
-    protected Element<Double> minImpl(Element<Double> element) {
-        if (value >= element.get()) {
-            return element;
-        }
-        return this;
+    protected Double sqrtImpl() {
+        return Math.sqrt(value);
+    }
+
+    @Override
+    protected Double negateImpl() {
+        return -value;
+    }
+
+    @Override
+    protected Double minImpl(Double value) {
+        return Math.min(this.value, value);
+    }
+
+    @Override
+    protected Double maxImpl(Double value) {
+        return Math.max(this.value, value);
+    }
+
+    @Override
+    public int compareTo(Element<Double> o) {
+        return value.compareTo(o.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return value.equals(obj);
     }
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value.toString();
     }
 
 }

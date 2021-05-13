@@ -2,81 +2,71 @@ package structures.elements;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-public abstract class Element<T extends Number> {
+public abstract class Element<T> implements Comparable<Element<T>> {
     public abstract T get();
-
-    public abstract void set(T value);
-
-    public abstract Element<T> copy();
 
     public abstract Element<T> getZero();
 
     public abstract Element<T> getOne();
 
-    private Element<T> applyBinaryOperation(Consumer<T> operation, Element<T> element) {
-        operation.accept(element.get());
-        return this;
+    protected abstract Element<T> pack(T value);
+
+    protected abstract T divideImpl(T value);
+
+    protected abstract T multiplyImpl(T value);
+
+    protected abstract T addImpl(T value);
+
+    protected abstract T subtractImpl(T value);
+
+    protected abstract T sqrtImpl();
+
+    protected abstract T negateImpl();
+
+    protected abstract T minImpl(T value);
+
+    protected abstract T maxImpl(T value);
+
+    private Element<T> binaryOperation(Function<T, T> operation, Element<T> element) {
+        return pack(operation.apply(element.get()));
     }
 
-    private Element<T> applyUnaryOperation(Runnable operation) {
-        operation.run();
-        return this;
+    private Element<T> unaryOperation(Supplier<T> operation) {
+        return pack(operation.get());
     }
 
-    private Element<T> applyBinaryOperation(Function<Element<T>, Element<T>> operation, Element<T> element) {
-        return operation.apply(element);
+    public Element<T> divide(Element<T> element) {
+        return binaryOperation(this::divideImpl, element);
     }
 
-    protected abstract void divImpl(T value);
-
-    public Element<T> div(Element<T> element) {
-        return applyBinaryOperation(this::divImpl, element);
+    public Element<T> multiply(Element<T> element) {
+        return binaryOperation(this::multiplyImpl, element);
     }
-
-    protected abstract void mulImpl(T value);
-
-    public Element<T> mul(Element<T> element) {
-        return applyBinaryOperation(this::mulImpl, element);
-    }
-
-    protected abstract void addImpl(T value);
 
     public Element<T> add(Element<T> element) {
-        return applyBinaryOperation(this::addImpl, element);
+        return binaryOperation(this::addImpl, element);
     }
 
-    protected abstract void subImpl(T value);
-
-    public Element<T> sub(Element<T> element) {
-        return applyBinaryOperation(this::subImpl, element);
+    public Element<T> subtract(Element<T> element) {
+        return binaryOperation(this::subtractImpl, element);
     }
-
-    protected abstract void sqrtImpl();
 
     public Element<T> sqrt() {
-        return applyUnaryOperation(this::sqrtImpl);
+        return unaryOperation(this::sqrtImpl);
     }
-
-    protected abstract void negateImpl();
 
     public Element<T> negate() {
-        return applyUnaryOperation(this::negateImpl);
+        return unaryOperation(this::negateImpl);
     }
-
-    protected abstract Element<T> minImpl(Element<T> element);
 
     public Element<T> min(Element<T> element) {
-        return applyBinaryOperation(this::minImpl, element);
-    }
-
-    protected Element<T> maxImpl(Element<T> element) {
-        Element<T> result = min(element);
-        return result == this ? element : this;
+        return binaryOperation(this::minImpl, element);
     }
 
     public Element<T> max(Element<T> element) {
-        return applyBinaryOperation(this::maxImpl, element);
+        return binaryOperation(this::maxImpl, element);
     }
 
 }

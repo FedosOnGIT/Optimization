@@ -5,25 +5,13 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class BigDecimalElement extends Element<BigDecimal> {
-    private BigDecimal value;
+    private final static BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO);
+    private final static BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE);
 
-    BigDecimalElement(BigDecimal value) {
+    private final BigDecimal value;
+
+    public BigDecimalElement(BigDecimal value) {
         this.value = value;
-    }
-
-    @Override
-    public Element<BigDecimal> copy() {
-        return new BigDecimalElement(value);
-    }
-
-    @Override
-    public Element<BigDecimal> getZero() {
-        return new BigDecimalElement(BigDecimal.ZERO);
-    }
-
-    @Override
-    public Element<BigDecimal> getOne() {
-        return new BigDecimalElement(BigDecimal.ONE);
     }
 
     @Override
@@ -32,46 +20,73 @@ public class BigDecimalElement extends Element<BigDecimal> {
     }
 
     @Override
-    public void set(BigDecimal value) {
-        this.value = value;
+    public Element<BigDecimal> getZero() {
+        return ZERO;
     }
 
     @Override
-    protected void divImpl(BigDecimal value) {
-        this.value = value.divide(value, RoundingMode.HALF_UP);
+    public Element<BigDecimal> getOne() {
+        return ONE;
     }
 
     @Override
-    protected void mulImpl(BigDecimal value) {
-        this.value = value.multiply(value);
+    protected Element<BigDecimal> pack(BigDecimal value) {
+        return new BigDecimalElement(value);
     }
 
     @Override
-    protected void addImpl(BigDecimal value) {
-        this.value = value.add(value);
+    protected BigDecimal divideImpl(BigDecimal value) {
+        return this.value.divide(value, RoundingMode.HALF_UP);
     }
 
     @Override
-    protected void subImpl(BigDecimal value) {
-        this.value = value.subtract(value);
+    protected BigDecimal multiplyImpl(BigDecimal value) {
+        return this.value.multiply(value);
     }
 
     @Override
-    protected void sqrtImpl() {
-        value = value.sqrt(MathContext.UNLIMITED);
+    protected BigDecimal addImpl(BigDecimal value) {
+        return this.value.add(value);
     }
 
     @Override
-    protected void negateImpl() {
-        value = value.negate();
+    protected BigDecimal subtractImpl(BigDecimal value) {
+        return this.value.subtract(value);
     }
 
     @Override
-    protected Element<BigDecimal> minImpl(Element<BigDecimal> element) {
-        if (value.compareTo(element.get()) >= 0) {
-            return element;
-        }
-        return this;
+    protected BigDecimal sqrtImpl() {
+        return value.sqrt(MathContext.UNLIMITED);
+    }
+
+    @Override
+    protected BigDecimal negateImpl() {
+        return value.negate();
+    }
+
+    @Override
+    protected BigDecimal minImpl(BigDecimal value) {
+        return this.value.min(value);
+    }
+
+    @Override
+    protected BigDecimal maxImpl(BigDecimal value) {
+        return this.value.max(value);
+    }
+
+    @Override
+    public int compareTo(Element<BigDecimal> o) {
+        return value.compareTo(o.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return value.equals(obj);
     }
 
     @Override
