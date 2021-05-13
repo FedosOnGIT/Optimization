@@ -58,4 +58,5 @@ public abstract class Element<T extends Number> {
     public Element<T> negate() {
         return applyUnaryOperation(this::negateImpl);
     }
+
 }

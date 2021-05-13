@@ -41,4 +41,5 @@ public class Vector<T extends Number> extends Tuple<T> {
     public String toString() {
         return elements.toString();
     }
+
 }

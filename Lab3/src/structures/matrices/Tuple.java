@@ -8,7 +8,9 @@ import java.util.stream.IntStream;
 
 public abstract class Tuple<T extends Number> {
     public abstract Element<T> get(int index);
+
     public abstract void set(int index, Element<T> element);
+
     public abstract int size();
 
     private Tuple<T> apply(Consumer<Integer> operationByIndex) {
@@ -46,4 +48,5 @@ public abstract class Tuple<T extends Number> {
                 .mapToObj(i -> get(i).copy().mul(other.get(i)))
                 .reduce(get(0).getZero(), (a, b) -> a.copy().add(b));
     }
+
 }

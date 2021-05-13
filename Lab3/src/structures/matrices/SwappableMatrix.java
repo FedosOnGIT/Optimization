@@ -44,4 +44,5 @@ class SwappableMatrix<T extends Number> extends Matrix<T> {
         permutation[j] ^= permutation[i];
         permutation[i] ^= permutation[j];
     }
+
 }

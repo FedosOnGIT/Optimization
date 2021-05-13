@@ -66,4 +66,5 @@ public class DoubleElement extends Element<Double> {
     public String toString() {
         return String.valueOf(value);
     }
+
 }
