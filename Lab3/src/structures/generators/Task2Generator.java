@@ -5,12 +5,11 @@ import structures.matrices.DenseMatrix;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
 
-import java.util.Random;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Task2Generator<T extends Number> implements Generator<T> {
+public class Task2Generator<T extends Number> extends Generator<T> {
     final Supplier<Element<T>> supplier;
     final Element<T> zero, one;
 
@@ -20,8 +19,7 @@ public class Task2Generator<T extends Number> implements Generator<T> {
         this.one = one;
     }
 
-    @Override
-    public Matrix<T> generateMatrix(int n) {
+    private void generateMatrix(int n) {
         Vector<T> values = new Vector<T>(n * n, zero);
         for (int i = 0; i < values.size(); ++i) {
             values.set(i, supplier.get());
@@ -35,17 +33,19 @@ public class Task2Generator<T extends Number> implements Generator<T> {
             values.set(i * n + i, sum.negate());
         }
         values.get(0).add(one);
-        return new DenseMatrix<T>(n, n, values);
+        matrix = new DenseMatrix<T>(n, n, values);
     }
 
-    @Override
-    public Vector<T> generateVector(int n) {
-        return null;
-    }
-
-    @Override
-    public Vector<T> generateExactSolution(int n) {
+    private void generateExactSolution(int n) {
         Element<T> current = one.copy();
-        return new Vector<T>(IntStream.range(0, n).mapToObj(i -> current.add(one).copy()).collect(Collectors.toList()));
+        exactSolution = new Vector<T>(IntStream.range(0, n).mapToObj(i -> current.add(one).copy()));
     }
+
+    @Override
+    public void generate(int n) {
+        generateMatrix(n);
+        generateExactSolution(n);
+        exactSolution = Matrix.mul(matrix, exactSolution);
+    }
+
 }
