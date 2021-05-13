@@ -3,11 +3,16 @@ package structures.generators;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
 
-public abstract class Generator<T extends Number> {
+public abstract class Generator<T> {
     protected Matrix<T> matrix;
     protected Vector<T> vector, exactSolution;
 
-    public abstract void generate(int n);
+    protected abstract void generateImpl(int n);
+
+    public void generate(int n) {
+        assert n > 0;
+        generateImpl(n);
+    }
 
     public void reset() {
         matrix = null;

@@ -6,10 +6,9 @@ import structures.matrices.Matrix;
 import structures.matrices.Vector;
 
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Task2Generator<T extends Number> extends Generator<T> {
+public class Task2Generator<T> extends Generator<T> {
     final Supplier<Element<T>> supplier;
     final Element<T> zero, one;
 
@@ -19,33 +18,38 @@ public class Task2Generator<T extends Number> extends Generator<T> {
         this.one = one;
     }
 
-    private void generateMatrix(int n) {
-        Vector<T> values = new Vector<T>(n * n, zero);
-        for (int i = 0; i < values.size(); ++i) {
-            values.set(i, supplier.get());
+    protected void generateMatrix(int n) {
+        matrix = new DenseMatrix<>(n, n, zero);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix.set(i, j, supplier.get());
+            }
         }
         for (int i = 0; i < n; i++) {
-            Element<T> sum = zero.copy();
+            Element<T> sum = zero;
             for (int j = 0; j < n; j++) {
                 if (j == i) continue;
-                sum.add(values.get(i * n + j));
+                sum = sum.add(matrix.get(i, j));
             }
-            values.set(i * n + i, sum.negate());
+            matrix.set(i, i, sum.negate());
         }
-        values.get(0).add(one);
-        matrix = new DenseMatrix<T>(n, n, values);
+        matrix.set(0, 0, matrix.get(0, 0).add(one));
     }
 
     private void generateExactSolution(int n) {
-        Element<T> current = one.copy();
-        exactSolution = new Vector<T>(IntStream.range(0, n).mapToObj(i -> current.add(one).copy()));
+        Element<T> current = zero;
+        exactSolution = new Vector<>(n, zero);
+        for (int i = 0; i < n; i++) {
+            current = current.add(one);
+            exactSolution.set(i, current);
+        }
     }
 
     @Override
-    public void generate(int n) {
+    protected void generateImpl(int n) {
         generateMatrix(n);
         generateExactSolution(n);
-        exactSolution = Matrix.mul(matrix, exactSolution);
+        exactSolution = Matrix.multiply(matrix, exactSolution);
     }
 
 }
