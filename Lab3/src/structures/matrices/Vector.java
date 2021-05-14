@@ -11,6 +11,7 @@ public class Vector<T> extends Tuple<T> {
     private final List<Element<T>> elements;
 
     public Vector(List<Element<T>> elements) {
+        assert elements.size() > 0;
         this.elements = elements;
     }
 

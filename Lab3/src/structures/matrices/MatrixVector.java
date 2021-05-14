@@ -14,13 +14,13 @@ public abstract class MatrixVector<T> extends Tuple<T> {
         this.index = index;
     }
 
-    private void checkPos(int index) {
-        assert index >= 0 && index < size();
-    }
-
     protected abstract Element<T> getImpl(int index);
 
     protected abstract void setImpl(int index, Element<T> element);
+
+    private void checkPos(int index) {
+        assert index >= 0 && index < size();
+    }
 
     public Element<T> get(int index) {
         checkPos(index);

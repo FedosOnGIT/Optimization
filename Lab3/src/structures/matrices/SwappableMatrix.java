@@ -45,4 +45,8 @@ public class SwappableMatrix<T> extends Matrix<T> {
         permutation[i] ^= permutation[j];
     }
 
+    public int[] getPermutation() {
+        return permutation;
+    }
+
 }

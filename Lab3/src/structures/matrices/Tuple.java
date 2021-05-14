@@ -13,6 +13,20 @@ public abstract class Tuple<T> {
 
     public abstract int size();
 
+    public void swap(int i, int j) {
+        Element<T> first = get(i);
+        set(i, get(j));
+        set(j, first);
+    }
+
+    public Element<T> getZero() {
+        return get(0).getZero();
+    }
+
+    public Element<T> getOne() {
+        return get(0).getOne();
+    }
+
     private Tuple<T> apply(Function<Integer, Element<T>> operationByIndex) {
         int size = size();
         for (int i = 0; i < size; i++) {
@@ -26,14 +40,14 @@ public abstract class Tuple<T> {
         return apply(i -> get(i).add(other.get(i)));
     }
 
-    public Tuple<T> mul(Element<T> alpha) {
+    public Tuple<T> multiply(Element<T> alpha) {
         return apply(i -> get(i).multiply(alpha));
     }
 
     public Element<T> norm() {
         return IntStream.range(0, size())
                 .mapToObj(i -> get(i).multiply(get(i)))
-                .reduce(get(0).getZero(), Element::add)
+                .reduce(getZero(), Element::add)
                 .sqrt();
     }
 
@@ -46,7 +60,7 @@ public abstract class Tuple<T> {
         assert size() == other.size();
         return IntStream.range(0, size())
                 .mapToObj(i -> get(i).multiply(other.get(i)))
-                .reduce(get(0).getZero(), Element::add);
+                .reduce(getZero(), Element::add);
     }
 
 }

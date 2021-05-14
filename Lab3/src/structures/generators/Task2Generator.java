@@ -33,7 +33,6 @@ public class Task2Generator<T> extends Generator<T> {
             }
             matrix.set(i, i, sum.negate());
         }
-        matrix.set(0, 0, matrix.get(0, 0).add(one));
     }
 
     private void generateExactSolution(int n) {
@@ -49,7 +48,7 @@ public class Task2Generator<T> extends Generator<T> {
     protected void generateImpl(int n) {
         generateMatrix(n);
         generateExactSolution(n);
-        exactSolution = Matrix.multiply(matrix, exactSolution);
+        vector = Matrix.multiply(matrix, exactSolution);
     }
 
 }

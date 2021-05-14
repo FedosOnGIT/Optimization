@@ -1,12 +1,14 @@
 package structures.elements;
 
 public class DoubleElement extends Element<Double> {
+    private final static double EPS = 1e-14;
+
     private final static DoubleElement ZERO = new DoubleElement(0d);
     private final static DoubleElement ONE = new DoubleElement(1d);
 
     private final Double value;
 
-    DoubleElement(Double value) {
+    public DoubleElement(Double value) {
         this.value = value;
     }
 
@@ -72,6 +74,9 @@ public class DoubleElement extends Element<Double> {
 
     @Override
     public int compareTo(Element<Double> o) {
+        if (Math.abs(value - o.get()) < EPS) {
+            return 0;
+        }
         return value.compareTo(o.get());
     }
 
