@@ -1,33 +1,38 @@
 package structures.matrices;
 
-import structures.elements.Element;
-
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
-public abstract class Tuple<T> {
-    public abstract Element<T> get(int index);
+public abstract class Tuple {
+    public abstract Tuple copy();
 
-    public abstract void set(int index, Element<T> element);
+    protected abstract double getImpl(int index);
+
+    protected abstract void setImpl(int index, double value);
 
     public abstract int size();
 
+    private void checkIndex(int index) {
+        assert index >= 0 && index < size();
+    }
+
+    public double get(int index) {
+        checkIndex(index);
+        return getImpl(index);
+    }
+
+    public void set(int index, double value) {
+        checkIndex(index);
+        setImpl(index, value);
+    }
+
     public void swap(int i, int j) {
-        Element<T> first = get(i);
+        double tmp = get(i);
         set(i, get(j));
-        set(j, first);
+        set(j, tmp);
     }
 
-    public Element<T> getZero() {
-        return get(0).getZero();
-    }
-
-    public Element<T> getOne() {
-        return get(0).getOne();
-    }
-
-    private Tuple<T> apply(Function<Integer, Element<T>> operationByIndex) {
+    private Tuple apply(Function<Integer, Double> operationByIndex) {
         int size = size();
         for (int i = 0; i < size; i++) {
             set(i, operationByIndex.apply(i));
@@ -35,32 +40,26 @@ public abstract class Tuple<T> {
         return this;
     }
 
-    public Tuple<T> add(Tuple<T> other) {
+    public Tuple add(Tuple other) {
         assert size() == other.size();
-        return apply(i -> get(i).add(other.get(i)));
+        return apply(i -> get(i) + other.get(i));
     }
 
-    public Tuple<T> multiply(Element<T> alpha) {
-        return apply(i -> get(i).multiply(alpha));
+    public Tuple multiply(double alpha) {
+        return apply(i -> get(i) * alpha);
     }
 
-    public Element<T> norm() {
-        return IntStream.range(0, size())
-                .mapToObj(i -> get(i).multiply(get(i)))
-                .reduce(getZero(), Element::add)
-                .sqrt();
+    public double norm() {
+        return Math.sqrt(IntStream.range(0, size()).mapToObj(i -> get(i) * get(i)).reduce(0d, Double::sum));
     }
 
-    public Tuple<T> normalize() {
-        Element<T> norm = norm();
-        return apply(i -> get(i).divide(norm));
+    public Tuple normalize() {
+        double norm = norm();
+        return apply(i -> get(i) / norm);
     }
 
-    public Element<T> scalar(Tuple<T> other) {
+    public double scalar(Tuple other) {
         assert size() == other.size();
-        return IntStream.range(0, size())
-                .mapToObj(i -> get(i).multiply(other.get(i)))
-                .reduce(getZero(), Element::add);
+        return IntStream.range(0, size()).mapToObj(i -> get(i) * other.get(i)).reduce(0d, Double::sum);
     }
-
 }

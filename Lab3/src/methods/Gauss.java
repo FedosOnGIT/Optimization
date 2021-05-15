@@ -1,25 +1,25 @@
 package methods;
 
-import structures.elements.Element;
+import statistics.Statistics;
 import structures.matrices.*;
 
-import javax.xml.stream.events.EndElement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.IntStream;
-
 public class Gauss extends Method {
-    public <T> Vector<T> evaluate(Matrix<T> matrix, Vector<T> vector) {
-        checkInput(matrix, vector);
-        SwappableMatrix<T> m = new SwappableMatrix<>(matrix);
-        int n = m.rowsCount();
-        Element<T> zero = vector.getZero();
-        forwardStroke(m, vector, n, zero);
-        return reverseStroke(m, vector, n, zero);
+    public Gauss() {
+        super(new Statistics());
     }
 
-    private <T> void checkInput(Matrix<T> matrix, Vector<T> vector) {
+    @Override
+    public Vector evaluate(Matrix matrix, Vector vector) {
+        checkInput(matrix, vector);
+        SwappableMatrix m = new SwappableMatrix(matrix.copy());
+        int n = m.rowsCount();
+        stat.reset();
+        stat.withN(n).withIterations(0L);
+        forwardStroke(m, vector, n);
+        return reverseStroke(m, vector, n);
+    }
+
+    private void checkInput(Matrix matrix, Vector vector) {
         if (matrix.rowsCount() != matrix.columnsCount()) {
             throw new IllegalArgumentException("Gauss works only for square matrices");
         }
@@ -28,15 +28,15 @@ public class Gauss extends Method {
         }
     }
 
-    private <T> void forwardStroke(SwappableMatrix<T> m, Vector<T> v, int n, Element<T> zero) {
+    private void forwardStroke(SwappableMatrix m, Vector v, int n) {
         for (int i = 0; i < n - 1; i++) {
             // Модификация метода Гаусса: делим на наибольший элемент в текущем столбце
-            MatrixColumn<T> column = new MatrixColumn<>(m, i);
-            Element<T> max = column.get(i);
+            MatrixColumn column = new MatrixColumn(m, i);
+            double max = column.get(i);
             int index = i;
             for (int j = i + 1; j < n; j++) {
-                Element<T> value = column.get(j);
-                if (max.compareTo(value) < 0) {
+                double value = column.get(j);
+                if (max < value) {
                     max = value;
                     index = j;
                 }
@@ -44,40 +44,42 @@ public class Gauss extends Method {
             m.swapRows(i, index);
             v.swap(i, index);
 
-            if (max.compareTo(zero) == 0) {
+            if (isZero(max)) {
                 throw new IllegalArgumentException("det(matrix) = 0");
             }
 
-            Element<T> b = v.get(i);
+            double b = v.get(i);
             for (int j = i + 1; j < n; j++) {
-                Element<T> t = m.get(j, i).divide(max);
-                v.set(j, v.get(j).subtract(t.multiply(b)));
+                double t = m.get(j, i) / max;
+                v.set(j, v.get(j) - t * b);
                 for (int k = i + 1; k < n; k++) {
-                    m.set(j, k, m.get(j, k).subtract(t.multiply(m.get(i, k))));
+                    m.set(j, k, m.get(j, k) - t * m.get(i, k));
                 }
+                stat.setIterations(stat.getIterations() + n - i + 1);
             }
         }
     }
 
-    private <T> Vector<T> reverseStroke(SwappableMatrix<T> m, Vector<T> v, int n, Element<T> zero) {
-        List<Element<T>> mixedSolution = new ArrayList<>(Collections.nCopies(n, null));
+    private Vector reverseStroke(SwappableMatrix m, Vector v, int n) {
+        double[] mixedSolution = new double[n];
 
-        mixedSolution.set(n - 1, v.get(n - 1).divide(m.get(n - 1, n - 1)));
+        mixedSolution[n - 1] =  v.get(n - 1) / m.get(n - 1, n - 1);
+        stat.incIterations();
         for (int i = n - 2; i >= 0; i--) {
-            Element<T> sum = zero;
+            double sum = 0;
             for (int j = i + 1; j < n; j++) {
-                sum = sum.add(m.get(i, j).multiply(mixedSolution.get(j)));
+                sum += m.get(i, j) * mixedSolution[j];
             }
-            mixedSolution.set(i, (v.get(i).subtract(sum)).divide(m.get(i, i)));
+            mixedSolution[i] = (v.get(i) - sum) / m.get(i, i);
+            stat.setIterations(stat.getIterations() + n - i);
         }
 
         // Переставляем элементы ответа в нужном порядке
-        List<Element<T>> solution = new ArrayList<>(Collections.nCopies(n, null));
         int[] permutation = m.getPermutation();
+        double[] solution = new double[n];
         for (int i = 0; i < n; i++) {
-            solution.set(permutation[i], mixedSolution.get(i));
+            solution[permutation[i]] = mixedSolution[i];
         }
-        return new Vector<>(solution);
+        return new Vector(solution);
     }
-
 }

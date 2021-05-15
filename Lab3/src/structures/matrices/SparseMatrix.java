@@ -1,11 +1,19 @@
 package structures.matrices;
 
-import structures.elements.Element;
-
-public class SparseMatrix<T> extends Matrix<T> {
+public class SparseMatrix extends Matrix {
     @Override
-    public int size() {
+    public SparseMatrix copy() {
+        return null;
+    }
+
+    @Override
+    protected double getImpl(int i, int j) {
         return 0;
+    }
+
+    @Override
+    protected void setImpl(int i, int j, double value) {
+
     }
 
     @Override
@@ -19,13 +27,7 @@ public class SparseMatrix<T> extends Matrix<T> {
     }
 
     @Override
-    protected Element<T> getImpl(int i, int j) {
-        return null;
+    public int size() {
+        return 0;
     }
-
-    @Override
-    protected void setImpl(int i, int j, Element<T> element) {
-
-    }
-
 }

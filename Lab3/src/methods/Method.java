@@ -1,10 +1,25 @@
 package methods;
 
-import structures.elements.Element;
+import statistics.Statistics;
 import structures.matrices.Matrix;
-import structures.matrices.SwappableMatrix;
 import structures.matrices.Vector;
 
 public abstract class Method {
-    public abstract <T> Vector<T> evaluate(Matrix<T> matrix, Vector<T> vector);
+    private final static double EPS = 1e-14;
+
+    protected final Statistics stat;
+
+    public Method(Statistics stat) {
+        this.stat = stat;
+    }
+
+    public abstract Vector evaluate(Matrix matrix, Vector vector);
+
+    protected boolean isZero(double value) {
+        return Math.abs(value) < EPS;
+    }
+
+    public Statistics getStat() {
+        return stat;
+    }
 }

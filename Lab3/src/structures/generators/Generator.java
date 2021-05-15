@@ -3,33 +3,14 @@ package structures.generators;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
 
-public abstract class Generator<T> {
-    protected Matrix<T> matrix;
-    protected Vector<T> vector, exactSolution;
+public interface Generator {
+    void generate(int n);
 
-    protected abstract void generateImpl(int n);
+    void reset();
 
-    public void generate(int n) {
-        assert n > 0;
-        generateImpl(n);
-    }
+    Matrix getGeneratedMatrix();
 
-    public void reset() {
-        matrix = null;
-        vector = null;
-        exactSolution = null;
-    }
+    Vector getGeneratedVector();
 
-    public Matrix<T> getGeneratedMatrix() {
-        return matrix;
-    }
-
-    public Vector<T> getGeneratedVector() {
-        return vector;
-    }
-
-    public Vector<T> getGeneratedExactSolution() {
-        return exactSolution;
-    }
-
+    Vector getGeneratedExactSolution();
 }

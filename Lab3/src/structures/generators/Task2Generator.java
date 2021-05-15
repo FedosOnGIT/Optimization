@@ -1,54 +1,25 @@
 package structures.generators;
 
-import structures.elements.Element;
-import structures.matrices.DenseMatrix;
-import structures.matrices.Matrix;
-import structures.matrices.Vector;
+import java.util.Random;
 
-import java.util.function.Supplier;
-import java.util.stream.IntStream;
-
-public class Task2Generator<T> extends Generator<T> {
-    final Supplier<Element<T>> supplier;
-    final Element<T> zero, one;
-
-    public Task2Generator(Supplier<Element<T>> supplier, Element<T> zero, Element<T> one) {
-        this.supplier = supplier;
-        this.zero = zero;
-        this.one = one;
-    }
-
-    protected void generateMatrix(int n) {
-        matrix = new DenseMatrix<>(n, n, zero);
+public class Task2Generator extends AbstractGenerator {
+    @Override
+    protected double[][] generateMatrix(int n, double[][] matrix) {
+        Random randomizer = new Random();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                matrix.set(i, j, supplier.get());
+                matrix[i][j] = -randomizer.nextInt(5);
             }
         }
         for (int i = 0; i < n; i++) {
-            Element<T> sum = zero;
+            double sum = 0;
             for (int j = 0; j < n; j++) {
                 if (j == i) continue;
-                sum = sum.add(matrix.get(i, j));
+                sum += matrix[i][j];
             }
-            matrix.set(i, i, sum.negate());
+            matrix[i][i] = -sum;
         }
+        matrix[0][0] += 1;
+        return matrix;
     }
-
-    private void generateExactSolution(int n) {
-        Element<T> current = zero;
-        exactSolution = new Vector<>(n, zero);
-        for (int i = 0; i < n; i++) {
-            current = current.add(one);
-            exactSolution.set(i, current);
-        }
-    }
-
-    @Override
-    protected void generateImpl(int n) {
-        generateMatrix(n);
-        generateExactSolution(n);
-        vector = Matrix.multiply(matrix, exactSolution);
-    }
-
 }

@@ -1,47 +1,47 @@
 package structures.matrices;
 
-import structures.elements.Element;
-
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public abstract class Matrix<T> {
-    public abstract int size();
+public abstract class Matrix {
+    public abstract Matrix copy();
+
+    protected abstract double getImpl(int i, int j);
+
+    protected abstract void setImpl(int i, int j, double value);
 
     public abstract int rowsCount();
 
     public abstract int columnsCount();
 
-    protected abstract Element<T> getImpl(int i, int j);
-
-    protected abstract void setImpl(int i, int j, Element<T> element);
+    public abstract int size();
 
     private void checkCell(int i, int j) {
         assert i >= 0 && j >= 0 && i < rowsCount() && j < columnsCount();
     }
 
-    public Element<T> get(int i, int j) {
+    public double get(int i, int j) {
         checkCell(i, j);
         return getImpl(i, j);
     }
 
-    public void set(int i, int j, Element<T> element) {
+    public void set(int i, int j, double value) {
         checkCell(i, j);
-        setImpl(i, j, element);
+        setImpl(i, j, value);
     }
 
-    private Vector<T> getVector(IntFunction<Element<T>> mapper) {
-        return new Vector<>(IntStream.range(0, size()).mapToObj(mapper));
+    private Vector getVector(IntFunction<Double> mapper) {
+        return new Vector(IntStream.range(0, size()).mapToObj(mapper));
     }
 
-    public Vector<T> getRow(int i) {
+    public Vector getRow(int i) {
         return getVector(j -> get(i, j));
     }
 
-    public Vector<T> getColumn(int j) {
+    public Vector getColumn(int j) {
         return getVector(i -> get(i, j));
     }
 
@@ -52,11 +52,11 @@ public abstract class Matrix<T> {
         }
     }
 
-    public void setRow(int i, Vector<T> row) {
+    public void setRow(int i, Vector row) {
         setVector(j -> set(i, j, row.get(j)));
     }
 
-    public void setColumn(int j, Vector<T> column) {
+    public void setColumn(int j, Vector column) {
         setVector(i -> set(i, j, column.get(i)));
     }
 
@@ -68,9 +68,8 @@ public abstract class Matrix<T> {
                 .collect(Collectors.joining(", ", "[", "]"));
     }
 
-    public static <T> Vector<T> multiply(Matrix<T> matrix, Vector<T> vector) {
+    public static Vector multiply(Matrix matrix, Vector vector) {
         assert matrix.columnsCount() == vector.size();
-        return new Vector<>(IntStream.range(0, matrix.rowsCount()).mapToObj(i -> new MatrixRow<>(matrix, i).scalar(vector)));
+        return new Vector(IntStream.range(0, matrix.rowsCount()).mapToObj(i -> new MatrixRow(matrix, i).scalar(vector)));
     }
-
 }

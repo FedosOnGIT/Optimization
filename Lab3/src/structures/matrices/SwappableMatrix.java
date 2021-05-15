@@ -1,27 +1,35 @@
 package structures.matrices;
 
-import structures.elements.Element;
-
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class SwappableMatrix<T> extends Matrix<T> {
-    private final Matrix<T> original;
+public class SwappableMatrix extends Matrix {
+    private final Matrix original;
     private final int[] permutation;
 
-    public SwappableMatrix(Matrix<T> original) {
+    public SwappableMatrix(Matrix original) {
         this.original = original;
         permutation = IntStream.range(0, original.size()).toArray();
     }
 
+    private SwappableMatrix(Matrix original, int[] permutation) {
+        this.original = original;
+        this.permutation = permutation;
+    }
+
     @Override
-    protected Element<T> getImpl(int i, int j) {
+    public SwappableMatrix copy() {
+        return new SwappableMatrix(original.copy(), Arrays.copyOf(permutation, permutation.length));
+    }
+
+    @Override
+    protected double getImpl(int i, int j) {
         return original.get(permutation[i], j);
     }
 
     @Override
-    protected void setImpl(int i, int j, Element<T> element) {
-        original.set(permutation[i], j, element);
+    protected void setImpl(int i, int j, double value) {
+        original.set(permutation[i], j, value);
     }
 
     @Override
@@ -48,5 +56,4 @@ public class SwappableMatrix<T> extends Matrix<T> {
     public int[] getPermutation() {
         return permutation;
     }
-
 }

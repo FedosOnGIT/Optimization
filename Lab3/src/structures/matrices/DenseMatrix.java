@@ -1,25 +1,45 @@
 package structures.matrices;
 
-import structures.elements.Element;
+import java.util.Arrays;
 
-public class DenseMatrix<T> extends Matrix<T> {
+public class DenseMatrix extends Matrix {
     final int rows, columns;
-    final Vector<T> vector;
+    final double[][] values;
 
-    public DenseMatrix(int rows, int columns, Vector<T> vector) {
-        assert rows > 0 && columns > 0 && rows * columns == vector.size();
-        this.rows = rows;
-        this.columns = columns;
-        this.vector = vector;
+    public DenseMatrix(double[][] values) {
+        checkIsMatrix(values);
+        this.rows = values.length;
+        this.columns = values[0].length;
+        this.values = values;
     }
 
-    public DenseMatrix(int rows, int columns, Element<T> value) {
-        this(rows, columns, new Vector<T>(rows * columns, value));
+    private static void checkIsMatrix(double[][] values) {
+        assert values.length > 0;
+        int columns = values[0].length;
+        for (int i = 1; i < values.length; i++) {
+            assert columns == values[i].length;
+        }
     }
 
     @Override
-    public int size() {
-        return vector.size();
+    public DenseMatrix copy() {
+        double[][] values = new double[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            if (columns >= 0) {
+                System.arraycopy(this.values[i], 0, values[i], 0, columns);
+            }
+        }
+        return new DenseMatrix(values);
+    }
+
+    @Override
+    protected double getImpl(int i, int j) {
+        return values[i][j];
+    }
+
+    @Override
+    protected void setImpl(int i, int j, double value) {
+        values[i][j] = value;
     }
 
     @Override
@@ -33,13 +53,7 @@ public class DenseMatrix<T> extends Matrix<T> {
     }
 
     @Override
-    protected Element<T> getImpl(int i, int j) {
-        return vector.get(i * columns + j);
+    public int size() {
+        return values.length;
     }
-
-    @Override
-    protected void setImpl(int i, int j, Element<T> element) {
-        vector.set(i * columns + j, element);
-    }
-
 }

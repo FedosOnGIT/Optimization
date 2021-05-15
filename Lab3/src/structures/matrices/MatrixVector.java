@@ -1,37 +1,19 @@
 package structures.matrices;
 
-import structures.elements.Element;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
-public abstract class MatrixVector<T> extends Tuple<T> {
-    protected final Matrix<T> matrix;
+public abstract class MatrixVector extends Tuple {
+    protected final Matrix matrix;
     protected final int index;
 
-    public MatrixVector(Matrix<T> matrix, int index) {
+    public MatrixVector(Matrix matrix, int index) {
         this.matrix = matrix;
         this.index = index;
     }
 
-    protected abstract Element<T> getImpl(int index);
-
-    protected abstract void setImpl(int index, Element<T> element);
-
-    private void checkPos(int index) {
-        assert index >= 0 && index < size();
+    @Override
+    public Vector copy() {
+        return new Vector(IntStream.range(0, size()).mapToDouble(this::get).boxed());
     }
-
-    public Element<T> get(int index) {
-        checkPos(index);
-        return getImpl(index);
-    }
-
-    public void set(int index, Element<T> element) {
-        checkPos(index);
-        setImpl(index, element);
-    }
-
-    public abstract int size();
-
 }

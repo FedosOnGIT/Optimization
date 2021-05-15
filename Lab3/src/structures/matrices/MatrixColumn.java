@@ -1,25 +1,22 @@
 package structures.matrices;
 
-import structures.elements.Element;
-
-public class MatrixColumn<T> extends MatrixVector<T> {
-    public MatrixColumn(Matrix<T> matrix, int index) {
+public class MatrixColumn extends MatrixVector {
+    public MatrixColumn(Matrix matrix, int index) {
         super(matrix, index);
     }
 
     @Override
-    protected Element<T> getImpl(int index) {
+    protected double getImpl(int index) {
         return matrix.get(index, this.index);
     }
 
     @Override
-    protected void setImpl(int index, Element<T> element) {
-        matrix.setImpl(index, this.index, element);
+    protected void setImpl(int index, double value) {
+        matrix.setImpl(index, this.index, value);
     }
 
     @Override
     public int size() {
         return matrix.rowsCount();
     }
-
 }
