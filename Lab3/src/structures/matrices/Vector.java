@@ -11,18 +11,18 @@ public class Vector extends Tuple {
         this.values = values;
     }
 
-    public Vector(int size) {
+    public Vector(final int size) {
         this(new double[size]);
     }
 
-    public Vector(Double... values) {
+    public Vector(final Double... values) {
         this.values = new double[values.length];
         for (int i = 0; i < values.length; i++) {
             this.values[i] = values[i];
         }
     }
 
-    public Vector(Stream<Double> values) {
+    public Vector(final Stream<Double> values) {
         this(values.toArray(Double[]::new));
     }
 
@@ -32,12 +32,12 @@ public class Vector extends Tuple {
     }
 
     @Override
-    protected double getImpl(int index) {
+    protected double getImpl(final int index) {
         return values[index];
     }
 
     @Override
-    protected void setImpl(int index, double value) {
+    protected void setImpl(final int index, final double value) {
         values[index] = value;
     }
 

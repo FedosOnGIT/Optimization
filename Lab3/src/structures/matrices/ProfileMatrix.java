@@ -1,6 +1,8 @@
 package structures.matrices;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -12,11 +14,7 @@ public class ProfileMatrix extends Matrix {
     private final int[] indexDown;
     private final int size;
 
-    private void downProfile(double[]... values) {
-
-    }
-
-    ProfileMatrix(double[]... values) {
+    public ProfileMatrix(final double[]... values) {
         assert values.length > 0;
         this.size = values.length;
         for (double[] array : values) {
@@ -28,14 +26,19 @@ public class ProfileMatrix extends Matrix {
         // Down triangle.
         down = new ArrayList<>();
         indexDown = new int[size + 1];
-        fill(down, indexDown, true, values);
+        fill(down, indexDown, size, false, values);
         // Up triangle.
         up = new ArrayList<>();
         indexUp = new int[size + 1];
-        fill(up, indexUp, true, values);
+        fill(up, indexUp, size,true, values);
     }
 
-    private void fill(List<Double> triangle, int[] positions, boolean up, double[]... values) {
+    public static void fill(
+            final List<Double> triangle,
+            final int[] positions,
+            final int size,
+            final boolean up,
+            final double[]... values) {
         positions[0] = 1;
         for (int i = 0; i < size; i++) {
             int profile = i;
@@ -87,18 +90,35 @@ public class ProfileMatrix extends Matrix {
     }
 
     @Override
-    protected void setImpl(int i, int j, double value) {
-
+    protected void setImpl(final int i, final int j, final double value) {
+        if (i == j) {
+            diagonal[i] = value;
+        }
+        if (j < i) {
+            int profile = indexDown[i + 1] - indexDown[i];
+            if (i - profile > j) {
+                throw new IllegalArgumentException("Out of range!");
+            } else {
+                down.set(indexDown[i] + j + profile - i, value);
+            }
+        } else {
+            int profile = indexUp[j + 1] - indexUp[j];
+            if (j - profile > i) {
+                throw new IllegalArgumentException("Out of range!");
+            } else {
+                up.set(indexUp[j] + i + profile - j, value);
+            }
+        }
     }
 
     @Override
     public int rowsCount() {
-        return 0;
+        return size;
     }
 
     @Override
     public int columnsCount() {
-        return 0;
+        return size;
     }
 
     @Override
