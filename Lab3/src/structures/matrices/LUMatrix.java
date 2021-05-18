@@ -10,15 +10,13 @@ public class LUMatrix {
     private final Statistics statistics;
     private final int size;
 
-    private double[][] getMatrix() {
-        return (double[][]) Collections.nCopies(size, Collections.nCopies(size, 0).toArray()).toArray();
-    }
-
     public LUMatrix(final Matrix main, final Statistics statistics) {
-        this.statistics = new Statistics();
-        statistics.setN(size = main.size());
-        double[][] LMatrix = getMatrix();
-        double[][] UMatrix = getMatrix();
+        size = main.size();
+        double[][] LMatrix = IntStream.range(0, size).mapToObj(i -> new double[size]).toArray(double[][]::new);
+        double[][] UMatrix = IntStream.range(0, size).mapToObj(i -> new double[size]).toArray(double[][]::new);
+        statistics.setN(size);
+        statistics.setIterations(0L);
+        this.statistics = statistics;
         count(LMatrix, UMatrix, main);
         // Left.
         L = new ProfileMatrix(LMatrix);
@@ -33,7 +31,7 @@ public class LUMatrix {
             if (LMatrix[i - 1][i - 1] == 0) {
                 throw new IllegalArgumentException("Minor is zero!");
             }
-            for (int j = 0; j < i - 1; j++) {
+            for (int j = 0; j < i; j++) {
                 LMatrix[i][j] = main.get(i, j);
                 for (int k = 0; k < j; k++) {
                     LMatrix[i][j] -= LMatrix[i][k] * UMatrix[k][j];
@@ -47,6 +45,12 @@ public class LUMatrix {
                 UMatrix[j][i] /= LMatrix[j][j];
                 statistics.incIterations();
             }
+            LMatrix[i][i] = main.get(i, i);
+            for (int j = 0; j < i; j++) {
+                LMatrix[i][i] -= LMatrix[i][j] * UMatrix[j][i];
+                statistics.incIterations();
+            }
+            UMatrix[i][i] = 1;
         }
     }
 
@@ -54,8 +58,8 @@ public class LUMatrix {
         assert result.size() == size;
         for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
-                if (L.get(i, j) != 0) {
-                    double coefficient = L.get(i, j) / L.get(i, i);
+                if (L.get(j, i) != 0) {
+                    double coefficient = L.get(j, i) / L.get(i, i);
                     statistics.incIterations();
                     result.set(j, result.get(j) - result.get(i) * coefficient);
                     statistics.incIterations();
@@ -75,8 +79,8 @@ public class LUMatrix {
         assert result.size() == size;
         for (int i = size - 1; i > 0; i--) {
             for (int j = i - 1; j >= 0; j--) {
-                if (U.get(i, j) != 0) {
-                    result.set(j, result.get(j) - result.get(i) * U.get(i, j));
+                if (U.get(j, i) != 0) {
+                    result.set(j, result.get(j) - result.get(i) * U.get(j, i));
                     statistics.incIterations();
                 }
             }

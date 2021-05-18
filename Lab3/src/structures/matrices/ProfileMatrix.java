@@ -26,17 +26,16 @@ public class ProfileMatrix extends Matrix {
         // Down triangle.
         down = new ArrayList<>();
         indexDown = new int[size + 1];
-        fill(down, indexDown, size, false, values);
+        fill(down, indexDown, false, values);
         // Up triangle.
         up = new ArrayList<>();
         indexUp = new int[size + 1];
-        fill(up, indexUp, size,true, values);
+        fill(up, indexUp, true, values);
     }
 
-    public static void fill(
+    public void fill(
             final List<Double> triangle,
             final int[] positions,
-            final int size,
             final boolean up,
             final double[]... values) {
         positions[0] = 1;
@@ -77,14 +76,14 @@ public class ProfileMatrix extends Matrix {
             if (i - profile > j) {
                 return 0;
             } else {
-                return down.get(indexDown[i] + j + profile - i);
+                return down.get(indexDown[i] + j + profile - i - 1);
             }
         } else {
             int profile = indexUp[j + 1] - indexUp[j];
             if (j - profile > i) {
                 return 0;
             } else {
-                return up.get(indexUp[j] + i + profile - j);
+                return up.get(indexUp[j] + i + profile - j - 1);
             }
         }
     }
@@ -99,14 +98,14 @@ public class ProfileMatrix extends Matrix {
             if (i - profile > j) {
                 throw new IllegalArgumentException("Out of range!");
             } else {
-                down.set(indexDown[i] + j + profile - i, value);
+                down.set(indexDown[i] + j + profile - i - 1, value);
             }
         } else {
             int profile = indexUp[j + 1] - indexUp[j];
             if (j - profile > i) {
                 throw new IllegalArgumentException("Out of range!");
             } else {
-                up.set(indexUp[j] + i + profile - j, value);
+                up.set(indexUp[j] + i + profile - j - 1, value);
             }
         }
     }
