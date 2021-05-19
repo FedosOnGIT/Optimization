@@ -47,7 +47,7 @@ public abstract class AbstractGenerator implements Generator {
             }
         }
         try (var writer = Files.newBufferedWriter(directory.resolve(exactSolutionFile))) {
-            exactSolution = new Vector(IntStream.rangeClosed(1, n).asDoubleStream().boxed());
+            exactSolution = new Vector(IntStream.rangeClosed(1, n).asDoubleStream());
             writer.write(exactSolution.toString());
             writer.write('\n');
         }
@@ -57,18 +57,17 @@ public abstract class AbstractGenerator implements Generator {
         }
     }
 
-    protected List<Diagonal> toDiag(double[][] matrix) {
+    protected List<Diagonal> toDiagonals(double[][] matrix) {
         List<List<Double>> res = new ArrayList<>(2 * n - 1);
         for (int i = 0; i < 2 * n - 1; i++) {
             res.add(new ArrayList<>());
         }
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int index = 0;
+                int index = n - 1;
                 if (i != j) {
-                    index = i > j ? -1 * (i - j) : j - i;
+                    index += i > j ? -1 * (i - j) : j - i;
                 }
-                index += n - 1;
                 res.get(index).add(matrix[i][j]);
             }
         }

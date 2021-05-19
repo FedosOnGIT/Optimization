@@ -1,7 +1,6 @@
 package structures.generators;
 
 import structures.matrices.Diagonal;
-import structures.matrices.ProfileMatrix;
 
 import java.util.List;
 
@@ -18,6 +17,6 @@ public class GilbertGenerator extends AbstractGenerator {
                 matrix[i][j] = 1d / (i + j + 1);
             }
         }
-        return toDiag(matrix);
+        return toDiagonals(matrix);
     }
 }

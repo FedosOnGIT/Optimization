@@ -1,16 +1,13 @@
 package structures.generators;
 
 import structures.matrices.Diagonal;
-import structures.matrices.ProfileMatrix;
 import structures.matrices.Vector;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Task2Generator extends AbstractGenerator {
     private double value;
-    private List<Diagonal> m;
+    private List<Diagonal> diagonals;
 
     public Task2Generator(int n) {
         super(n);
@@ -19,7 +16,7 @@ public class Task2Generator extends AbstractGenerator {
 
     @Override
     protected List<Diagonal> generateDiagonals() {
-        if (m == null) {
+        if (diagonals == null) {
             double[][] matrix = new double[n][n];
             Random randomizer = new Random();
             for (int i = 0; i < n; i++) {
@@ -35,13 +32,11 @@ public class Task2Generator extends AbstractGenerator {
                 }
                 matrix[i][i] = -sum;
             }
-            m = toDiag(matrix);
+            diagonals = toDiagonals(matrix);
         }
-        Vector mainDiag = m.get(n - 1).getVector();
+        Vector mainDiag = diagonals.get(n - 1).getVector();
         mainDiag.set(0, mainDiag.get(0) + value);
         value = (-value + 0.1 * value);
-
-        return m;
+        return diagonals;
     }
-
 }
