@@ -39,12 +39,12 @@ public class Vector extends Tuple implements FileReadable {
     }
 
     @Override
-    protected double getImpl(int index) {
+    protected double getImpl(final int index) {
         return values[index];
     }
 
     @Override
-    protected void setImpl(int index, double value) {
+    protected void setImpl(final int index, final double value) {
         values[index] = value;
     }
 

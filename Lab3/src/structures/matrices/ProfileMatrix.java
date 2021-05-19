@@ -1,22 +1,20 @@
 package structures.matrices;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class ProfileMatrix extends Matrix {
-    private final double[] diagonal;
-    private final List<Double> down;
-    private final List<Double> up;
-    private final int[] indexUp;
-    private final int[] indexDown;
+    private final double[] Diagonal;
+    private final List<Double> Down;
+    private final List<Double> Up;
+    private final int[] IndexUp;
+    private final int[] IndexDown;
     private final int size;
 
-    private void downProfile(double[]... values) {
-
-    }
-
-    ProfileMatrix(double[]... values) {
+    public ProfileMatrix(final double[]... values) {
         assert values.length > 0;
         this.size = values.length;
         for (double[] array : values) {
@@ -24,25 +22,29 @@ public class ProfileMatrix extends Matrix {
                 throw new IllegalArgumentException("Not a Matrix!");
             }
         }
-        diagonal = IntStream.range(0, size).mapToDouble(i -> values[i][i]).toArray();
+        Diagonal = IntStream.range(0, size).mapToDouble(i -> values[i][i]).toArray();
         // Down triangle.
-        down = new ArrayList<>();
-        indexDown = new int[size + 1];
-        fill(down, indexDown, true, values);
+        Down = new ArrayList<>();
+        IndexDown = new int[size + 1];
+        fill(Down, IndexDown, false, values);
         // Up triangle.
-        up = new ArrayList<>();
-        indexUp = new int[size + 1];
-        fill(up, indexUp, true, values);
+        Up = new ArrayList<>();
+        IndexUp = new int[size + 1];
+        fill(Up, IndexUp, true, values);
     }
 
-    private void fill(List<Double> triangle, int[] positions, boolean up, double[]... values) {
+    public void fill(
+            final List<Double> triangle,
+            final int[] positions,
+            final boolean Up,
+            final double[]... values) {
         positions[0] = 1;
         for (int i = 0; i < size; i++) {
             int profile = i;
             int index = 0;
             while (index < i) {
-                int x = up ? index : i;
-                int y = up ? i : index;
+                int x = Up ? index : i;
+                int y = Up ? i : index;
                 if (values[x][y] == 0) {
                     index++;
                     profile--;
@@ -52,8 +54,8 @@ public class ProfileMatrix extends Matrix {
             }
             positions[i + 1] = positions[i] + profile;
             for (int j = index; j < i; j++) {
-                int x = up ? j : i;
-                int y = up ? i : j;
+                int x = Up ? j : i;
+                int y = Up ? i : j;
                 triangle.add(values[x][y]);
             }
         }
@@ -67,38 +69,58 @@ public class ProfileMatrix extends Matrix {
     @Override
     protected double getImpl(int i, int j) {
         if (i == j) {
-            return diagonal[i];
+            return Diagonal[i];
         }
         if (j < i) {
-            int profile = indexDown[i + 1] - indexDown[i];
-            if (i - profile > j) {
-                return 0;
-            } else {
-                return down.get(indexDown[i] + j + profile - i);
-            }
+            return realGet(i, j, IndexDown, Down);
         } else {
-            int profile = indexUp[j + 1] - indexUp[j];
-            if (j - profile > i) {
-                return 0;
-            } else {
-                return up.get(indexUp[j] + i + profile - j);
-            }
+            return realGet(j, i, IndexUp, Up);
+        }
+    }
+
+    private double realGet(final int x, final int y, final int[] positions, final List<Double> triangle) {
+        int profile = positions[x + 1] - positions[x];
+        if (x - profile > y) {
+            return 0;
+        } else {
+            return triangle.get(positions[x] + y + profile - x - 1);
         }
     }
 
     @Override
-    protected void setImpl(int i, int j, double value) {
+    protected void setImpl(final int i, final int j, final double value) {
+        if (i == j) {
+            Diagonal[i] = value;
+        }
+        if (j < i) {
+            realSet(i, j, IndexDown, Down, value);
+        } else {
+            realSet(j, i, IndexUp, Up, value);
+        }
+    }
 
+    private void realSet(
+            final int x,
+            final int y,
+            final int[] positions,
+            final List<Double> triangle,
+            final double value) {
+        int profile = positions[x + 1] - positions[x];
+        if (x - profile > y) {
+            throw new IllegalArgumentException("Out of range!");
+        } else {
+            triangle.set(positions[x] + y + profile - x - 1, value);
+        }
     }
 
     @Override
     public int rowsCount() {
-        return 0;
+        return size;
     }
 
     @Override
     public int columnsCount() {
-        return 0;
+        return size;
     }
 
     @Override

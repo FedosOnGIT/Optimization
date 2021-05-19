@@ -1,3 +1,4 @@
+import structures.Statistics;
 import structures.generators.Generator;
 import structures.generators.Task2Generator;
 import structures.generators.GilbertGenerator;

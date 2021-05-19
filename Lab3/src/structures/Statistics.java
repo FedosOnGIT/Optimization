@@ -1,3 +1,5 @@
+package structures;
+
 public class Statistics {
     private Integer n;
     private Integer k;
