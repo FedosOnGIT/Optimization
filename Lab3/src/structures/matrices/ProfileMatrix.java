@@ -1,12 +1,14 @@
 package structures.matrices;
 
+import structures.FileReadable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class ProfileMatrix extends Matrix {
+public class ProfileMatrix extends Matrix implements FileReadable {
     private final double[] Diagonal;
     private final List<Double> Down;
     private final List<Double> Up;

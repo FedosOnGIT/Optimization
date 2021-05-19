@@ -70,7 +70,7 @@ public class Gauss extends Method {
 
         // Переставляем элементы ответа в нужном порядке
         int[] permutation = m.getPermutation();
-        double[] solution = new double[n];
+        Double[] solution = new Double[n];
         for (int i = 0; i < n; i++) {
             solution[permutation[i]] = mixedSolution[i];
         }

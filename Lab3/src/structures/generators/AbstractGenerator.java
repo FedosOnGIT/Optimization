@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static structures.FileReadable.createDirectoryIfNotExists;
+import static launcher.Launcher.*;
 
 public abstract class AbstractGenerator implements Generator {
     private final String matrixFile, rhsFile, exactSolutionFile;
@@ -30,7 +31,7 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     public AbstractGenerator(int n) {
-        this(n, "matrix.txt", "rhs_vector.txt", "exact_solution.txt");
+        this(n, MATRIX_FILE, RHS_VECTOR_FILE, EXACT_SOLUTION_FILE);
     }
 
     @Override

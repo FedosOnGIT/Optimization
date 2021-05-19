@@ -1,11 +1,13 @@
 package structures.matrices;
 
+import structures.FileReadable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class SparseMatrix extends Matrix {
+public class SparseMatrix extends Matrix implements FileReadable {
     private final double[] Diagonal;
     private final List<Double> Triangle;
     private final int[] Indices;
@@ -32,8 +34,7 @@ public class SparseMatrix extends Matrix {
         }
     }
 
-    // TODO
-    public SparseMatrix(final List<Diagonal> diagonals) {
+    public SparseMatrix(List<Diagonal> diagonals) {
 
     }
 

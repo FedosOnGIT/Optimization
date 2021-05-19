@@ -45,6 +45,11 @@ public abstract class Tuple {
         return apply(i -> get(i) + other.get(i));
     }
 
+    public Tuple subtract(Tuple other) {
+        assert size() == other.size();
+        return apply(i -> get(i) - other.get(i));
+    }
+
     public Tuple multiply(double alpha) {
         return apply(i -> get(i) * alpha);
     }

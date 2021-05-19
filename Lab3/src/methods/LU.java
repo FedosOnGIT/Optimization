@@ -1,6 +1,5 @@
 package methods;
 
-import structures.Statistics;
 import structures.matrices.LUMatrix;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
