@@ -1,20 +1,14 @@
 package methods;
 
-import statistics.Statistics;
 import structures.matrices.*;
 
 public class Gauss extends Method {
-    public Gauss() {
-        super(new Statistics());
-    }
-
     @Override
     public Vector evaluate(Matrix matrix, Vector vector) {
         checkInput(matrix, vector);
         SwappableMatrix m = new SwappableMatrix(matrix.copy());
         int n = m.rowsCount();
-        stat.reset();
-        stat.withN(n).withIterations(0L);
+        iterations = 0;
         forwardStroke(m, vector, n);
         return reverseStroke(m, vector, n);
     }
@@ -55,7 +49,7 @@ public class Gauss extends Method {
                 for (int k = i + 1; k < n; k++) {
                     m.set(j, k, m.get(j, k) - t * m.get(i, k));
                 }
-                stat.setIterations(stat.getIterations() + n - i + 1);
+                iterations += n - i + 1;
             }
         }
     }
@@ -64,14 +58,14 @@ public class Gauss extends Method {
         double[] mixedSolution = new double[n];
 
         mixedSolution[n - 1] =  v.get(n - 1) / m.get(n - 1, n - 1);
-        stat.incIterations();
+        ++iterations;
         for (int i = n - 2; i >= 0; i--) {
             double sum = 0;
             for (int j = i + 1; j < n; j++) {
                 sum += m.get(i, j) * mixedSolution[j];
             }
             mixedSolution[i] = (v.get(i) - sum) / m.get(i, i);
-            stat.setIterations(stat.getIterations() + n - i);
+            iterations += n - i;
         }
 
         // Переставляем элементы ответа в нужном порядке

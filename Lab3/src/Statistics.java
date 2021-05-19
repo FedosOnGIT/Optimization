@@ -1,16 +1,18 @@
-package statistics;
-
 public class Statistics {
     private Integer n;
+    private Integer k;
     private Long iterations;
     private Double absoluteError;
     private Double ratioError;
+    private Double condA;
 
     public void reset() {
         n = null;
-        iterations = null;
+        k = null;
+        iterations = 0L;
         absoluteError = null;
         ratioError = null;
+        condA = null;
     }
 
     public Integer getN() {
@@ -23,6 +25,19 @@ public class Statistics {
 
     public Statistics withN(Integer n) {
         setN(n);
+        return this;
+    }
+
+    public Integer getK() {
+        return k;
+    }
+
+    public void setK(Integer k) {
+        this.k = k;
+    }
+
+    public Statistics withK(Integer k) {
+        setK(k);
         return this;
     }
 
@@ -40,7 +55,7 @@ public class Statistics {
     }
 
     public void incIterations() {
-        ++this.iterations;
+        ++iterations;
     }
 
     public Double getAbsoluteError() {
@@ -66,6 +81,19 @@ public class Statistics {
 
     public Statistics withRatioError(Double ratioError) {
         setRatioError(ratioError);
+        return this;
+    }
+
+    public Double getCondA() {
+        return condA;
+    }
+
+    public void setCondA(Double condA) {
+        this.condA = condA;
+    }
+
+    public Statistics withCondA(Double condA) {
+        setCondA(condA);
         return this;
     }
 }

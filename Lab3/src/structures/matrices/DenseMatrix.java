@@ -1,10 +1,14 @@
 package structures.matrices;
 
-import java.util.Arrays;
+import structures.FileReadable;
 
-public class DenseMatrix extends Matrix {
-    final int rows, columns;
-    final double[][] values;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class DenseMatrix extends Matrix implements FileReadable {
+    int rows, columns;
+    double[][] values;
 
     public DenseMatrix(double[][] values) {
         checkIsMatrix(values);
@@ -55,5 +59,28 @@ public class DenseMatrix extends Matrix {
     @Override
     public int size() {
         return values.length;
+    }
+
+    public DenseMatrix(Path source) throws IOException {
+        try (var reader = Files.newBufferedReader(source)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Diagonal diag = FileReadable.parseDiagonal(line);
+                int n = Math.abs(diag.getNumber()) + diag.getVector().size();
+                if (values == null) {
+                    rows = columns = n;
+                    values = new double[n][n];
+                }
+                int i = 0, j = 0, k = 0;
+                if (diag.getNumber() > 0) {
+                    j = diag.getNumber();
+                } else {
+                    i = -diag.getNumber();
+                }
+                while (i < n && j < n) {
+                    values[i++][j++] = diag.getVector().get(k++);
+                }
+            }
+        }
     }
 }

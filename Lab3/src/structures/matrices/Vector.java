@@ -1,29 +1,36 @@
 package structures.matrices;
 
+import structures.FileReadable;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
-public class Vector extends Tuple {
-    private final double[] values;
-
-    public Vector(double... values) {
-        assert values.length > 0;
-        this.values = values;
-    }
+public class Vector extends Tuple implements FileReadable {
+    private final Double[] values;
 
     public Vector(int size) {
-        this(new double[size]);
+        this(new Double[size]);
     }
 
     public Vector(Double... values) {
-        this.values = new double[values.length];
-        for (int i = 0; i < values.length; i++) {
-            this.values[i] = values[i];
-        }
+        this.values = values;
     }
 
     public Vector(Stream<Double> values) {
         this(values.toArray(Double[]::new));
+    }
+
+    public Vector(DoubleStream values) {
+        this(values.boxed());
+    }
+
+    public Vector(List<Double> values) {
+        this(values.stream());
     }
 
     @Override
@@ -49,5 +56,27 @@ public class Vector extends Tuple {
     @Override
     public String toString() {
         return Arrays.toString(values);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector vector = (Vector) o;
+        return Arrays.equals(values, vector.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(values);
+    }
+
+    public Vector(Path source) throws IOException {
+        try (var reader = Files.newBufferedReader(source)) {
+            values = Arrays.stream(reader.readLine().split(" "))
+                    .map(FileReadable::clearElement)
+                    .map(Double::parseDouble)
+                    .toArray(Double[]::new);
+        }
     }
 }
