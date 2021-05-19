@@ -62,25 +62,6 @@ public class DenseMatrix extends Matrix implements FileReadable {
     }
 
     public DenseMatrix(Path source) throws IOException {
-        try (var reader = Files.newBufferedReader(source)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Diagonal diag = FileReadable.parseDiagonal(line);
-                int n = Math.abs(diag.getNumber()) + diag.getVector().size();
-                if (values == null) {
-                    rows = columns = n;
-                    values = new double[n][n];
-                }
-                int i = 0, j = 0, k = 0;
-                if (diag.getNumber() > 0) {
-                    j = diag.getNumber();
-                } else {
-                    i = -diag.getNumber();
-                }
-                while (i < n && j < n) {
-                    values[i++][j++] = diag.getVector().get(k++);
-                }
-            }
-        }
+        this(readToDense(source));
     }
 }

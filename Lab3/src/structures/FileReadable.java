@@ -22,16 +22,6 @@ public interface FileReadable {
         return str.substring(l, r);
     }
 
-    static Diagonal parseDiagonal(String diag) {
-        String[] parts = diag.split(" ");
-        return new Diagonal(Integer.parseInt(parts[0]),
-                new Vector(IntStream.range(2, parts.length)
-                        .mapToObj(i -> FileReadable.clearElement(parts[i]))
-                        .map(Double::parseDouble)
-                )
-        );
-    }
-
     static void createDirectoryIfNotExists(Path directory) throws IOException {
         if (Files.notExists(directory)) {
             Files.createDirectories(directory);

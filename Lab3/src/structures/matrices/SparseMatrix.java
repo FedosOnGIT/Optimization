@@ -2,6 +2,8 @@ package structures.matrices;
 
 import structures.FileReadable;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +38,11 @@ public class SparseMatrix extends Matrix implements FileReadable {
 
     public SparseMatrix(List<Diagonal> diagonals) {
 
+    }
+
+    // TODO
+    public SparseMatrix(Path file) throws IOException {
+        this(readToDense(file));
     }
 
     @Override
