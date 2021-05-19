@@ -8,10 +8,7 @@ import structures.matrices.Vector;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -20,6 +17,7 @@ import static structures.FileReadable.createDirectoryIfNotExists;
 public abstract class AbstractGenerator implements Generator {
     private final String matrixFile, rhsFile, exactSolutionFile;
     protected final int n;
+    protected final Random random;
 
     public AbstractGenerator(int n, String matrixFile, String rhsFile, String exactSolutionFile) {
         assert n > 0 && matrixFile != null && rhsFile != null && exactSolutionFile != null;
@@ -27,6 +25,7 @@ public abstract class AbstractGenerator implements Generator {
         this.rhsFile = rhsFile;
         this.exactSolutionFile = exactSolutionFile;
         this.n = n;
+        this.random = new Random();
     }
 
     public AbstractGenerator(int n) {
@@ -77,4 +76,20 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     protected abstract List<Diagonal> generateDiagonals();
+
+    public Set<Integer> generateSelection(int from, int to, int count) {
+        int bound = from - to;
+        if (count < 0 || count > bound)
+            throw new IllegalArgumentException();
+
+        Set<Integer> result = new HashSet<>();
+        for (int i = 0; i < count; ++i) {
+            int x;
+            do {
+                x = from + random.nextInt(bound);
+            } while (result.contains(x));
+            result.add(x);
+        }
+        return result;
+    }
 }
