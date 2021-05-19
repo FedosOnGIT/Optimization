@@ -97,4 +97,17 @@ public class SparseMatrix extends Matrix implements FileReadable {
     public int size() {
         return size;
     }
+
+    @Override
+    public Vector multiply(Vector vector) {
+        Vector result = new Vector(size());
+        for (int i = 0; i < size(); ++i) {
+            double x = 0;
+            for (int j = Indices[i]; j < Indices[i+1]; ++j) {
+                x += Triangle.get(j) * vector.get(Positions.get(j));
+            }
+            result.set(i, x);
+        }
+        return result;
+    }
 }

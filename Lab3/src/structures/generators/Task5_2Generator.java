@@ -1,17 +1,13 @@
 package structures.generators;
 
-import structures.matrices.Diagonal;
-import structures.matrices.SparseMatrix;
+public class Task5_2Generator extends Task5_AbstractGenerator {
 
-import java.util.List;
-
-public class Task5_2Generator extends AbstractGenerator {
     public Task5_2Generator(int n) {
         super(n);
     }
 
     @Override
-    protected List<Diagonal> generateDiagonals() {
-        return null;
+    protected double generateElement() {
+        return -random.nextInt(5);
     }
 }

@@ -18,10 +18,9 @@ public class Task2Generator extends AbstractGenerator {
     protected List<Diagonal> generateDiagonals() {
         if (diagonals == null) {
             double[][] matrix = new double[n][n];
-            Random randomizer = new Random();
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    matrix[i][j] = -randomizer.nextInt(5);
+                    matrix[i][j] = -random.nextInt(5);
                 }
             }
             for (int i = 0; i < n; i++) {

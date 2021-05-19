@@ -68,8 +68,8 @@ public abstract class Matrix {
                 .collect(Collectors.joining(", ", "[", "]"));
     }
 
-    public static Vector multiply(Matrix matrix, Vector vector) {
-        assert matrix.columnsCount() == vector.size();
-        return new Vector(IntStream.range(0, matrix.rowsCount()).mapToObj(i -> new MatrixRow(matrix, i).scalar(vector)));
+    public Vector multiply(Vector vector) {
+        assert columnsCount() == vector.size();
+        return new Vector(IntStream.range(0, rowsCount()).mapToObj(i -> new MatrixRow(this, i).scalar(vector)));
     }
 }
