@@ -1,15 +1,11 @@
 package structures.matrices;
 
-import structures.FileReadable;
-
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class SparseMatrix extends Matrix implements FileReadable {
+public class SparseMatrix extends Matrix {
     private final double[] Diagonal;
     private final List<Double> Triangle;
     private final int[] Indices;
@@ -36,14 +32,10 @@ public class SparseMatrix extends Matrix implements FileReadable {
         }
     }
 
-    public SparseMatrix(List<Diagonal> diagonals) {
-
-    }
-
     // TODO
-    public SparseMatrix(Path file) throws IOException {
-        this(readToDense(file));
-    }
+    //public SparseMatrix(final List<Diagonal> diagonals) {
+
+    //}
 
     @Override
     public SparseMatrix copy() {
@@ -92,7 +84,7 @@ public class SparseMatrix extends Matrix implements FileReadable {
 
     @Override
     public int rowsCount() {
-        return 0;
+        return size;
     }
 
     @Override

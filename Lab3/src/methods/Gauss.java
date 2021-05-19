@@ -2,6 +2,8 @@ package methods;
 
 import structures.matrices.*;
 
+import java.util.Arrays;
+
 public class Gauss extends Method {
     @Override
     public Vector evaluate(Matrix matrix, Vector vector) {
@@ -74,6 +76,6 @@ public class Gauss extends Method {
         for (int i = 0; i < n; i++) {
             solution[permutation[i]] = mixedSolution[i];
         }
-        return new Vector(solution);
+        return new Vector(Arrays.stream(solution));
     }
 }

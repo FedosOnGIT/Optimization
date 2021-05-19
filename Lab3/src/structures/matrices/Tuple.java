@@ -45,13 +45,16 @@ public abstract class Tuple {
         return apply(i -> get(i) + other.get(i));
     }
 
-    public Tuple subtract(Tuple other) {
-        assert size() == other.size();
-        return apply(i -> get(i) - other.get(i));
+    public Tuple plus(Tuple other) {
+        return copy().add(other);
     }
 
     public Tuple multiply(double alpha) {
         return apply(i -> get(i) * alpha);
+    }
+
+    public Tuple extension(double alpha) {
+        return copy().multiply(alpha);
     }
 
     public double norm() {

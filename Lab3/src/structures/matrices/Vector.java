@@ -8,13 +8,14 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Vector extends Tuple implements FileReadable {
     private final Double[] values;
 
     public Vector(int size) {
-        this(new Double[size]);
+        this(IntStream.range(0, size).mapToDouble(i -> 0));
     }
 
     public Vector(Double... values) {
