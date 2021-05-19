@@ -32,8 +32,9 @@ public abstract class Task5_AbstractGenerator extends AbstractGenerator {
         int halfCount = Math.min(n-1, (DIAG_COUNT-1)/2);
         for (int x : generateSelection(1, n, halfCount)) {
             int length = n - x;
-            result.add(new Diagonal(x, generateVector(length)));
-            result.add(new Diagonal(-x, generateVector(length)));
+            Vector diagData = generateVector(length);
+            result.add(new Diagonal(x, diagData));
+            result.add(new Diagonal(-x, diagData));
         }
         Vector mainDiagonal = new Vector(n);
         for (int i = 0; i < n; ++i) {
