@@ -52,7 +52,7 @@ public abstract class AbstractGenerator implements Generator {
             writer.write('\n');
         }
         try (var writer = Files.newBufferedWriter(directory.resolve(rhsFile))) {
-            writer.write(Matrix.multiply(new SparseMatrix(diagonals), exactSolution).toString());
+            writer.write(new SparseMatrix(diagonals).multiply(exactSolution).toString());
             writer.write('\n');
         }
     }
