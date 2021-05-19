@@ -1,5 +1,10 @@
 package structures.matrices;
 
+import structures.FileReadable;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,6 +36,10 @@ public class ProfileMatrix extends Matrix {
         Up = new ArrayList<>();
         IndexUp = new int[size + 1];
         fill(Up, IndexUp, true, values);
+    }
+
+    public ProfileMatrix(Path file) throws IOException {
+        this(readToDense(file));
     }
 
     public void fill(
