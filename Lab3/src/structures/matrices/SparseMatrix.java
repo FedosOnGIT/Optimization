@@ -32,6 +32,11 @@ public class SparseMatrix extends Matrix {
         }
     }
 
+    // TODO
+    public SparseMatrix(final List<Diagonal> diagonals) {
+
+    }
+
     @Override
     public SparseMatrix copy() {
         return null;

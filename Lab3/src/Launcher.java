@@ -35,6 +35,10 @@ public class Launcher {
     private static Statistics stat;
 
     private final static Path TESTS = Path.of("tests");
+    private final static Path TASK2_PATH = TESTS.resolve("task2");
+    private final static Path TASK3_PATH = TESTS.resolve("task3");
+    private final static Path TASK4_PATH = TESTS.resolve("task4");
+    private final static Path TASK5_PATH = TESTS.resolve("task5");
 
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
     private final static List<Integer> TASK3_ARGS = List.of(10, 100, 1000);
@@ -67,10 +71,9 @@ public class Launcher {
         writer.write('\n');
     }
 
-    private static <T extends Generator> void generateData(Path parent, String taskName, Class<T> generatorClazz,
+    private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz,
                                                            Map<Integer, Integer> testData) throws Exception {
         Constructor<T> constructor = generatorClazz.getConstructor(int.class);
-        Path taskDir = parent.resolve(taskName);
         Files.createDirectories(taskDir);
         Files.walkFileTree(taskDir, DELETE_VISITOR);
         for (var data : testData.entrySet()) {
@@ -92,11 +95,11 @@ public class Launcher {
     }
 
     private static void generateTask2TestData(Map<Integer, Integer> args) throws Exception {
-        generateData(TESTS, "task2", Task2Generator.class, args);
+        generateData(TASK2_PATH, Task2Generator.class, args);
     }
 
     private static void generateTask3TestData(List<Integer> args) throws Exception {
-        generateData(TESTS, "task3", GilbertGenerator.class, toMapTestData(args));
+        generateData(TASK3_PATH, GilbertGenerator.class, toMapTestData(args));
     }
 
     private static Map<Integer, Integer> toMapTestData(List<Integer> list) {
@@ -106,12 +109,11 @@ public class Launcher {
     }
 
     private static void generateTask4TestData(Map<Integer, Integer> task2Args, List<Integer> task3Args) throws Exception {
-        Path task4Dir = TESTS.resolve("task4");
         if (task2Args != null) {
-            generateData(task4Dir, "task2Generator", Task2Generator.class, task2Args);
+            generateData(TASK4_PATH.resolve("task2Generator"), Task2Generator.class, task2Args);
         }
         if (task3Args != null) {
-            generateData(task4Dir, "task3Generator", GilbertGenerator.class, toMapTestData(task3Args));
+            generateData(TASK4_PATH.resolve("task3Generator"), GilbertGenerator.class, toMapTestData(task3Args));
         }
     }
 
@@ -123,7 +125,26 @@ public class Launcher {
     }
 
     private static void task2() throws IOException {
+        private static final SimpleFileVisitor<Path> DELETE_VISITOR = new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
+                try (var reader = Files.newBufferedReader(file)) {
 
+                }
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                return super.preVisitDirectory(dir, attrs);
+            }
+        };
     }
 
     private static void task3() {

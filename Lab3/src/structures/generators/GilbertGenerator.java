@@ -11,7 +11,7 @@ public class GilbertGenerator extends AbstractGenerator {
     }
 
     @Override
-    protected List<Diagonal> generateMatrix() {
+    protected List<Diagonal> generateDiagonals() {
         double[][] matrix = new double[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

@@ -11,7 +11,7 @@ public class Task5_2Generator extends AbstractGenerator {
     }
 
     @Override
-    protected List<Diagonal> generateMatrix() {
+    protected List<Diagonal> generateDiagonals() {
         return null;
     }
 }

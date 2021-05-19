@@ -1,6 +1,8 @@
 package structures.generators;
 
 import structures.matrices.Diagonal;
+import structures.matrices.Matrix;
+import structures.matrices.SparseMatrix;
 import structures.matrices.Vector;
 
 import java.io.IOException;
@@ -34,12 +36,12 @@ public abstract class AbstractGenerator implements Generator {
     @Override
     public void generate(Path directory) throws IOException {
         createDirectoryIfNotExists(directory);
-        List<Diagonal> matrix;
+        List<Diagonal> diagonals;
         Vector exactSolution;
         try (var writer = Files.newBufferedWriter(directory.resolve(matrixFile))) {
-            matrix = generateMatrix();
-            matrix.sort(Comparator.comparing(Diagonal::getNumber));
-            for (Diagonal d : matrix) {
+            diagonals = generateDiagonals();
+            diagonals.sort(Comparator.comparing(Diagonal::getNumber));
+            for (Diagonal d : diagonals) {
                 writer.write(d.getNumber() + " : " + d.getVector());
                 writer.write('\n');
             }
@@ -50,30 +52,9 @@ public abstract class AbstractGenerator implements Generator {
             writer.write('\n');
         }
         try (var writer = Files.newBufferedWriter(directory.resolve(rhsFile))) {
-            writer.write(
-                    new Vector(IntStream.range(0, n).mapToDouble(i -> getRow(matrix, i).scalar(exactSolution))).toString()
-            );
+            writer.write(Matrix.multiply(new SparseMatrix(diagonals), exactSolution).toString());
             writer.write('\n');
         }
-    }
-
-    private Vector getRow(List<Diagonal> matrix, int row) {
-        List<Integer> numbers = IntStream.range(0, n).map(i -> matrix.get(i).getNumber()).boxed().collect(Collectors.toList());
-        return new Vector(IntStream.range(0, n)
-                .mapToDouble(column -> {
-                    int number, pos;
-                    if (column < row) {
-                        number = -(row - column + 1);
-                        pos = column;
-                    } else {
-                        number = column - row;
-                        pos = row;
-                    }
-                    int index = Collections.binarySearch(numbers, number);
-                    return index < 0 ? 0 : matrix.get(index).getVector().get(pos);
-                })
-                .boxed()
-        );
     }
 
     protected List<Diagonal> toDiag(double[][] matrix) {
@@ -96,5 +77,5 @@ public abstract class AbstractGenerator implements Generator {
                 .collect(Collectors.toList());
     }
 
-    protected abstract List<Diagonal> generateMatrix();
+    protected abstract List<Diagonal> generateDiagonals();
 }

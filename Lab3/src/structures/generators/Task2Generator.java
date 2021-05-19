@@ -18,7 +18,7 @@ public class Task2Generator extends AbstractGenerator {
     }
 
     @Override
-    protected List<Diagonal> generateMatrix() {
+    protected List<Diagonal> generateDiagonals() {
         if (m == null) {
             double[][] matrix = new double[n][n];
             Random randomizer = new Random();
