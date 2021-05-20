@@ -4,6 +4,7 @@ import structures.FileReadable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -34,7 +35,10 @@ public class SparseMatrix extends FileReadableMatrix {
         }
     }
 
+    Comparator<Diagonal> comparator = Comparator.comparingInt(Diagonal::getNumber);
+
     public SparseMatrix(final List<Diagonal> diagonals) {
+        diagonals.sort(comparator);
         size = diagonals.get(0).getVector().size();
         diagonal = IntStream.range(0, size).mapToDouble(i -> diagonals.get(0).getVector().get(0)).toArray();
         Indices = new int[size + 1];
