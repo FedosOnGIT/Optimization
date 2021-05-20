@@ -1,8 +1,13 @@
 package structures.matrices;
 
+import structures.FileReadable;
+
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -32,7 +37,40 @@ public class ProfileMatrix extends FileReadableMatrix {
         this(readToDense(file));
     }
 
-    private void fill(List<Double> triangle, int[] positions, boolean Up, double[]... values) {
+    public ProfileMatrix LU(Long iterations) {
+        for (int i = 1; i < size; i++) {
+            if (diagonal[i - 1] == 0) {
+                throw new IllegalArgumentException("Minor is zero!");
+            }
+            int firstStart = i - indexDown[i + 1] + indexDown[i];
+            for (int j = firstStart; j < i; j++) {
+                for (int k = 0; k < j; k++) {
+                    set(i, j, get(i, j) - get(i, k) * get(k, j));
+                    ++iterations;
+                }
+            }
+            int secondStart = i - indexUp[i + 1] + indexUp[i];
+            for (int j = secondStart; j < i;  j++) {
+                for (int k = 0; k < j; k++) {
+                    set(j, i, get(j, i) - get(j, k) * get(k, i));
+                    ++iterations;
+                }
+                set(j, i, get(j, i) / get(j, j));
+                ++iterations;
+            }
+            for (int j = 0; j < i; j++) {
+                set(i, i, get(i, i) - get(i, j) * get(j, i));
+                ++iterations;
+            }
+        }
+        return this;
+    }
+
+    public void fill(
+            final List<Double> triangle,
+            final int[] positions,
+            final boolean Up,
+            final double[]... values) {
         positions[0] = 1;
         for (int i = 0; i < size; i++) {
             int profile = i;
@@ -54,6 +92,42 @@ public class ProfileMatrix extends FileReadableMatrix {
                 triangle.add(values[x][y]);
             }
         }
+    }
+
+    private Vector straight(final Vector result, Long iterations) {
+        assert result.size() == size;
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = i + 1; j < size; j++) {
+                if (get(j, i) != 0) {
+                    double coefficient = get(j, i) / get(i, i);
+                    ++iterations;
+                    result.set(j, result.get(j) - result.get(i) * coefficient);
+                    ++iterations;
+                }
+            }
+        }
+        // TODO check
+        iterations += size;
+        return new Vector(IntStream
+                .range(0, size)
+                .mapToDouble(i -> result.get(i) / get(i, i)));
+    }
+
+    private Vector reverse(final Vector result, Long iterations) {
+        assert result.size() == size;
+        for (int i = size - 1; i > 0; i--) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (get(j, i) != 0) {
+                    result.set(j, result.get(j) - result.get(i) * get(j, i));
+                    ++iterations;
+                }
+            }
+        }
+        return new Vector(IntStream.range(0, size).mapToDouble(result::get));
+    }
+
+    public Vector solve(final Vector result, Long iterations) {
+        return reverse(straight(result, iterations), iterations);
     }
 
     @Override
@@ -86,6 +160,7 @@ public class ProfileMatrix extends FileReadableMatrix {
     protected void setImpl(int i, int j, double value) {
         if (i == j) {
             diagonal[i] = value;
+            return;
         }
         if (j < i) {
             realSet(i, j, indexDown, down, value);

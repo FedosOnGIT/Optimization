@@ -10,7 +10,7 @@ public class Gauss extends Method {
         checkInput(matrix, vector);
         SwappableMatrix m = new SwappableMatrix(matrix.copy());
         int n = m.rowsCount();
-        iterations = 0;
+        iterations = 0L;
         forwardStroke(m, vector, n);
         return reverseStroke(m, vector, n);
     }
