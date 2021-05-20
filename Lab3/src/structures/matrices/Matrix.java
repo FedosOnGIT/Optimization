@@ -77,4 +77,12 @@ public abstract class Matrix {
         assert columnsCount() == vector.size();
         return new Vector(IntStream.range(0, rowsCount()).mapToObj(i -> new MatrixRow(this, i).scalar(vector)));
     }
+
+    static void checkIsSquare(double[][] values) {
+        assert values.length > 0;
+        int columns = values[0].length;
+        for (int i = 1; i < values.length; i++) {
+            assert columns == values[i].length;
+        }
+    }
 }

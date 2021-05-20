@@ -1,52 +1,38 @@
 package structures.matrices;
 
-import structures.FileReadable;
-
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class ProfileMatrix extends FileReadableMatrix {
-    private final double[] Diagonal;
-    private final List<Double> Down;
-    private final List<Double> Up;
-    private final int[] IndexUp;
-    private final int[] IndexDown;
+    private final double[] diagonal;
+    private final List<Double> down;
+    private final List<Double> up;
+    private final int[] indexUp;
+    private final int[] indexDown;
     private final int size;
 
-    public ProfileMatrix(final double[]... values) {
-        assert values.length > 0;
-        this.size = values.length;
-        for (double[] array : values) {
-            if (array.length != size) {
-                throw new IllegalArgumentException("Not a Matrix!");
-            }
-        }
-        Diagonal = IntStream.range(0, size).mapToDouble(i -> values[i][i]).toArray();
+    public ProfileMatrix(double[]... rows) {
+        checkIsSquare(rows);
+        size = rows.length;
+        diagonal = IntStream.range(0, size).mapToDouble(i -> rows[i][i]).toArray();
         // Down triangle.
-        Down = new ArrayList<>();
-        IndexDown = new int[size + 1];
-        fill(Down, IndexDown, false, values);
+        down = new ArrayList<>();
+        indexDown = new int[size + 1];
+        fill(down, indexDown, false, rows);
         // Up triangle.
-        Up = new ArrayList<>();
-        IndexUp = new int[size + 1];
-        fill(Up, IndexUp, true, values);
+        up = new ArrayList<>();
+        indexUp = new int[size + 1];
+        fill(up, indexUp, true, rows);
     }
 
     public ProfileMatrix(Path file) throws IOException {
         this(readToDense(file));
     }
 
-    public void fill(
-            final List<Double> triangle,
-            final int[] positions,
-            final boolean Up,
-            final double[]... values) {
+    private void fill(List<Double> triangle, int[] positions, boolean Up, double[]... values) {
         positions[0] = 1;
         for (int i = 0; i < size; i++) {
             int profile = i;
@@ -72,22 +58,22 @@ public class ProfileMatrix extends FileReadableMatrix {
 
     @Override
     public ProfileMatrix copy() {
-        return null;
+        throw new UnsupportedOperationException("ProfileMatrix does not support copy()");
     }
 
     @Override
     protected double getImpl(int i, int j) {
         if (i == j) {
-            return Diagonal[i];
+            return diagonal[i];
         }
         if (j < i) {
-            return realGet(i, j, IndexDown, Down);
+            return realGet(i, j, indexDown, down);
         } else {
-            return realGet(j, i, IndexUp, Up);
+            return realGet(j, i, indexUp, up);
         }
     }
 
-    private double realGet(final int x, final int y, final int[] positions, final List<Double> triangle) {
+    private double realGet(int x, int y, int[] positions, List<Double> triangle) {
         int profile = positions[x + 1] - positions[x];
         if (x - profile > y) {
             return 0;
@@ -97,23 +83,18 @@ public class ProfileMatrix extends FileReadableMatrix {
     }
 
     @Override
-    protected void setImpl(final int i, final int j, final double value) {
+    protected void setImpl(int i, int j, double value) {
         if (i == j) {
-            Diagonal[i] = value;
+            diagonal[i] = value;
         }
         if (j < i) {
-            realSet(i, j, IndexDown, Down, value);
+            realSet(i, j, indexDown, down, value);
         } else {
-            realSet(j, i, IndexUp, Up, value);
+            realSet(j, i, indexUp, up, value);
         }
     }
 
-    private void realSet(
-            final int x,
-            final int y,
-            final int[] positions,
-            final List<Double> triangle,
-            final double value) {
+    private void realSet(int x, int y, int[] positions, List<Double> triangle, double value) {
         int profile = positions[x + 1] - positions[x];
         if (x - profile > y) {
             throw new IllegalArgumentException("Out of range!");

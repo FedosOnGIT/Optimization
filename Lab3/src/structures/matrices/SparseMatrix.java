@@ -1,7 +1,7 @@
 package structures.matrices;
 
-import structures.FileReadable;
-
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +14,7 @@ public class SparseMatrix extends FileReadableMatrix {
     private final List<Integer> Positions;
     private final int size;
 
-    public SparseMatrix(final double[]... values) {
+    public SparseMatrix(double[]... values) {
         size = values.length;
         diagonal = IntStream.range(0, size).mapToDouble(i -> values[i][i]).toArray();
         Triangle = new ArrayList<>();
@@ -34,7 +34,7 @@ public class SparseMatrix extends FileReadableMatrix {
         }
     }
 
-    public SparseMatrix(final List<Diagonal> diagonals) {
+    public SparseMatrix(List<Diagonal> diagonals) {
         size = diagonals.get(0).getVector().size();
         diagonal = IntStream.range(0, size).mapToDouble(i -> diagonals.get(0).getVector().get(0)).toArray();
         Indices = new int[size + 1];
@@ -61,12 +61,16 @@ public class SparseMatrix extends FileReadableMatrix {
         }
     }
 
-    @Override
-    public SparseMatrix copy() {
-        return null;
+    public SparseMatrix(Path source) throws IOException {
+        this(readToDiagonals(source));
     }
 
-    private int getPosition(final int i, final int j) {
+    @Override
+    public SparseMatrix copy() {
+        throw new UnsupportedOperationException("SparseMatrix does not support copy()");
+    }
+
+    private int getPosition(int i, int j) {
         int x = Math.max(i, j);
         int y = Math.min(i, j);
         int left = Indices[x];
@@ -80,7 +84,7 @@ public class SparseMatrix extends FileReadableMatrix {
     }
 
     @Override
-    protected double getImpl(final int i, final int j) {
+    protected double getImpl(int i, int j) {
         if (i == j) {
             return diagonal[i];
         }

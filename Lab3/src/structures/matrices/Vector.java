@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Vector extends Tuple implements FileReadable {
@@ -37,7 +36,7 @@ public class Vector extends Tuple implements FileReadable {
     public Vector(Path source) throws IOException {
         try (var reader = Files.newBufferedReader(source)) {
             values = Arrays.stream(reader.readLine().split(" "))
-                    .map(FileReadable::clearElement)
+                    .map(FileReadableMatrix::clearElement)
                     .map(Double::parseDouble)
                     .toArray(Double[]::new);
         }

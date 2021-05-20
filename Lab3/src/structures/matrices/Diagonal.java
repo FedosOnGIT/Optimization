@@ -2,6 +2,11 @@ package structures.matrices;
 
 import structures.FileReadable;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -41,15 +46,5 @@ public class Diagonal {
     @Override
     public int hashCode() {
         return Objects.hash(number, vector);
-    }
-
-    public static Diagonal parseDiagonal(String diag) {
-        String[] parts = diag.split(" ");
-        return new Diagonal(Integer.parseInt(parts[0]),
-                new Vector(IntStream.range(2, parts.length)
-                        .mapToObj(i -> FileReadable.clearElement(parts[i]))
-                        .map(Double::parseDouble)
-                )
-        );
     }
 }
