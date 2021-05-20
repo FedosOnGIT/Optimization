@@ -82,7 +82,6 @@ public abstract class AbstractGenerator implements Generator {
         if (count < 0 || count > bound) {
             throw new IllegalArgumentException("count < 0 || count > bound - invalid state");
         }
-
         Set<Integer> result = new HashSet<>();
         for (int i = 0; i < count; ++i) {
             int x;

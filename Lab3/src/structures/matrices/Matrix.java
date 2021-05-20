@@ -12,17 +12,33 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class Matrix {
+    /**
+     * Используется внутри {@link Matrix#get(int, int)}.
+     * Возвращает элемент, который находится в i строке и в j стобце матрицы.
+     */
     protected abstract double getImpl(int i, int j);
 
+    /**
+     * Используется внутри {@link Matrix#set(int, int, double)}.
+     * Изменяет элемент матрицы, который находится в i строке, j стоблце на value
+     */
     protected abstract void setImpl(int i, int j, double value);
 
+    /**
+     * @return Количество строк матрицы
+     */
     public abstract int rowsCount();
 
+    /**
+     * @return Количество столбцов матрицы
+     */
     public abstract int columnsCount();
 
+    /**
+     * Делает копию исходной матрицы, чтобы возращаемая матрица могла быть изменена независимо от исходной
+     * @return копия исходной матрицы
+     */
     public abstract Matrix copy();
-
-    public abstract int size();
 
     private void checkCell(int i, int j) {
         assert i >= 0 && j >= 0 && i < rowsCount() && j < columnsCount();
@@ -38,36 +54,35 @@ public abstract class Matrix {
         setImpl(i, j, value);
     }
 
-    private Vector getVector(IntFunction<Double> mapper) {
-        return new Vector(IntStream.range(0, size()).mapToObj(mapper));
+    private Vector getVector(IntFunction<Double> mapper, int size) {
+        return new Vector(IntStream.range(0, size).mapToObj(mapper));
     }
 
     public Vector getRow(int i) {
-        return getVector(j -> get(i, j));
+        return getVector(j -> get(i, j), columnsCount());
     }
 
     public Vector getColumn(int j) {
-        return getVector(i -> get(i, j));
+        return getVector(i -> get(i, j), rowsCount());
     }
 
-    private void setVector(Consumer<Integer> setter) {
-        int size = size();
+    private void setVector(Consumer<Integer> setter, int size) {
         for (int j = 0; j < size; j++) {
             setter.accept(j);
         }
     }
 
     public void setRow(int i, Vector row) {
-        setVector(j -> set(i, j, row.get(j)));
+        setVector(j -> set(i, j, row.get(j)), columnsCount());
     }
 
     public void setColumn(int j, Vector column) {
-        setVector(i -> set(i, j, column.get(i)));
+        setVector(i -> set(i, j, column.get(i)), rowsCount());
     }
 
     @Override
     public String toString() {
-        return IntStream.range(0, size())
+        return IntStream.range(0, rowsCount())
                 .mapToObj(this::getRow)
                 .map(Objects::toString)
                 .collect(Collectors.joining(", ", "[", "]"));

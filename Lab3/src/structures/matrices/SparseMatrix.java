@@ -4,44 +4,47 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
+// TODO: SparseMatrix не обязательно хранит только симметричные матрицы. Расширить функционал на это.
 public class SparseMatrix extends FileReadableMatrix {
     private final double[] diagonal;
-    private final List<Double> Triangle;
-    private final int[] Indices;
-    private final List<Integer> Positions;
+    private final List<Double> triangle;
+    private final int[] indices;
+    private final List<Integer> positions;
     private final int size;
 
     public SparseMatrix(double[]... values) {
         size = values.length;
         diagonal = IntStream.range(0, size).mapToDouble(i -> values[i][i]).toArray();
-        Triangle = new ArrayList<>();
-        Positions = new ArrayList<>();
-        Indices = new int[size + 1];
-        Indices[0] = 0;
+        triangle = new ArrayList<>();
+        positions = new ArrayList<>();
+        indices = new int[size + 1];
+        indices[0] = 0;
         for (int i = 0; i < size; i++) {
             int profile = 0;
             for (int j = 0; j < i; j++) {
                 if (values[i][j] != 0) {
                     profile++;
-                    Triangle.add(values[i][j]);
-                    Positions.add(j);
+                    triangle.add(values[i][j]);
+                    positions.add(j);
                 }
             }
-            Indices[i + 1] = Indices[i] + profile;
+            indices[i + 1] = indices[i] + profile;
         }
     }
 
     public SparseMatrix(List<Diagonal> diagonals) {
+        diagonals.sort(Comparator.comparingInt(Diagonal::getNumber));
         size = diagonals.get(0).getVector().size();
         diagonal = IntStream.range(0, size).mapToDouble(i -> diagonals.get(0).getVector().get(0)).toArray();
-        Indices = new int[size + 1];
-        Triangle = new ArrayList<>();
-        Positions = new ArrayList<>();
-        Indices[0] = 0;
-        Indices[1] = 0;
+        indices = new int[size + 1];
+        triangle = new ArrayList<>();
+        positions = new ArrayList<>();
+        indices[0] = 0;
+        indices[1] = 0;
         int index = 1;
         for (int i = 1; i < size; i++) {
             if (diagonals.size() > index && diagonals.get(index).getNumber() == i) {
@@ -52,12 +55,12 @@ public class SparseMatrix extends FileReadableMatrix {
                 int column = i - diagonals.get(j).getNumber();
                 double element = diagonals.get(j).getVector().get(column);
                 if (element != 0) {
-                    Triangle.add(element);
-                    Positions.add(column);
+                    triangle.add(element);
+                    positions.add(column);
                     profile++;
                 }
             }
-            Indices[i + 1] = Indices[i] + profile;
+            indices[i + 1] = indices[i] + profile;
         }
     }
 
@@ -73,9 +76,9 @@ public class SparseMatrix extends FileReadableMatrix {
     private int getPosition(int i, int j) {
         int x = Math.max(i, j);
         int y = Math.min(i, j);
-        int left = Indices[x];
-        int right = Indices[x + 1];
-        int index = Collections.binarySearch(Positions.subList(left, right), y);
+        int left = indices[x];
+        int right = indices[x + 1];
+        int index = Collections.binarySearch(positions.subList(left, right), y);
         if (index > -1) {
             return left + index;
         } else {
@@ -90,7 +93,7 @@ public class SparseMatrix extends FileReadableMatrix {
         }
         int position = getPosition(i, j);
         if (position > -1) {
-            return Triangle.get(position);
+            return triangle.get(position);
         } else {
             return 0;
         }
@@ -104,7 +107,7 @@ public class SparseMatrix extends FileReadableMatrix {
         }
         int position = getPosition(i, j);
         if (position > -1) {
-            Triangle.set(position, value);
+            triangle.set(position, value);
         } else {
             throw new IllegalArgumentException("Can't set on zero!");
         }
@@ -117,11 +120,6 @@ public class SparseMatrix extends FileReadableMatrix {
 
     @Override
     public int columnsCount() {
-        return size;
-    }
-
-    @Override
-    public int size() {
         return size;
     }
 }

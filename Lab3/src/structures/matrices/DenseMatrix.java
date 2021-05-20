@@ -45,9 +45,4 @@ public class DenseMatrix extends FileReadableMatrix {
         }
         return new DenseMatrix(values);
     }
-
-    @Override
-    public int size() {
-        return values.length;
-    }
 }

@@ -9,7 +9,7 @@ public class SwappableMatrix extends Matrix {
 
     public SwappableMatrix(Matrix original) {
         this.original = original;
-        permutation = IntStream.range(0, original.size()).toArray();
+        permutation = IntStream.range(0, original.rowsCount()).toArray();
     }
 
     private SwappableMatrix(Matrix original, int[] permutation) {
@@ -40,11 +40,6 @@ public class SwappableMatrix extends Matrix {
     @Override
     public SwappableMatrix copy() {
         return new SwappableMatrix(original.copy(), Arrays.copyOf(permutation, permutation.length));
-    }
-
-    @Override
-    public int size() {
-        return original.size();
     }
 
     public void swapRows(int i, int j) {

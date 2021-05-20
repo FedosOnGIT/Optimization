@@ -112,9 +112,4 @@ public class ProfileMatrix extends FileReadableMatrix {
     public int columnsCount() {
         return size;
     }
-
-    @Override
-    public int size() {
-        return size;
-    }
 }

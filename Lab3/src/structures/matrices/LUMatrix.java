@@ -9,7 +9,7 @@ public class LUMatrix {
     private long iterations;
 
     public LUMatrix(final Matrix main) {
-        size = main.size();
+        size = main.rowsCount();
         double[][] LMatrix = IntStream.range(0, size).mapToObj(i -> new double[size]).toArray(double[][]::new);
         double[][] UMatrix = IntStream.range(0, size).mapToObj(i -> new double[size]).toArray(double[][]::new);
         iterations = 0;

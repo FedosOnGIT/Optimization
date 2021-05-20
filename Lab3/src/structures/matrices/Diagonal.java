@@ -37,8 +37,12 @@ public class Diagonal {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Diagonal diagonal = (Diagonal) o;
         return Objects.equals(number, diagonal.number) && Objects.equals(vector, diagonal.vector);
     }
