@@ -14,6 +14,6 @@ public abstract class MatrixVector extends Tuple {
 
     @Override
     public Vector copy() {
-        return new Vector(IntStream.range(0, size()).mapToDouble(this::get).boxed());
+        return new Vector(IntStream.range(0, size()).mapToDouble(this::get));
     }
 }

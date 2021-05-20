@@ -1,15 +1,15 @@
 package launcher;
 
+import methods.ConjugateGradients;
 import methods.Gauss;
 import methods.LU;
 import methods.Method;
 import structures.FileReadable;
-import structures.generators.Generator;
-import structures.generators.Task2Generator;
-import structures.generators.GilbertGenerator;
+import structures.generators.*;
 import structures.matrices.DenseMatrix;
 import structures.matrices.Matrix;
 import structures.matrices.ProfileMatrix;
+import structures.matrices.SparseMatrix;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -18,10 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static launcher.Statistics.Field.*;
 import static launcher.Statistics.generateStringFormat;
@@ -42,12 +39,19 @@ public class Launcher {
     };
 
     private final static Path TESTS = Path.of("tests");
+
     private final static Path TASK2_PATH = TESTS.resolve("task2");
+
     private final static Path TASK3_PATH = TESTS.resolve("task3");
+
     private final static Path TASK4_PATH = TESTS.resolve("task4");
     private final static Path TASK4_TASK2_GENERATOR_PATH = TASK4_PATH.resolve("task2Generator");
-    private final static Path TASK4_TASK3_GENERATOR_PATH = TASK4_PATH.resolve("task3Generator");
+    private final static Path TASK4_GILBERT_GENERATOR_PATH = TASK4_PATH.resolve("gilbertGenerator");
+
     private final static Path TASK5_PATH = TESTS.resolve("task5");
+    private final static Path TASK5_2_PATH = TASK5_PATH.resolve("2");
+    private final static Path TASK5_3_PATH = TASK5_PATH.resolve("3");
+    private final static Path TASK5_4_PATH = TASK5_PATH.resolve("4");
 
     // input test files
     public final static String MATRIX_FILE = "matrix.txt";
@@ -59,104 +63,123 @@ public class Launcher {
     public final static String RESULT_GAUSS_FILE = "result_gauss.csv";
     public final static String RESULT_LU_FILE = "result_lu.csv";
 
+    // Test data
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
     private final static List<Integer> TASK3_ARGS = List.of(10, 100, 1000);
+    private final static List<Integer> TASK5_ARGS = List.of(10, 100, 1000, 10_000, 100_000);
 
     private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz,
-                                                           Map<Integer, Integer> testData) throws Exception {
-        Constructor<T> constructor = generatorClazz.getConstructor(int.class);
-        Files.createDirectories(taskDir);
-        Files.walkFileTree(taskDir, DELETE_VISITOR);
-        for (var data : testData.entrySet()) {
-            int n = data.getKey();
-            Generator generator = constructor.newInstance(n);
-            Integer k = data.getValue();
-            if (k != null) {
-                for (int i = 0; i <= k; i++) {
-                    Path dir = taskDir.resolve(String.format(generateStringFormat(N, K), n, k));
+                                                           Map<Integer, Integer> testData) {
+        try {
+            Constructor<T> constructor = generatorClazz.getConstructor(int.class);
+            Files.createDirectories(taskDir);
+            Files.walkFileTree(taskDir, DELETE_VISITOR);
+            for (var data : testData.entrySet()) {
+                int n = data.getKey();
+                Generator generator = constructor.newInstance(n);
+                Integer k = data.getValue();
+                if (k != null) {
+                    for (int i = 0; i <= k; i++) {
+                        Path dir = taskDir.resolve(String.format(generateStringFormat(N, K), n, k));
+                        Files.createDirectories(dir);
+                        generator.generate(dir);
+                    }
+                } else {
+                    Path dir = taskDir.resolve(String.format(generateStringFormat(N), n));
                     Files.createDirectories(dir);
                     generator.generate(dir);
                 }
-            } else {
-                Path dir = taskDir.resolve(String.format(generateStringFormat(N), n));
-                Files.createDirectories(dir);
-                generator.generate(dir);
             }
+        } catch (Exception e) {
+            System.err.printf("generateData: taskDir=%s, generatorClass=%s, testData=%s%n",
+                    taskDir.toString(), generatorClazz.toString(), testData.toString());
+            throw new IllegalStateException(e.getMessage());
         }
     }
 
-    private static void generateTask2TestData(Map<Integer, Integer> args) throws Exception {
-        generateData(TASK2_PATH, Task2Generator.class, args);
-    }
-
-    private static void generateTask3TestData(List<Integer> args) throws Exception {
-        generateData(TASK3_PATH, GilbertGenerator.class, toMapTestData(args));
-    }
-
-    private static Map<Integer, Integer> toMapTestData(List<Integer> list) {
+    private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz, List<Integer> testData) {
         Map<Integer, Integer> map = new HashMap<>();
-        list.forEach(v -> map.put(v, null));
-        return map;
-    }
-
-    private static void generateTask4TestData(Map<Integer, Integer> task2Args, List<Integer> task3Args) throws Exception {
-        if (task2Args != null) {
-            generateData(TASK4_TASK2_GENERATOR_PATH, Task2Generator.class, task2Args);
-        }
-        if (task3Args != null) {
-            generateData(TASK4_TASK3_GENERATOR_PATH, GilbertGenerator.class, toMapTestData(task3Args));
-        }
-    }
-
-    private static void generateTestData() throws Exception {
-        Files.createDirectories(TESTS);
-        generateTask2TestData(TASK2_ARGS);
-        generateTask3TestData(TASK3_ARGS);
-        generateTask4TestData(TASK2_ARGS, TASK3_ARGS);
+        testData.forEach(v -> map.put(v, null));
+        generateData(taskDir, generatorClazz, map);
     }
 
     private static <T extends Matrix & FileReadable, M extends Method>
-    void solveTask(Path dir, Class<T> matrixClass, Class<M> methodClass, String resultFileName, Statistics.Field... fields) throws IOException {
+    void solveTask(Path dir, Class<T> matrixClass, Class<M> methodClass, String resultFileName, Statistics.Field... fields) {
         SolverVisitor<T, M> solverVisitor = new SolverVisitor<>(matrixClass, methodClass);
-        Files.walkFileTree(dir, solverVisitor);
         try (var writer = Files.newBufferedWriter(dir.resolve(resultFileName))) {
+            Files.walkFileTree(dir, solverVisitor);
             Statistics.logHeadLn(writer, fields);
             List<Statistics> statisticsList = solverVisitor.getStatisticsList();
             statisticsList.sort(Comparator.comparing(Statistics::getN).thenComparing(Statistics::getK));
             for (Statistics stat : statisticsList) {
                 stat.logLn(writer, fields);
             }
+        } catch (IOException e) {
+            System.err.printf("solveTask: dir=%s, matrixClass=%s, methodClass=%s, resultFileName=%s, fields=%s%n",
+                    dir.toString(), matrixClass.toString(), methodClass.toString(), resultFileName, Arrays.toString(fields));
+            throw new IllegalStateException(e.getMessage());
         }
     }
 
-    private static void task2() throws IOException {
+    private static void generateTask2TestData() {
+        generateData(TASK2_PATH, Task2Generator.class, TASK2_ARGS);
+    }
+
+    private static void solveTask2() {
         solveTask(TASK2_PATH, ProfileMatrix.class, LU.class, RESULT_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR);
     }
 
-    private static void task3() throws IOException {
+    private static void generateTask3TestData() {
+        generateData(TASK3_PATH, GilbertGenerator.class, TASK3_ARGS);
+    }
+
+    private static void solveTask3() {
         solveTask(TASK3_PATH, ProfileMatrix.class, LU.class, RESULT_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR);
     }
 
-    private static void task4() throws IOException {
-        solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_TASK3_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_TASK3_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+    private static void generateTask4TestData() {
+        generateData(TASK4_TASK2_GENERATOR_PATH, Task2Generator.class, TASK2_ARGS);
+        generateData(TASK4_GILBERT_GENERATOR_PATH, GilbertGenerator.class, TASK3_ARGS);
     }
 
-    private static void task5() {
+    private static void solveTask4() {
+        solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+    }
 
+    private static void generateTask5TestData() {
+        generateData(TASK5_2_PATH, Task5_2Generator.class, TASK5_ARGS);
+        generateData(TASK5_3_PATH, Task5_3Generator.class, TASK5_ARGS);
+        generateData(TASK5_4_PATH, GilbertGenerator.class, TASK3_ARGS);
+    }
+
+    private static void solveTask5() {
+        solveTask(TASK5_2_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_3_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_4_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
     }
 
     public static void main(String[] args) {
         try {
-            generateTestData();
-            task2();
-            task3();
-            task4();
-            task5();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+            if (Files.notExists(TESTS)) {
+                Files.createDirectories(TESTS);
+            }
+        } catch (IOException e) {
+            System.err.println("Can not create TESTS directory");
         }
+
+        generateTask2TestData();
+        solveTask2();
+
+        generateTask3TestData();
+        solveTask3();
+
+        generateTask4TestData();
+        solveTask4();
+
+        generateTask5TestData();
+        solveTask5();
     }
 }

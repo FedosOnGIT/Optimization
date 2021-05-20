@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class Task5_AbstractGenerator extends AbstractGenerator {
-    private final int DIAG_COUNT = 3;
+    private final static int DIAG_COUNT = 3;
 
     public Task5_AbstractGenerator(int n) {
         super(n);
@@ -28,7 +28,6 @@ public abstract class Task5_AbstractGenerator extends AbstractGenerator {
     @Override
     protected List<Diagonal> generateDiagonals() {
         List<Diagonal> result = new ArrayList<>();
-        Random gen = new Random();
         int halfCount = Math.min(n-1, (DIAG_COUNT-1)/2);
         for (int x : generateSelection(1, n, halfCount)) {
             int length = n - x;

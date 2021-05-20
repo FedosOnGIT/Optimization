@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static structures.FileReadable.createDirectoryIfNotExists;
 import static launcher.Launcher.*;
 
 public abstract class AbstractGenerator implements Generator {
@@ -35,7 +34,9 @@ public abstract class AbstractGenerator implements Generator {
 
     @Override
     public void generate(Path directory) throws IOException {
-        createDirectoryIfNotExists(directory);
+        if (Files.notExists(directory)) {
+            Files.createDirectories(directory);
+        }
         List<Diagonal> diagonals;
         Vector exactSolution;
         try (var writer = Files.newBufferedWriter(directory.resolve(matrixFile))) {

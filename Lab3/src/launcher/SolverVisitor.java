@@ -18,14 +18,14 @@ import static launcher.Launcher.*;
 public class SolverVisitor<T extends Matrix & FileReadable, M extends Method> extends SimpleFileVisitor<Path> {
     private final Statistics stat = new Statistics();
     private final List<Statistics> statisticsList = new ArrayList<>();
-    private final Class<T> matrixClazz;
-    private final Class<M> methodClazz;
+    private final Class<T> matrixClass;
+    private final Class<M> methodClass;
     private Matrix matrix;
     private Vector rhsVector, exactSolution;
 
-    public SolverVisitor(Class<T> matrixClazz, Class<M> methodClazz) {
-        this.matrixClazz = matrixClazz;
-        this.methodClazz = methodClazz;
+    public SolverVisitor(Class<T> matrixClass, Class<M> methodClass) {
+        this.matrixClass = matrixClass;
+        this.methodClass = methodClass;
     }
 
     public List<Statistics> getStatisticsList() {
@@ -57,7 +57,7 @@ public class SolverVisitor<T extends Matrix & FileReadable, M extends Method> ex
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         if (isSameName(file, MATRIX_FILE)) {
-            matrix = FileReadable.init(matrixClazz, file);
+            matrix = FileReadable.init(matrixClass, file);
             return FileVisitResult.CONTINUE;
         }
         if (isSameName(file, RHS_VECTOR_FILE)) {
@@ -81,7 +81,7 @@ public class SolverVisitor<T extends Matrix & FileReadable, M extends Method> ex
         if (matrix == null || rhsVector == null || exactSolution == null) {
             return FileVisitResult.CONTINUE;
         }
-        M method = Method.init(methodClazz);
+        M method = Method.init(methodClass);
         Vector solution = method.evaluate(matrix, rhsVector);
         double ratioError = exactSolution.copy().subtract(solution).norm();
         stat.setRatioError(ratioError);

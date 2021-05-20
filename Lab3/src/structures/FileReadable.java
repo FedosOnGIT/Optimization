@@ -22,18 +22,11 @@ public interface FileReadable {
         return str.substring(l, r);
     }
 
-    static void createDirectoryIfNotExists(Path directory) throws IOException {
-        if (Files.notExists(directory)) {
-            Files.createDirectories(directory);
-        }
-    }
-
-    static <T extends Matrix & FileReadable> T init(Class<T> clazz, Path source) {
+    static <T extends Matrix & FileReadable> T init(Class<T> matrixClass, Path source) {
         try {
-            return clazz.getConstructor(Path.class).newInstance(source);
+            return matrixClass.getConstructor(Path.class).newInstance(source);
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid class token - can not create object from source file");
         }
     }
-
 }

@@ -7,7 +7,7 @@ public class MatrixRow extends MatrixVector {
 
     @Override
     protected double getImpl(int index) {
-        return matrix.get(this.index, index);
+        return matrix.getImpl(this.index, index);
     }
 
     @Override
