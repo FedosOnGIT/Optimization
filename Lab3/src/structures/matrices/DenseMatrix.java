@@ -6,16 +6,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class DenseMatrix extends Matrix implements FileReadable {
+public class DenseMatrix extends FileReadableMatrix {
     int rows, columns;
     double[][] values;
-
-    public DenseMatrix(double[][] values) {
-        checkIsMatrix(values);
-        this.rows = values.length;
-        this.columns = values[0].length;
-        this.values = values;
-    }
 
     private static void checkIsMatrix(double[][] values) {
         assert values.length > 0;
@@ -25,15 +18,15 @@ public class DenseMatrix extends Matrix implements FileReadable {
         }
     }
 
-    @Override
-    public DenseMatrix copy() {
-        double[][] values = new double[rows][columns];
-        for (int i = 0; i < rows; i++) {
-            if (columns >= 0) {
-                System.arraycopy(this.values[i], 0, values[i], 0, columns);
-            }
-        }
-        return new DenseMatrix(values);
+    public DenseMatrix(double[][] values) {
+        checkIsMatrix(values);
+        this.rows = values.length;
+        this.columns = values[0].length;
+        this.values = values;
+    }
+
+    public DenseMatrix(Path source) throws IOException {
+        this(readToDense(source));
     }
 
     @Override
@@ -61,7 +54,14 @@ public class DenseMatrix extends Matrix implements FileReadable {
         return values.length;
     }
 
-    public DenseMatrix(Path source) throws IOException {
-        this(readToDense(source));
+    @Override
+    public DenseMatrix copy() {
+        double[][] values = new double[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            if (columns >= 0) {
+                System.arraycopy(this.values[i], 0, values[i], 0, columns);
+            }
+        }
+        return new DenseMatrix(values);
     }
 }

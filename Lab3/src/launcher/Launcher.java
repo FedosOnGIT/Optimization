@@ -6,10 +6,7 @@ import methods.LU;
 import methods.Method;
 import structures.FileReadable;
 import structures.generators.*;
-import structures.matrices.DenseMatrix;
-import structures.matrices.Matrix;
-import structures.matrices.ProfileMatrix;
-import structures.matrices.SparseMatrix;
+import structures.matrices.*;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -103,7 +100,7 @@ public class Launcher {
         generateData(taskDir, generatorClazz, map);
     }
 
-    private static <T extends Matrix & FileReadable, M extends Method>
+    private static <T extends FileReadableMatrix, M extends Method>
     void solveTask(Path dir, Class<T> matrixClass, Class<M> methodClass, String resultFileName, Statistics.Field... fields) {
         SolverVisitor<T, M> solverVisitor = new SolverVisitor<>(matrixClass, methodClass);
         try (var writer = Files.newBufferedWriter(dir.resolve(resultFileName))) {

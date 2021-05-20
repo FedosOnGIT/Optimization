@@ -14,12 +14,12 @@ import java.util.stream.Stream;
 public class Vector extends Tuple implements FileReadable {
     private final Double[] values;
 
-    public Vector(int size) {
-        this(IntStream.range(0, size).mapToDouble(i -> 0));
-    }
-
     public Vector(Double... values) {
         this.values = values;
+    }
+
+    public Vector(int size) {
+        this(new Double[size]);
     }
 
     public Vector(Stream<Double> values) {
@@ -34,9 +34,13 @@ public class Vector extends Tuple implements FileReadable {
         this(values.stream());
     }
 
-    @Override
-    public Vector copy() {
-        return new Vector(Arrays.copyOf(values, values.length));
+    public Vector(Path source) throws IOException {
+        try (var reader = Files.newBufferedReader(source)) {
+            values = Arrays.stream(reader.readLine().split(" "))
+                    .map(FileReadable::clearElement)
+                    .map(Double::parseDouble)
+                    .toArray(Double[]::new);
+        }
     }
 
     @Override
@@ -52,6 +56,11 @@ public class Vector extends Tuple implements FileReadable {
     @Override
     public int size() {
         return values.length;
+    }
+
+    @Override
+    public Vector copy() {
+        return new Vector(Arrays.copyOf(values, values.length));
     }
 
     @Override
@@ -72,12 +81,8 @@ public class Vector extends Tuple implements FileReadable {
         return Arrays.hashCode(values);
     }
 
-    public Vector(Path source) throws IOException {
-        try (var reader = Files.newBufferedReader(source)) {
-            values = Arrays.stream(reader.readLine().split(" "))
-                    .map(FileReadable::clearElement)
-                    .map(Double::parseDouble)
-                    .toArray(Double[]::new);
-        }
+    @Override
+    public Vector add(Tuple other) {
+        return (Vector) super.add(other);
     }
 }

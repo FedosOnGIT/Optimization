@@ -26,7 +26,9 @@ public class Task2Generator extends AbstractGenerator {
             for (int i = 0; i < n; i++) {
                 double sum = 0;
                 for (int j = 0; j < n; j++) {
-                    if (j == i) continue;
+                    if (j == i) {
+                        continue;
+                    }
                     sum += matrix[i][j];
                 }
                 matrix[i][i] = -sum;

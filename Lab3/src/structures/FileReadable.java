@@ -1,14 +1,6 @@
 package structures;
 
-import structures.matrices.Diagonal;
-import structures.matrices.Matrix;
-import structures.matrices.Vector;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.stream.IntStream;
 
 public interface FileReadable {
     static String clearElement(String str) {
@@ -22,11 +14,11 @@ public interface FileReadable {
         return str.substring(l, r);
     }
 
-    static <T extends Matrix & FileReadable> T init(Class<T> matrixClass, Path source) {
+    static <T extends FileReadable> T init(Class<T> clazz, Path source) {
         try {
-            return matrixClass.getConstructor(Path.class).newInstance(source);
+            return clazz.getConstructor(Path.class).newInstance(source);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid class token - can not create object from source file");
+            throw new IllegalArgumentException("Invalid input - can not create object from source file");
         }
     }
 }

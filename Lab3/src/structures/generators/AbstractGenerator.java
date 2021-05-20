@@ -1,7 +1,6 @@
 package structures.generators;
 
 import structures.matrices.Diagonal;
-import structures.matrices.Matrix;
 import structures.matrices.SparseMatrix;
 import structures.matrices.Vector;
 
@@ -17,7 +16,7 @@ import static launcher.Launcher.*;
 public abstract class AbstractGenerator implements Generator {
     private final String matrixFile, rhsFile, exactSolutionFile;
     protected final int n;
-    protected final Random random;
+    protected final Random random = new Random();
 
     public AbstractGenerator(int n, String matrixFile, String rhsFile, String exactSolutionFile) {
         assert n > 0 && matrixFile != null && rhsFile != null && exactSolutionFile != null;
@@ -25,7 +24,6 @@ public abstract class AbstractGenerator implements Generator {
         this.rhsFile = rhsFile;
         this.exactSolutionFile = exactSolutionFile;
         this.n = n;
-        this.random = new Random();
     }
 
     public AbstractGenerator(int n) {
@@ -33,13 +31,13 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     @Override
-    public void generate(Path directory) throws IOException {
-        if (Files.notExists(directory)) {
-            Files.createDirectories(directory);
+    public void generate(Path dir) throws IOException {
+        if (Files.notExists(dir)) {
+            Files.createDirectories(dir);
         }
         List<Diagonal> diagonals;
         Vector exactSolution;
-        try (var writer = Files.newBufferedWriter(directory.resolve(matrixFile))) {
+        try (var writer = Files.newBufferedWriter(dir.resolve(matrixFile))) {
             diagonals = generateDiagonals();
             diagonals.sort(Comparator.comparing(Diagonal::getNumber));
             for (Diagonal d : diagonals) {
@@ -47,15 +45,15 @@ public abstract class AbstractGenerator implements Generator {
                 writer.write('\n');
             }
         }
-        try (var writer = Files.newBufferedWriter(directory.resolve(exactSolutionFile))) {
+        try (var writer = Files.newBufferedWriter(dir.resolve(exactSolutionFile))) {
             exactSolution = new Vector(IntStream.rangeClosed(1, n).asDoubleStream());
             writer.write(exactSolution.toString());
             writer.write('\n');
         }
-        /*try (var writer = Files.newBufferedWriter(directory.resolve(rhsFile))) {
+        try (var writer = Files.newBufferedWriter(dir.resolve(rhsFile))) {
             writer.write(new SparseMatrix(diagonals).multiply(exactSolution).toString());
             writer.write('\n');
-        }*/
+        }
     }
 
     protected List<Diagonal> toDiagonals(double[][] matrix) {
@@ -81,15 +79,16 @@ public abstract class AbstractGenerator implements Generator {
 
     public Set<Integer> generateSelection(int from, int to, int count) {
         int bound = from - to;
-        if (count < 0 || count > bound)
-            throw new IllegalArgumentException();
+        if (count < 0 || count > bound) {
+            throw new IllegalArgumentException("count < 0 || count > bound - invalid state");
+        }
 
         Set<Integer> result = new HashSet<>();
         for (int i = 0; i < count; ++i) {
             int x;
             do {
                 x = from + random.nextInt(bound);
-            } while (result.contains(x));
+            } while (x == 0 || result.contains(x));
             result.add(x);
         }
         return result;

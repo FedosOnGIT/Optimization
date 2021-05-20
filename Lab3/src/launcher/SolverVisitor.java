@@ -2,6 +2,7 @@ package launcher;
 
 import methods.Method;
 import structures.FileReadable;
+import structures.matrices.FileReadableMatrix;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 import static launcher.Launcher.*;
 
-public class SolverVisitor<T extends Matrix & FileReadable, M extends Method> extends SimpleFileVisitor<Path> {
+public class SolverVisitor<T extends FileReadableMatrix, M extends Method> extends SimpleFileVisitor<Path> {
     private final Statistics stat = new Statistics();
     private final List<Statistics> statisticsList = new ArrayList<>();
     private final Class<T> matrixClass;
@@ -40,7 +41,7 @@ public class SolverVisitor<T extends Matrix & FileReadable, M extends Method> ex
         exactSolution = null;
     }
 
-    private static boolean isSameName(Path file, String name) {
+    private static boolean isSame(Path file, String name) {
         return file.getFileName().toString().equals(name);
     }
 
@@ -56,15 +57,15 @@ public class SolverVisitor<T extends Matrix & FileReadable, M extends Method> ex
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (isSameName(file, MATRIX_FILE)) {
+        if (isSame(file, MATRIX_FILE)) {
             matrix = FileReadable.init(matrixClass, file);
             return FileVisitResult.CONTINUE;
         }
-        if (isSameName(file, RHS_VECTOR_FILE)) {
+        if (isSame(file, RHS_VECTOR_FILE)) {
             rhsVector = new Vector(file);
             return FileVisitResult.CONTINUE;
         }
-        if (isSameName(file, EXACT_SOLUTION_FILE)) {
+        if (isSame(file, EXACT_SOLUTION_FILE)) {
             exactSolution = new Vector(file);
             return FileVisitResult.CONTINUE;
         }
@@ -83,11 +84,11 @@ public class SolverVisitor<T extends Matrix & FileReadable, M extends Method> ex
         }
         M method = Method.init(methodClass);
         Vector solution = method.evaluate(matrix, rhsVector);
-        double ratioError = exactSolution.copy().subtract(solution).norm();
+        double ratioError = exactSolution.copy().subtractThis(solution).norm();
         stat.setRatioError(ratioError);
         stat.setAbsoluteError(ratioError / exactSolution.norm());
         stat.setIterations(method.getIterations());
-        stat.setCondA(stat.getAbsoluteError() / (rhsVector.copy().subtract(solution).norm() / rhsVector.norm()));
+        stat.setCondA(stat.getAbsoluteError() / (rhsVector.copy().subtractThis(solution).norm() / rhsVector.norm()));
         statisticsList.add(new Statistics(stat));
         stat.reset();
         return FileVisitResult.CONTINUE;

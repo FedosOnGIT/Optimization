@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class Matrix {
-    public abstract Matrix copy();
-
     protected abstract double getImpl(int i, int j);
 
     protected abstract void setImpl(int i, int j, double value);
@@ -21,6 +19,8 @@ public abstract class Matrix {
     public abstract int rowsCount();
 
     public abstract int columnsCount();
+
+    public abstract Matrix copy();
 
     public abstract int size();
 
@@ -76,27 +76,5 @@ public abstract class Matrix {
     public Vector multiply(Vector vector) {
         assert columnsCount() == vector.size();
         return new Vector(IntStream.range(0, rowsCount()).mapToObj(i -> new MatrixRow(this, i).scalar(vector)));
-    }
-
-    public static double[][] readToDense(Path file) throws IOException {
-        double[][] values = null;
-        try (var reader = Files.newBufferedReader(file)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                Diagonal diag = Diagonal.parseDiagonal(line);
-                int n = Math.abs(diag.getNumber()) + diag.getVector().size();
-                values = new double[n][n];
-                int i = 0, j = 0, k = 0;
-                if (diag.getNumber() > 0) {
-                    j = diag.getNumber();
-                } else {
-                    i = -diag.getNumber();
-                }
-                while (i < n && j < n) {
-                    values[i++][j++] = diag.getVector().get(k++);
-                }
-            }
-        }
-        return values;
     }
 }

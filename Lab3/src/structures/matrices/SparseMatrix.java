@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class SparseMatrix extends Matrix implements FileReadable {
+public class SparseMatrix extends FileReadableMatrix {
     private final double[] diagonal;
     private final List<Double> Triangle;
     private final int[] Indices;

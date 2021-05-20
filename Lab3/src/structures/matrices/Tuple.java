@@ -4,11 +4,11 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 public abstract class Tuple {
-    public abstract Tuple copy();
-
     protected abstract double getImpl(int index);
 
     protected abstract void setImpl(int index, double value);
+
+    public abstract Tuple copy();
 
     public abstract int size();
 
@@ -40,35 +40,43 @@ public abstract class Tuple {
         return this;
     }
 
-    public Tuple add(Tuple other) {
+    public Tuple addThis(Tuple other) {
         assert size() == other.size();
         return apply(i -> get(i) + other.get(i));
     }
 
-    public Tuple plus(Tuple other) {
-        return copy().add(other);
+    public Tuple add(Tuple other) {
+        return copy().addThis(other);
     }
 
-    public Tuple multiply(double alpha) {
-        return apply(i -> get(i) * alpha);
-    }
-
-    public Tuple subtract(Tuple other) {
+    public Tuple subtractThis(Tuple other) {
         assert size() == other.size();
         return apply(i -> get(i) - other.get(i));
     }
 
-    public Tuple extension(double alpha) {
-        return copy().multiply(alpha);
+    public Tuple subtract(Tuple other) {
+        return copy().subtractThis(other);
+    }
+
+    public Tuple multiplyThis(double alpha) {
+        return apply(i -> get(i) * alpha);
+    }
+
+    public Tuple multiply(double alpha) {
+        return copy().multiplyThis(alpha);
     }
 
     public double norm() {
         return Math.sqrt(IntStream.range(0, size()).mapToObj(i -> get(i) * get(i)).reduce(0d, Double::sum));
     }
 
-    public Tuple normalize() {
+    public Tuple normalizeThis() {
         double norm = norm();
         return apply(i -> get(i) / norm);
+    }
+
+    public Tuple normalize() {
+        return copy().normalize();
     }
 
     public double scalar(Tuple other) {

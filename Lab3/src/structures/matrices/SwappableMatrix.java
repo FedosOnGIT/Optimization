@@ -18,11 +18,6 @@ public class SwappableMatrix extends Matrix {
     }
 
     @Override
-    public SwappableMatrix copy() {
-        return new SwappableMatrix(original.copy(), Arrays.copyOf(permutation, permutation.length));
-    }
-
-    @Override
     protected double getImpl(int i, int j) {
         return original.get(permutation[i], j);
     }
@@ -40,6 +35,11 @@ public class SwappableMatrix extends Matrix {
     @Override
     public int columnsCount() {
         return original.columnsCount();
+    }
+
+    @Override
+    public SwappableMatrix copy() {
+        return new SwappableMatrix(original.copy(), Arrays.copyOf(permutation, permutation.length));
     }
 
     @Override

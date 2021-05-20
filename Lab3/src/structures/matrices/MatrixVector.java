@@ -1,6 +1,5 @@
 package structures.matrices;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public abstract class MatrixVector extends Tuple {

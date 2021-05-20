@@ -7,6 +7,7 @@ import structures.matrices.Vector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public abstract class Task5_AbstractGenerator extends AbstractGenerator {
     private final static int DIAG_COUNT = 3;
@@ -18,17 +19,13 @@ public abstract class Task5_AbstractGenerator extends AbstractGenerator {
     protected abstract double generateElement();
 
     private Vector generateVector(int n) {
-        Vector result = new Vector(n);
-        for (int i = 0; i < n; ++i) {
-            result.set(i, generateElement());
-        }
-        return result;
+        return new Vector(IntStream.range(0, n).mapToObj(i -> generateElement()));
     }
 
     @Override
     protected List<Diagonal> generateDiagonals() {
         List<Diagonal> result = new ArrayList<>();
-        int halfCount = Math.min(n-1, (DIAG_COUNT-1)/2);
+        int halfCount = Math.min(n - 1, (DIAG_COUNT - 1) / 2);
         for (int x : generateSelection(1, n, halfCount)) {
             int length = n - x;
             Vector diagData = generateVector(length);
