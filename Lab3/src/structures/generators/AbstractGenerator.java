@@ -52,10 +52,10 @@ public abstract class AbstractGenerator implements Generator {
             writer.write(exactSolution.toString());
             writer.write('\n');
         }
-        try (var writer = Files.newBufferedWriter(directory.resolve(rhsFile))) {
+        /*try (var writer = Files.newBufferedWriter(directory.resolve(rhsFile))) {
             writer.write(new SparseMatrix(diagonals).multiply(exactSolution).toString());
             writer.write('\n');
-        }
+        }*/
     }
 
     protected List<Diagonal> toDiagonals(double[][] matrix) {

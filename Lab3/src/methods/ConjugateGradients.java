@@ -8,13 +8,13 @@ public class ConjugateGradients extends Method {
     public Vector evaluate(Matrix matrix, Vector vector) {
         int size = vector.size();
         Vector point = new Vector(size);
-        Vector difference = (Vector) vector.plus(Matrix.multiply(matrix, point).extension(-1));
+        Vector difference = (Vector) vector.plus(matrix.multiply(point).extension(-1));
         iterations += (long) size * size;
         Vector helper = difference.copy();
         double length = vector.norm();
         iterations += size;
         while (difference.norm() / length > 1e-7) {
-            Vector multi = Matrix.multiply(matrix, helper);
+            Vector multi = matrix.multiply(helper);
             iterations += (long) size * size;
             double scalar = difference.scalar(difference);
             iterations += size;
