@@ -39,12 +39,7 @@ public class Statistics {
     }
 
     public Statistics() {
-        n = null;
-        k = null;
-        iterations = 0L;
-        absoluteError = null;
-        ratioError = null;
-        condA = null;
+        reset();
     }
 
     public Statistics(Statistics stat) {
@@ -134,10 +129,6 @@ public class Statistics {
         return this;
     }
 
-    public void incIterations() {
-        ++iterations;
-    }
-
     public Double getAbsoluteError() {
         return absoluteError;
     }
@@ -186,7 +177,7 @@ public class Statistics {
     }
 
     public void log(Writer writer, String delimiter, Field... fields) throws IOException {
-        List<String> values = new ArrayList<>();
+        List<String> values = new ArrayList<>(fields.length);
         for (Field field : fields) {
             String value = switch (field) {
                 case N -> getN().toString();
@@ -225,8 +216,12 @@ public class Statistics {
 
     public static String generateStringFormat(Field... fields) {
         StringBuilder sb = new StringBuilder();
-        for (Field field : fields) {
-            sb.append(field).append("=%").append(Field.isDoubleType(field) ? 'f' : 'd').append('_');
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            sb.append(field).append("=%").append(Field.isDoubleType(field) ? 'f' : 'd');
+            if (i != fields.length - 1) {
+                sb.append("_");
+            }
         }
         return sb.toString();
     }

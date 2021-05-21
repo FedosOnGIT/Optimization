@@ -104,8 +104,8 @@ public class Launcher {
     void solveTask(Path dir, Class<T> matrixClass, Class<M> methodClass, String resultFileName, Statistics.Field... fields) {
         SolverVisitor<T, M> solverVisitor = new SolverVisitor<>(matrixClass, methodClass);
         try (var writer = Files.newBufferedWriter(dir.resolve(resultFileName))) {
-            Files.walkFileTree(dir, solverVisitor);
             Statistics.logHeadLn(writer, fields);
+            Files.walkFileTree(dir, solverVisitor);
             List<Statistics> statisticsList = solverVisitor.getStatisticsList();
             statisticsList.sort(Comparator.comparing(Statistics::getN).thenComparing(Statistics::getK));
             for (Statistics stat : statisticsList) {
@@ -166,7 +166,6 @@ public class Launcher {
         } catch (IOException e) {
             System.err.println("Can not create TESTS directory");
         }
-
         generateTask2TestData();
         solveTask2();
 

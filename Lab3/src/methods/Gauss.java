@@ -15,7 +15,7 @@ public class Gauss extends Method {
         return reverseStroke(m, vector, n);
     }
 
-    private void checkInput(Matrix matrix, Vector vector) {
+    private static void checkInput(Matrix matrix, Vector vector) {
         if (matrix.rowsCount() != matrix.columnsCount()) {
             throw new IllegalArgumentException("Gauss works only for square matrices");
         }
@@ -25,7 +25,7 @@ public class Gauss extends Method {
     }
 
     private void forwardStroke(SwappableMatrix m, Vector v, int n) {
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < n; i++) {
             // Модификация метода Гаусса: делим на наибольший элемент в текущем столбце
             MatrixColumn column = new MatrixColumn(m, i);
             double max = column.get(i);
@@ -39,11 +39,9 @@ public class Gauss extends Method {
             }
             m.swapRows(i, index);
             v.swap(i, index);
-
             if (isZero(max)) {
                 throw new IllegalArgumentException("det(matrix) = 0");
             }
-
             double b = v.get(i);
             for (int j = i + 1; j < n; j++) {
                 double t = m.get(j, i) / max;
@@ -58,7 +56,6 @@ public class Gauss extends Method {
 
     private Vector reverseStroke(SwappableMatrix m, Vector v, int n) {
         double[] mixedSolution = new double[n];
-
         mixedSolution[n - 1] =  v.get(n - 1) / m.get(n - 1, n - 1);
         ++iterations;
         for (int i = n - 2; i >= 0; i--) {
@@ -69,7 +66,6 @@ public class Gauss extends Method {
             mixedSolution[i] = (v.get(i) - sum) / m.get(i, i);
             iterations += n - i;
         }
-
         // Переставляем элементы ответа в нужном порядке
         int[] permutation = m.getPermutation();
         Double[] solution = new Double[n];

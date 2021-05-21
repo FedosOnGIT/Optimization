@@ -34,8 +34,12 @@ public class SolverVisitor<T extends FileReadableMatrix, M extends Method> exten
     }
 
     public void reset() {
-        stat.reset();
+        resetIteration();
         statisticsList.clear();
+    }
+
+    private void resetIteration() {
+        stat.reset();
         matrix = null;
         rhsVector = null;
         exactSolution = null;
@@ -90,7 +94,7 @@ public class SolverVisitor<T extends FileReadableMatrix, M extends Method> exten
         stat.setIterations(method.getIterations());
         stat.setCondA(stat.getAbsoluteError() / (rhsVector.copy().subtractThis(solution).norm() / rhsVector.norm()));
         statisticsList.add(new Statistics(stat));
-        stat.reset();
+        resetIteration();
         return FileVisitResult.CONTINUE;
     }
 }
