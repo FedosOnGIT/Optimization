@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class Method {
     private final static double EPS = 1e-14;
 
-    protected long iterations = 0;
+    protected Long iterations = 0L;
 
     public abstract Vector evaluate(Matrix matrix, Vector vector);
 
