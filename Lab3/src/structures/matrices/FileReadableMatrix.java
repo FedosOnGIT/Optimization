@@ -38,7 +38,9 @@ public abstract class FileReadableMatrix extends Matrix implements FileReadable 
             while ((line = reader.readLine()) != null) {
                 Diagonal diag = parseDiagonal(line);
                 int n = Math.abs(diag.getNumber()) + diag.getVector().size();
-                values = new double[n][n];
+                if (values == null) {
+                    values = new double[n][n];
+                }
                 int i = 0, j = 0, k = 0;
                 if (diag.getNumber() > 0) {
                     j = diag.getNumber();

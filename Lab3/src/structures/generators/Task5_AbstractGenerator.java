@@ -36,13 +36,14 @@ public abstract class Task5_AbstractGenerator extends AbstractGenerator {
         for (int i = 0; i < n; ++i) {
             int x = 0;
             for (Diagonal d : result) {
-                int dPos = (d.getNumber() > 0 ? i : i + d.getNumber());
-                if (dPos >= 0 && dPos < d.getVector().size()) {
-                    x -= d.getVector().get(dPos);
+                Double value = d.getMatrixRowValue(i);
+                if (value != null) {
+                    x -= value;
                 }
             }
             mainDiagonal.set(i, x);
         }
+        mainDiagonal.set(0, mainDiagonal.get(0) + 1);
         result.add(new Diagonal(0, mainDiagonal));
         return result;
     }

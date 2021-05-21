@@ -51,4 +51,20 @@ public class Diagonal {
     public int hashCode() {
         return Objects.hash(number, vector);
     }
+
+    public Double getMatrixRowValue(int row) {
+        int i = number < 0 ? -number : 0;
+        if (row < i || row - i >= vector.size()) {
+            return null;
+        }
+        return vector.get(row - i);
+    }
+
+    public Double getMatrixColumnValue(int column) {
+        int j = number > 0 ? number : 0;
+        if (column < j || column - j >= vector.size()) {
+            return null;
+        }
+        return vector.get(column - j);
+    }
 }

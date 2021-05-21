@@ -8,6 +8,7 @@ import java.util.*;
 public class Task2Generator extends AbstractGenerator {
     private double value;
     private List<Diagonal> diagonals;
+    private Vector mainDiag;
 
     public Task2Generator(int n) {
         super(n);
@@ -20,6 +21,9 @@ public class Task2Generator extends AbstractGenerator {
             double[][] matrix = new double[n][n];
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
+                    if (i == j) {
+                        continue;
+                    }
                     matrix[i][j] = -random.nextInt(5);
                 }
             }
@@ -34,8 +38,13 @@ public class Task2Generator extends AbstractGenerator {
                 matrix[i][i] = -sum;
             }
             diagonals = toDiagonals(matrix);
+            for (Diagonal d : diagonals) {
+                if (d.getNumber() == 0) {
+                    mainDiag = d.getVector();
+                    break;
+                }
+            }
         }
-        Vector mainDiag = diagonals.get(n - 1).getVector();
         mainDiag.set(0, mainDiag.get(0) + value);
         value = (-value + 0.1 * value);
         return diagonals;

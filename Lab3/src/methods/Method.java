@@ -12,12 +12,12 @@ public abstract class Method {
 
     public abstract Vector evaluate(Matrix matrix, Vector vector);
 
-    protected boolean isZero(double value) {
-        return Math.abs(value) < EPS;
-    }
-
     public long getIterations() {
         return iterations;
+    }
+
+    public static boolean isZero(double value) {
+        return Math.abs(value) < EPS;
     }
 
     public static <T extends Method> T init(Class<T> clazz) {

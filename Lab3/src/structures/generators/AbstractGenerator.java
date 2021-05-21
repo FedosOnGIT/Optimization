@@ -1,5 +1,6 @@
 package structures.generators;
 
+import methods.Method;
 import structures.matrices.Diagonal;
 import structures.matrices.SparseMatrix;
 import structures.matrices.Vector;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static launcher.Launcher.*;
+import static methods.Method.isZero;
 
 public abstract class AbstractGenerator implements Generator {
     private final String matrixFile, rhsFile, exactSolutionFile;
@@ -57,21 +59,29 @@ public abstract class AbstractGenerator implements Generator {
     }
 
     protected List<Diagonal> toDiagonals(double[][] matrix) {
-        List<List<Double>> res = new ArrayList<>(2 * n - 1);
-        for (int i = 0; i < 2 * n - 1; i++) {
-            res.add(new ArrayList<>());
-        }
+        int diagCnt = 2 * n - 1, shift = n - 1;
+        List<List<Double>> res = IntStream.range(0, diagCnt)
+                .mapToObj(i -> new ArrayList<Double>())
+                .collect(Collectors.toList());
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int index = n - 1;
+                int index = shift;
                 if (i != j) {
                     index += i > j ? -1 * (i - j) : j - i;
                 }
                 res.get(index).add(matrix[i][j]);
             }
         }
-        return IntStream.range(0, 2 * n - 1)
-                .mapToObj(i -> new Diagonal(i - (n - 1), new Vector(res.get(i))))
+        return IntStream.range(0, diagCnt)
+                .mapToObj(i -> {
+                    List<Double> diag = res.get(i);
+                    if (diag.stream().allMatch(Method::isZero)) {
+                        return null;
+                    } else {
+                        return new Diagonal(i - shift, new Vector(diag));
+                    }
+                })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -80,7 +90,7 @@ public abstract class AbstractGenerator implements Generator {
     public Set<Integer> generateSelection(int from, int to, int count) {
         int bound = from - to;
         if (count < 0 || count > bound) {
-            throw new IllegalArgumentException("count < 0 || count > bound - invalid state");
+            throw new IllegalArgumentException("count < 0 || count > bound : invalid state");
         }
         Set<Integer> result = new HashSet<>();
         for (int i = 0; i < count; ++i) {
