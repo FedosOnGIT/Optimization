@@ -91,11 +91,14 @@ public class SolverVisitor<T extends FileReadableMatrix, M extends Method> exten
         if (matrix == null || rhsVector == null || exactSolution == null) {
             return FileVisitResult.CONTINUE;
         }
+        System.out.println(dir);
         M method = Method.init(methodClass);
         Vector solution = method.evaluate(matrix, rhsVector);
+        System.out.println(solution);
+        System.out.println();
         double ratioError = exactSolution.copy().subtractThis(solution).norm();
-        stat.setRatioError(ratioError);
-        stat.setAbsoluteError(ratioError / exactSolution.norm());
+        stat.setRatioError(ratioError / exactSolution.norm());
+        stat.setAbsoluteError(ratioError);
         stat.setIterations(method.getIterations());
         stat.setCondA(stat.getAbsoluteError() / (rhsVector.copy().subtractThis(solution).norm() / rhsVector.norm()));
         statisticsList.add(new Statistics(stat));

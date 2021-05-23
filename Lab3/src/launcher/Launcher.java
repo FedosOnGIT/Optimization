@@ -166,8 +166,8 @@ public class Launcher {
         } catch (IOException e) {
             System.err.println("Can not create TESTS directory");
         }
-        generateTask2TestData();
-//        solveTask2();
+        // generateTask2TestData();
+        // solveTask2();
 
         generateTask3TestData();
 //        solveTask3();
