@@ -62,7 +62,7 @@ public class Launcher {
     // Test data
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
     private final static List<Integer> TASK3_ARGS = List.of(10, 25, 50, 100, 200, 400, 800, 1000);
-    private final static List<Integer> TASK5_ARGS = List.of(10, 100, 1000);
+    private final static List<Integer> TASK5_ARGS = List.of(10, 100);
 
     private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz,
                                                            Map<Integer, Integer> testData) {
@@ -89,6 +89,7 @@ public class Launcher {
         } catch (Exception e) {
             System.err.printf("generateData: taskDir=%s, generatorClass=%s, testData=%s%n",
                     taskDir.toString(), generatorClazz.toString(), testData.toString());
+            e.printStackTrace();
             throw new IllegalStateException(e.getMessage());
         }
     }
@@ -157,11 +158,17 @@ public class Launcher {
         solveTask(TASK5_4_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
     }
 
+    private static void generateWithLog(Runnable runnable, String name) {
+        System.out.print("generate data for " + name + ": START");
+        runnable.run();
+        System.out.println(" END");
+    }
+
     private static void generateTasks() {
-        generateTask2();
-        generateTask3();
-        generateTask4();
-        generateTask5();
+        generateWithLog(Launcher::generateTask2, "task2");
+        generateWithLog(Launcher::generateTask3, "task3");
+        generateWithLog(Launcher::generateTask4, "task4");
+        generateWithLog(Launcher::generateTask5, "task5");
     }
 
     private static void solveTasks() {
@@ -180,8 +187,6 @@ public class Launcher {
             System.err.println("Can not create TESTS directory");
         }
         // generateTasks();
-        // solveTask5();
-        generateTask5();
-        solveTask5();
+        solveTasks();
     }
 }

@@ -59,7 +59,7 @@ public class SparseMatrix extends FileReadableMatrix {
             } else if (diagonal.getNumber() > 0) {
                 downDiagonals.add(diagonal);
             } else {
-                size = diagonals.get(0).getVector().size();
+                size = diagonal.getVector().size();
                 this.diagonal = IntStream.range(0, size).mapToDouble(i -> diagonal.getVector().get(i)).toArray();
             }
         }
@@ -75,12 +75,11 @@ public class SparseMatrix extends FileReadableMatrix {
         fillDiagonal(up, positionsUp, indicesUp, true, upDiagonals);
     }
 
-    void fillDiagonal(List<Double> triangle, List<Integer> positions, int[] indices, boolean up, List<Diagonal> diagonals) {
-        indices[0] = 0;
-        indices[1] = 0;
+    private void fillDiagonal(List<Double> triangle, List<Integer> positions, int[] indices, boolean up, List<Diagonal> diagonals) {
+        indices[0] = indices[1] = 0;
         int index = 0;
         for (int i = 0; i < size; i++) {
-            int multi = up? -1 : 1;
+            int multi = up ? -1 : 1;
             if (diagonals.size() > index && diagonals.get(index).getNumber() == multi * i) {
                 index++;
             }
