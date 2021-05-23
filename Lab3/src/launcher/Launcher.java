@@ -49,15 +49,26 @@ public class Launcher {
     private final static Path TASK5_3_PATH = TASK5_PATH.resolve("3");
     private final static Path TASK5_4_PATH = TASK5_PATH.resolve("4");
 
+    private final static Path TABLES = TESTS.resolve("tables");
+
     // input test files
     public final static String MATRIX_FILE = "matrix.txt";
     public final static String RHS_VECTOR_FILE = "rhs_vector.txt";
     public final static String EXACT_SOLUTION_FILE = "exact_solution.txt";
 
     // output test files
-    public final static String RESULT_FILE = "result.csv";
-    public final static String RESULT_GAUSS_FILE = "result_gauss.csv";
-    public final static String RESULT_LU_FILE = "result_lu.csv";
+    public final static String TASK2_RESULT_FILE = "task2.csv";
+
+    public final static String TASK3_RESULT_FILE = "task3.csv";
+
+    public final static String TASK4_RESULT_FILE_TASK2_GENERATOR_GAUSS = "task4_task2Generator_gauss.csv";
+    public final static String TASK4_RESULT_FILE_TASK2_GENERATOR_LU = "task4_task2Generator_lu.csv";
+    public final static String TASK4_RESULT_FILE_TASK3_GENERATOR_GAUSS = "task4_task3Generator_gauss.csv";
+    public final static String TASK4_RESULT_FILE_TASK3_GENERATOR_LU = "task4_task3Generator_lu.csv";
+
+    public final static String TASK5_RESULT_FILE_2 = "task5_2.csv";
+    public final static String TASK5_RESULT_FILE_3 = "task5_3.csv";
+    public final static String TASK5_RESULT_FILE_4 = "task5_4.csv";
 
     // Test data
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
@@ -103,7 +114,7 @@ public class Launcher {
     private static <T extends FileReadableMatrix, M extends Method>
     void solveTask(Path dir, Class<T> matrixClass, Class<M> methodClass, String resultFileName, Statistics.Field... fields) {
         SolverVisitor<T, M> solverVisitor = new SolverVisitor<>(matrixClass, methodClass, dir.getFileName().toString());
-        try (var writer = Files.newBufferedWriter(dir.resolve(resultFileName))) {
+        try (var writer = Files.newBufferedWriter(TABLES.resolve(resultFileName))) {
             Statistics.logHeadLn(writer, fields);
             Files.walkFileTree(dir, solverVisitor);
             List<Statistics> statisticsList = solverVisitor.getStatisticsList();
@@ -123,7 +134,7 @@ public class Launcher {
     }
 
     private static void solveTask2() {
-        solveTask(TASK2_PATH, ProfileMatrix.class, LU.class, RESULT_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR);
+        solveTask(TASK2_PATH, ProfileMatrix.class, LU.class, TASK2_RESULT_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR);
     }
 
     private static void generateTask3() {
@@ -131,7 +142,7 @@ public class Launcher {
     }
 
     private static void solveTask3() {
-        solveTask(TASK3_PATH, ProfileMatrix.class, LU.class, RESULT_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR);
+        solveTask(TASK3_PATH, ProfileMatrix.class, LU.class, TASK3_RESULT_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR);
     }
 
     private static void generateTask4() {
@@ -140,10 +151,10 @@ public class Launcher {
     }
 
     private static void solveTask4() {
-        solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_TASK2_GENERATOR_PATH, ProfileMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_GILBERT_GENERATOR_PATH, ProfileMatrix.class, LU.class, RESULT_LU_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, Gauss.class, TASK4_RESULT_FILE_TASK2_GENERATOR_GAUSS, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_TASK2_GENERATOR_PATH, ProfileMatrix.class, LU.class, TASK4_RESULT_FILE_TASK2_GENERATOR_LU, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, Gauss.class, TASK4_RESULT_FILE_TASK3_GENERATOR_GAUSS, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_GILBERT_GENERATOR_PATH, ProfileMatrix.class, LU.class, TASK4_RESULT_FILE_TASK3_GENERATOR_LU, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
     }
 
     private static void generateTask5() {
@@ -153,9 +164,9 @@ public class Launcher {
     }
 
     private static void solveTask5() {
-        solveTask(TASK5_2_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
-        solveTask(TASK5_3_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
-        solveTask(TASK5_4_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_2_PATH, DenseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_2, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_3_PATH, DenseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_3, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_4_PATH, DenseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_4, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
     }
 
     private static void generateWithLog(Runnable runnable, String name) {
@@ -183,6 +194,9 @@ public class Launcher {
         try {
             if (Files.notExists(TESTS)) {
                 Files.createDirectories(TESTS);
+            }
+            if (Files.notExists(TABLES)) {
+                Files.createDirectories(TABLES);
             }
         } catch (IOException e) {
             System.err.println("Can not create TESTS directory");
