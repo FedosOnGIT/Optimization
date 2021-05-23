@@ -62,7 +62,7 @@ public class Launcher {
 
     // Test data
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
-    private final static List<Integer> TASK3_ARGS = List.of(10, 100, 1000);
+    private final static List<Integer> TASK3_ARGS = List.of(10, 25, 50, 100, 200, 400, 800, 1000);
     private final static List<Integer> TASK5_ARGS = List.of(10, 100, 1000, 10_000, 100_000);
 
     private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz,
@@ -131,7 +131,7 @@ public class Launcher {
     }
 
     private static void solveTask3() {
-        solveTask(TASK3_PATH, ProfileMatrix.class, LU.class, RESULT_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR);
+        solveTask(TASK3_PATH, ProfileMatrix.class, LU.class, RESULT_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR);
     }
 
     private static void generateTask4TestData() {
@@ -142,8 +142,8 @@ public class Launcher {
     private static void solveTask4() {
         solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
         solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
     }
 
     private static void generateTask5TestData() {
@@ -166,13 +166,13 @@ public class Launcher {
         } catch (IOException e) {
             System.err.println("Can not create TESTS directory");
         }
-        // generateTask2TestData();
-        // solveTask2();
+//         generateTask2TestData();
+//         solveTask2();
 
-        generateTask3TestData();
+//        generateTask3TestData();
 //        solveTask3();
 
-        generateTask4TestData();
+//        generateTask4TestData();
 //        solveTask4();
 
 //        generateTask5TestData();

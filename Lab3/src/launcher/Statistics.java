@@ -124,6 +124,18 @@ public class Statistics {
         this.iterations = iterations;
     }
 
+    public void addIterations(Long toAddIterations) {
+        iterations += toAddIterations;
+    }
+
+    public void addIterations(Integer toAddIterations) {
+        iterations += toAddIterations;
+    }
+
+    public void incIterations() {
+        ++iterations;
+    }
+
     public Statistics withIterations(Long iterations) {
         setIterations(iterations);
         return this;
