@@ -73,7 +73,7 @@ public class Launcher {
     // Test data
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
     private final static List<Integer> TASK3_ARGS = List.of(10, 25, 50, 100, 200, 400, 800, 1000);
-    private final static List<Integer> TASK5_ARGS = List.of(10, 100, 1000);
+    private final static List<Integer> TASK5_ARGS = List.of(10, 100, 1000, 100_000);
 
     private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz,
                                                            Map<Integer, Integer> testData) {
@@ -124,7 +124,7 @@ public class Launcher {
             }
         } catch (IOException e) {
             System.err.printf("solveTask: dir=%s, matrixClass=%s, methodClass=%s, resultFileName=%s, fields=%s%n",
-                    dir.toString(), matrixClass.toString(), methodClass.toString(), resultFileName, Arrays.toString(fields));
+                    dir, matrixClass.toString(), methodClass.toString(), resultFileName, Arrays.toString(fields));
             throw new IllegalStateException(e.getMessage());
         }
     }
