@@ -59,7 +59,7 @@ public class SparseMatrix extends FileReadableMatrix {
             } else if (diagonal.getNumber() > 0) {
                 downDiagonals.add(diagonal);
             } else {
-                size = diagonals.get(0).getVector().size();
+                size = diagonal.getVector().size();
                 this.diagonal = IntStream.range(0, size).mapToDouble(i -> diagonal.getVector().get(i)).toArray();
             }
         }
@@ -195,7 +195,6 @@ public class SparseMatrix extends FileReadableMatrix {
             x += diagonal[i] * vector.get(i);
             result.set(i, x);
         }
-        assert(result.equals(super.multiply(vector))); // TODO delete
         return result;
     }
 }
