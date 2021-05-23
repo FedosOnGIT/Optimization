@@ -191,7 +191,6 @@ public class SparseMatrix extends FileReadableMatrix {
                 result.set(positionsUp.get(j), x);
             }
         }
-        assert(result.equals(super.multiply(vector)));
         return result;
     }
 }
