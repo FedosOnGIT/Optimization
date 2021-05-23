@@ -172,24 +172,24 @@ public class SparseMatrix extends FileReadableMatrix {
         return size;
     }
 
-    @Override
-    public Vector multiply(Vector vector) {
-        Vector result = new Vector(size);
-        for (int i = 0; i < size; ++i) {
-            double x = 0;
-            for (int j = indicesDown[i]; j < indicesDown[i+1]; ++j) {
-                x += down.get(j) * vector.get(positionsDown.get(j));
-            }
-            result.set(i, x);
-        }
-        for (int i = 0; i < size; ++i) {
-            for (int j = indicesUp[i]; j < indicesUp[i+1]; ++j) {
-                double x = result.get(positionsUp.get(j));
-                x += up.get(j) * vector.get(i);
-                result.set(positionsUp.get(j), x);
-            }
-        }
-        assert(result.equals(super.multiply(vector))); // TODO delete
-        return result;
-    }
+//    @Override
+//    public Vector multiply(Vector vector) {
+//        Vector result = new Vector(size);
+//        for (int i = 0; i < size; ++i) {
+//            double x = 0;
+//            for (int j = indicesDown[i]; j < indicesDown[i+1]; ++j) {
+//                x += down.get(j) * vector.get(positionsDown.get(j));
+//            }
+//            result.set(i, x);
+//        }
+//        for (int i = 0; i < size; ++i) {
+//            for (int j = indicesUp[i]; j < indicesUp[i+1]; ++j) {
+//                double x = result.get(positionsUp.get(j));
+//                x += up.get(j) * vector.get(i);
+//                result.set(positionsUp.get(j), x);
+//            }
+//        }
+//        // assert(result.equals(super.multiply(vector)));
+//        return result;
+//    }
 }

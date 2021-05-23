@@ -3,8 +3,6 @@ package methods;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
 
-import java.lang.reflect.InvocationTargetException;
-
 public abstract class Method {
     protected Long iterations = 0L;
 

@@ -1,7 +1,5 @@
 package structures.generators;
 
-import methods.Method;
-import structures.matrices.DenseMatrix;
 import structures.matrices.Diagonal;
 import structures.matrices.SparseMatrix;
 import structures.matrices.Vector;

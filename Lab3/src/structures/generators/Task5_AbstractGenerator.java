@@ -1,12 +1,10 @@
 package structures.generators;
 
 import structures.matrices.Diagonal;
-import structures.matrices.SparseMatrix;
 import structures.matrices.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 public abstract class Task5_AbstractGenerator extends AbstractGenerator {
