@@ -164,9 +164,9 @@ public class Launcher {
     }
 
     private static void solveTask5() {
-        solveTask(TASK5_2_PATH, DenseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_2, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
-        solveTask(TASK5_3_PATH, DenseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_3, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
-        solveTask(TASK5_4_PATH, DenseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_4, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_2_PATH, SparseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_2, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_3_PATH, SparseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_3, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_4_PATH, SparseMatrix.class, ConjugateGradients.class, TASK5_RESULT_FILE_4, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
     }
 
     private static void generateWithLog(Runnable runnable, String name) {
