@@ -5,3 +5,5 @@
 **/out/
 *.iml
 gui.pro.user
+**/tests/
+**/test/
