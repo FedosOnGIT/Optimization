@@ -39,9 +39,6 @@ public class Gauss extends Method {
             }
             m.swapRows(i, index);
             v.swap(i, index);
-            if (isZero(max)) {
-                throw new IllegalArgumentException("det(matrix) = 0");
-            }
             double b = v.get(i);
             for (int j = i + 1; j < n; j++) {
                 double t = m.get(j, i) / max;

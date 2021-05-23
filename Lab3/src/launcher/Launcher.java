@@ -4,7 +4,6 @@ import methods.ConjugateGradients;
 import methods.Gauss;
 import methods.LU;
 import methods.Method;
-import structures.FileReadable;
 import structures.generators.*;
 import structures.matrices.*;
 
@@ -118,7 +117,7 @@ public class Launcher {
         }
     }
 
-    private static void generateTask2TestData() {
+    private static void generateTask2() {
         generateData(TASK2_PATH, Task2Generator.class, TASK2_ARGS);
     }
 
@@ -126,7 +125,7 @@ public class Launcher {
         solveTask(TASK2_PATH, ProfileMatrix.class, LU.class, RESULT_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR);
     }
 
-    private static void generateTask3TestData() {
+    private static void generateTask3() {
         generateData(TASK3_PATH, GilbertGenerator.class, TASK3_ARGS);
     }
 
@@ -134,19 +133,19 @@ public class Launcher {
         solveTask(TASK3_PATH, ProfileMatrix.class, LU.class, RESULT_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR);
     }
 
-    private static void generateTask4TestData() {
+    private static void generateTask4() {
         generateData(TASK4_TASK2_GENERATOR_PATH, Task2Generator.class, TASK2_ARGS);
         generateData(TASK4_GILBERT_GENERATOR_PATH, GilbertGenerator.class, TASK3_ARGS);
     }
 
     private static void solveTask4() {
         solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_TASK2_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_TASK2_GENERATOR_PATH, ProfileMatrix.class, LU.class, RESULT_LU_FILE, N, K, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
         solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, Gauss.class, RESULT_GAUSS_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
-        solveTask(TASK4_GILBERT_GENERATOR_PATH, DenseMatrix.class, LU.class, RESULT_LU_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
+        solveTask(TASK4_GILBERT_GENERATOR_PATH, ProfileMatrix.class, LU.class, RESULT_LU_FILE, N, RATIO_ERROR, ABSOLUTE_ERROR, ITERATIONS);
     }
 
-    private static void generateTask5TestData() {
+    private static void generateTask5() {
         generateData(TASK5_2_PATH, Task5_2Generator.class, TASK5_ARGS);
         generateData(TASK5_3_PATH, Task5_3Generator.class, TASK5_ARGS);
         generateData(TASK5_4_PATH, GilbertGenerator.class, TASK3_ARGS);
@@ -158,6 +157,20 @@ public class Launcher {
         solveTask(TASK5_4_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
     }
 
+    private static void generateTasks() {
+        generateTask2();
+        generateTask3();
+        generateTask4();
+        generateTask5();
+    }
+
+    private static void solveTasks() {
+        solveTask2();
+        solveTask3();
+        solveTask4();
+        solveTask5();
+    }
+
     public static void main(String[] args) {
         try {
             if (Files.notExists(TESTS)) {
@@ -166,16 +179,8 @@ public class Launcher {
         } catch (IOException e) {
             System.err.println("Can not create TESTS directory");
         }
-//         generateTask2TestData();
-//         solveTask2();
-
-//        generateTask3TestData();
-//        solveTask3();
-
-//        generateTask4TestData();
-//        solveTask4();
-
-//        generateTask5TestData();
-//        solveTask5();
+        // generateTasks();
+        // solveTask5();
+        solveTask5();
     }
 }

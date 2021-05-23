@@ -43,9 +43,9 @@ public class SwappableMatrix extends Matrix {
     }
 
     public void swapRows(int i, int j) {
-        permutation[i] ^= permutation[j];
-        permutation[j] ^= permutation[i];
-        permutation[i] ^= permutation[j];
+        int tmp = permutation[i];
+        permutation[i] = permutation[j];
+        permutation[j] = tmp;
     }
 
     public int[] getPermutation() {

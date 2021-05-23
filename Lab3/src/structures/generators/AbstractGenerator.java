@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static launcher.Launcher.*;
-import static methods.Method.isZero;
 
 public abstract class AbstractGenerator implements Generator {
     private final String matrixFile, rhsFile, exactSolutionFile;
@@ -74,15 +73,7 @@ public abstract class AbstractGenerator implements Generator {
             }
         }
         return IntStream.range(0, diagCnt)
-                .mapToObj(i -> {
-                    List<Double> diag = res.get(i);
-                    if (diag.stream().allMatch(Method::isZero)) {
-                        return null;
-                    } else {
-                        return new Diagonal(i - shift, new Vector(diag));
-                    }
-                })
-                .filter(Objects::nonNull)
+                .mapToObj(i -> new Diagonal(i - shift, new Vector(res.get(i))))
                 .collect(Collectors.toList());
     }
 
