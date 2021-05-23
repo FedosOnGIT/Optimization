@@ -184,7 +184,7 @@ public class SparseMatrix extends FileReadableMatrix {
             result.set(i, x);
         }
         for (int i = 0; i < size; ++i) {
-            for (int j = indicesDown[i]; j < indicesDown[i+1]; ++j) {
+            for (int j = indicesUp[i]; j < indicesUp[i+1]; ++j) {
                 double x = result.get(positionsUp.get(j));
                 x += up.get(j) * vector.get(i);
                 result.set(positionsUp.get(j), x);
