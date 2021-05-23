@@ -153,9 +153,9 @@ public class Launcher {
     }
 
     private static void solveTask5() {
-        solveTask(TASK5_2_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
-        solveTask(TASK5_3_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
-        solveTask(TASK5_4_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_2_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_3_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_4_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
     }
 
     private static void generateWithLog(Runnable runnable, String name) {
@@ -169,6 +169,7 @@ public class Launcher {
         generateWithLog(Launcher::generateTask3, "task3");
         generateWithLog(Launcher::generateTask4, "task4");
         generateWithLog(Launcher::generateTask5, "task5");
+        System.out.println();
     }
 
     private static void solveTasks() {
@@ -186,7 +187,7 @@ public class Launcher {
         } catch (IOException e) {
             System.err.println("Can not create TESTS directory");
         }
-        // generateTasks();
-        // solveTasks();
+        generateTasks();
+        solveTasks();
     }
 }

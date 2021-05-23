@@ -1,5 +1,6 @@
 package structures.generators;
 
+import structures.matrices.DenseMatrix;
 import structures.matrices.Diagonal;
 import structures.matrices.SparseMatrix;
 import structures.matrices.Vector;
@@ -51,7 +52,7 @@ public abstract class AbstractGenerator implements Generator {
             writer.write('\n');
         }
         try (var writer = Files.newBufferedWriter(dir.resolve(rhsFile))) {
-            writer.write(new SparseMatrix(diagonals).multiply(exactSolution).toString());
+            writer.write(new DenseMatrix(diagonals).multiply(exactSolution).toString());
             writer.write('\n');
         }
     }
