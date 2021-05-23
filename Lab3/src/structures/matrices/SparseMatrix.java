@@ -59,7 +59,7 @@ public class SparseMatrix extends FileReadableMatrix {
             } else if (diagonal.getNumber() > 0) {
                 downDiagonals.add(diagonal);
             } else {
-                size = diagonal.getVector().size();
+                size = diagonals.get(0).getVector().size();
                 this.diagonal = IntStream.range(0, size).mapToDouble(i -> diagonal.getVector().get(i)).toArray();
             }
         }
@@ -75,11 +75,12 @@ public class SparseMatrix extends FileReadableMatrix {
         fillDiagonal(up, positionsUp, indicesUp, true, upDiagonals);
     }
 
-    private void fillDiagonal(List<Double> triangle, List<Integer> positions, int[] indices, boolean up, List<Diagonal> diagonals) {
-        indices[0] = indices[1] = 0;
+    void fillDiagonal(List<Double> triangle, List<Integer> positions, int[] indices, boolean up, List<Diagonal> diagonals) {
+        indices[0] = 0;
+        indices[1] = 0;
         int index = 0;
         for (int i = 0; i < size; i++) {
-            int multi = up ? -1 : 1;
+            int multi = up? -1 : 1;
             if (diagonals.size() > index && diagonals.get(index).getNumber() == multi * i) {
                 index++;
             }
@@ -172,24 +173,29 @@ public class SparseMatrix extends FileReadableMatrix {
         return size;
     }
 
-//    @Override
-//    public Vector multiply(Vector vector) {
-//        Vector result = new Vector(size);
-//        for (int i = 0; i < size; ++i) {
-//            double x = 0;
-//            for (int j = indicesDown[i]; j < indicesDown[i+1]; ++j) {
-//                x += down.get(j) * vector.get(positionsDown.get(j));
-//            }
-//            result.set(i, x);
-//        }
-//        for (int i = 0; i < size; ++i) {
-//            for (int j = indicesUp[i]; j < indicesUp[i+1]; ++j) {
-//                double x = result.get(positionsUp.get(j));
-//                x += up.get(j) * vector.get(i);
-//                result.set(positionsUp.get(j), x);
-//            }
-//        }
-//        // assert(result.equals(super.multiply(vector)));
-//        return result;
-//    }
+    @Override
+    public Vector multiply(Vector vector) {
+        Vector result = new Vector(size);
+        for (int i = 0; i < size; ++i) {
+            double x = 0;
+            for (int j = indicesDown[i]; j < indicesDown[i+1]; ++j) {
+                x += down.get(j) * vector.get(positionsDown.get(j));
+            }
+            result.set(i, x);
+        }
+        for (int i = 0; i < size; ++i) {
+            for (int j = indicesUp[i]; j < indicesUp[i+1]; ++j) {
+                double x = result.get(positionsUp.get(j));
+                x += up.get(j) * vector.get(i);
+                result.set(positionsUp.get(j), x);
+            }
+        }
+        for (int i = 0; i < size; ++i) {
+            double x = result.get(i);
+            x += diagonal[i] * vector.get(i);
+            result.set(i, x);
+        }
+        assert(result.equals(super.multiply(vector))); // TODO delete
+        return result;
+    }
 }
