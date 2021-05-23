@@ -10,25 +10,39 @@ import java.util.stream.IntStream;
 
 // TODO: SparseMatrix не обязательно хранит только симметричные матрицы. Расширить функционал на это.
 public class SparseMatrix extends FileReadableMatrix {
-    private final double[] diagonal;
-    private final List<Double> triangle;
-    private final int[] indices;
-    private final List<Integer> positions;
-    private final int size;
+    private double[] diagonal;
+    private final List<Double> down;
+    private final List<Double> up;
+    private final int[] indicesUp;
+    private final int[] indicesDown;
+    private final List<Integer> positionsDown;
+    private final List<Integer> positionsUp;
+    private int size;
 
     public SparseMatrix(double[]... values) {
         size = values.length;
         diagonal = IntStream.range(0, size).mapToDouble(i -> values[i][i]).toArray();
-        triangle = new ArrayList<>();
-        positions = new ArrayList<>();
-        indices = new int[size + 1];
+        down = new ArrayList<>();
+        up = new ArrayList<>();
+        positionsDown = new ArrayList<>();
+        positionsUp = new ArrayList<>();
+        indicesDown = new int[size + 1];
+        indicesDown[0] = 0;
+        indicesUp = new int[size + 1];
+        fillFull(down, positionsDown, indicesDown, false, values);
+        fillFull(up, positionsUp, indicesUp, true, values);
+    }
+
+    void fillFull(List<Double> triangle, List<Integer> positions, int[] indices, boolean up, double[] ...values) {
         indices[0] = 0;
         for (int i = 0; i < size; i++) {
             int profile = 0;
             for (int j = 0; j < i; j++) {
-                if (values[i][j] != 0) {
+                int x = up ? j : i;
+                int y = up ? i : j;
+                if (values[x][y] != 0) {
                     profile++;
-                    triangle.add(values[i][j]);
+                    triangle.add(values[x][y]);
                     positions.add(j);
                 }
             }
@@ -37,26 +51,46 @@ public class SparseMatrix extends FileReadableMatrix {
     }
 
     public SparseMatrix(List<Diagonal> diagonals) {
-        diagonals.sort(Comparator.comparingInt(Diagonal::getNumber));
-        size = diagonals.get(0).getVector().size();
-        diagonal = IntStream.range(0, size).mapToDouble(i -> diagonals.get(0).getVector().get(0)).toArray();
-        indices = new int[size + 1];
-        triangle = new ArrayList<>();
-        positions = new ArrayList<>();
+        List<Diagonal> upDiagonals = new ArrayList<>();
+        List<Diagonal> downDiagonals = new ArrayList<>();
+        for (Diagonal diagonal : diagonals) {
+            if (diagonal.getNumber() < 0) {
+                upDiagonals.add(diagonal);
+            } else if (diagonal.getNumber() > 0) {
+                downDiagonals.add(diagonal);
+            } else {
+                size = diagonals.get(0).getVector().size();
+                this.diagonal = IntStream.range(0, size).mapToDouble(i -> diagonal.getVector().get(i)).toArray();
+            }
+        }
+        upDiagonals.sort(Comparator.comparing(Diagonal::getNumber).reversed());
+        downDiagonals.sort(Comparator.comparing(Diagonal::getNumber));
+        indicesDown = new int[size + 1];
+        down = new ArrayList<>();
+        positionsDown = new ArrayList<>();
+        indicesUp = new int[size + 1];
+        up = new ArrayList<>();
+        positionsUp = new ArrayList<>();
+        fillDiagonal(down, positionsDown, indicesDown, false, downDiagonals);
+        fillDiagonal(up, positionsUp, indicesUp, true, upDiagonals);
+    }
+
+    void fillDiagonal(List<Double> triangle, List<Integer> positions, int[] indices, boolean up, List<Diagonal> diagonals) {
         indices[0] = 0;
         indices[1] = 0;
-        int index = 1;
-        for (int i = 1; i < size; i++) {
-            if (diagonals.size() > index && diagonals.get(index).getNumber() == i) {
+        int index = 0;
+        for (int i = 0; i < size; i++) {
+            int multi = up? -1 : 1;
+            if (diagonals.size() > index && diagonals.get(index).getNumber() == multi * i) {
                 index++;
             }
             int profile = 0;
-            for (int j = index - 1; j > 0; j--) {
-                int column = i - diagonals.get(j).getNumber();
-                double element = diagonals.get(j).getVector().get(column);
+            for (int j = index - 1; j >= 0; j--) {
+                int line = i - multi * diagonals.get(j).getNumber();
+                double element = diagonals.get(j).getVector().get(line);
                 if (element != 0) {
                     triangle.add(element);
-                    positions.add(column);
+                    positions.add(line);
                     profile++;
                 }
             }
@@ -73,9 +107,7 @@ public class SparseMatrix extends FileReadableMatrix {
         throw new UnsupportedOperationException("SparseMatrix does not support copy()");
     }
 
-    private int getPosition(int i, int j) {
-        int x = Math.max(i, j);
-        int y = Math.min(i, j);
+    private int getPosition(int x, int y, int[] indices, List<Integer> positions) {
         int left = indices[x];
         int right = indices[x + 1];
         int index = Collections.binarySearch(positions.subList(left, right), y);
@@ -91,11 +123,20 @@ public class SparseMatrix extends FileReadableMatrix {
         if (i == j) {
             return diagonal[i];
         }
-        int position = getPosition(i, j);
-        if (position > -1) {
-            return triangle.get(position);
+        if (i > j) {
+            int position = getPosition(i, j, indicesDown, positionsDown);
+            if (position > -1) {
+                return down.get(position);
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            int position = getPosition(j, i, indicesUp, positionsUp);
+            if (position > -1) {
+                return up.get(position);
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -105,11 +146,20 @@ public class SparseMatrix extends FileReadableMatrix {
             diagonal[i] = value;
             return;
         }
-        int position = getPosition(i, j);
-        if (position > -1) {
-            triangle.set(position, value);
+        if (i > j) {
+            int position = getPosition(i, j, indicesDown, positionsDown);
+            if (position > -1) {
+                down.set(position, value);
+            } else {
+                throw new IllegalArgumentException("Can't set on zero!");
+            }
         } else {
-            throw new IllegalArgumentException("Can't set on zero!");
+            int position = getPosition(j, i, indicesUp, positionsUp);
+            if (position > -1) {
+                up.set(position, value);
+            } else {
+                throw new IllegalArgumentException("Can't set on zero!");
+            }
         }
     }
 
