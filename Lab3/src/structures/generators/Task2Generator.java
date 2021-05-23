@@ -44,9 +44,11 @@ public class Task2Generator extends AbstractGenerator {
                     break;
                 }
             }
+            mainDiag.set(0, mainDiag.get(0) + value);
+        } else {
+            mainDiag.set(0, mainDiag.get(0) - 0.9 * value);
+            value *= 0.1;
         }
-        mainDiag.set(0, mainDiag.get(0) + value);
-        value = (-value + 0.1 * value);
         return diagonals;
     }
 }

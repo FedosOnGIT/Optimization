@@ -1,6 +1,7 @@
 package structures.generators;
 
 import methods.Method;
+import structures.matrices.DenseMatrix;
 import structures.matrices.Diagonal;
 import structures.matrices.SparseMatrix;
 import structures.matrices.Vector;
@@ -53,7 +54,7 @@ public abstract class AbstractGenerator implements Generator {
             writer.write('\n');
         }
         try (var writer = Files.newBufferedWriter(dir.resolve(rhsFile))) {
-            writer.write(new SparseMatrix(diagonals).multiply(exactSolution).toString());
+            writer.write(new DenseMatrix(diagonals).multiply(exactSolution).toString());
             writer.write('\n');
         }
     }
@@ -88,7 +89,7 @@ public abstract class AbstractGenerator implements Generator {
     protected abstract List<Diagonal> generateDiagonals();
 
     public Set<Integer> generateSelection(int from, int to, int count) {
-        int bound = from - to;
+        int bound = to - from;
         if (count < 0 || count > bound) {
             throw new IllegalArgumentException("count < 0 || count > bound : invalid state");
         }

@@ -21,10 +21,12 @@ public class SolverVisitor<T extends FileReadableMatrix, M extends Method> exten
     private final List<Statistics> statisticsList = new ArrayList<>();
     private final Class<T> matrixClass;
     private final Class<M> methodClass;
+    private final String mainDirName;
     private Matrix matrix;
     private Vector rhsVector, exactSolution;
 
-    public SolverVisitor(Class<T> matrixClass, Class<M> methodClass) {
+    public SolverVisitor(Class<T> matrixClass, Class<M> methodClass, String mainDirName) {
+        this.mainDirName = mainDirName;
         this.matrixClass = matrixClass;
         this.methodClass = methodClass;
     }
@@ -51,6 +53,9 @@ public class SolverVisitor<T extends FileReadableMatrix, M extends Method> exten
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+        if (isSame(dir, mainDirName)) {
+            return FileVisitResult.CONTINUE;
+        }
         String[] parts = dir.getFileName().toString().split("_");
         for (String part : parts) {
             String[] lexemes = part.split("=");

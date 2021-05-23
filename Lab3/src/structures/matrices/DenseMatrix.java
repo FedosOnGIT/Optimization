@@ -2,10 +2,11 @@ package structures.matrices;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 public class DenseMatrix extends FileReadableMatrix {
-    final int size;
-    final double[][] values;
+    int size;
+    double[][] values;
 
     public DenseMatrix(double[][] values) {
         checkIsSquare(values);
@@ -15,6 +16,25 @@ public class DenseMatrix extends FileReadableMatrix {
 
     public DenseMatrix(Path source) throws IOException {
         this(readToDense(source));
+    }
+
+    public DenseMatrix(List<Diagonal> diagonals) {
+        for (Diagonal diag : diagonals) {
+            int n = Math.abs(diag.getNumber()) + diag.getVector().size();
+            if (values == null) {
+                values = new double[n][n];
+                size = n;
+            }
+            int i = 0, j = 0, k = 0;
+            if (diag.getNumber() > 0) {
+                j = diag.getNumber();
+            } else {
+                i = -diag.getNumber();
+            }
+            while (i < n && j < n) {
+                values[i++][j++] = diag.getVector().get(k++);
+            }
+        }
     }
 
     @Override

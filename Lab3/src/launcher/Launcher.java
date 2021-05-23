@@ -77,7 +77,7 @@ public class Launcher {
                 Integer k = data.getValue();
                 if (k != null) {
                     for (int i = 0; i <= k; i++) {
-                        Path dir = taskDir.resolve(String.format(generateStringFormat(N, K), n, k));
+                        Path dir = taskDir.resolve(String.format(generateStringFormat(N, K), n, i));
                         Files.createDirectories(dir);
                         generator.generate(dir);
                     }
@@ -102,7 +102,7 @@ public class Launcher {
 
     private static <T extends FileReadableMatrix, M extends Method>
     void solveTask(Path dir, Class<T> matrixClass, Class<M> methodClass, String resultFileName, Statistics.Field... fields) {
-        SolverVisitor<T, M> solverVisitor = new SolverVisitor<>(matrixClass, methodClass);
+        SolverVisitor<T, M> solverVisitor = new SolverVisitor<>(matrixClass, methodClass, dir.getFileName().toString());
         try (var writer = Files.newBufferedWriter(dir.resolve(resultFileName))) {
             Statistics.logHeadLn(writer, fields);
             Files.walkFileTree(dir, solverVisitor);
@@ -167,15 +167,15 @@ public class Launcher {
             System.err.println("Can not create TESTS directory");
         }
         generateTask2TestData();
-        solveTask2();
+//        solveTask2();
 
         generateTask3TestData();
-        solveTask3();
+//        solveTask3();
 
         generateTask4TestData();
-        solveTask4();
+//        solveTask4();
 
-        generateTask5TestData();
-        solveTask5();
+//        generateTask5TestData();
+//        solveTask5();
     }
 }
