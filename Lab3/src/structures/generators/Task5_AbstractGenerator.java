@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public abstract class Task5_AbstractGenerator extends AbstractGenerator {
-    private final static int DIAG_COUNT = 3;
+    private final static int DIAG_COUNT = 7;
 
     public Task5_AbstractGenerator(int n) {
         super(n);

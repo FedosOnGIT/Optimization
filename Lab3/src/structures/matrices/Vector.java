@@ -18,7 +18,8 @@ public class Vector extends Tuple implements FileReadable {
     }
 
     public Vector(int size) {
-        this(new Double[size]);
+        values = new Double[size];
+        Arrays.fill(values, 0.);
     }
 
     public Vector(Stream<Double> values) {

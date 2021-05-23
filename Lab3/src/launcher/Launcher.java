@@ -62,7 +62,7 @@ public class Launcher {
     // Test data
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
     private final static List<Integer> TASK3_ARGS = List.of(10, 25, 50, 100, 200, 400, 800, 1000);
-    private final static List<Integer> TASK5_ARGS = List.of(10, 100, 1000, 10_000, 100_000);
+    private final static List<Integer> TASK5_ARGS = List.of(10, 100, 1000);
 
     private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz,
                                                            Map<Integer, Integer> testData) {
@@ -152,9 +152,9 @@ public class Launcher {
     }
 
     private static void solveTask5() {
-        solveTask(TASK5_2_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
-        solveTask(TASK5_3_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
-        solveTask(TASK5_4_PATH, SparseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_2_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_3_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
+        solveTask(TASK5_4_PATH, DenseMatrix.class, ConjugateGradients.class, RESULT_FILE, N, ITERATIONS, RATIO_ERROR, ABSOLUTE_ERROR, COND_A);
     }
 
     private static void generateTasks() {
@@ -181,6 +181,7 @@ public class Launcher {
         }
         // generateTasks();
         // solveTask5();
+        generateTask5();
         solveTask5();
     }
 }
