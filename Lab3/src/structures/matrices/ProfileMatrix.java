@@ -103,7 +103,6 @@ public class ProfileMatrix extends FileReadableMatrix {
                 }
             }
         }
-        // TODO check
         stat.addIterations(size);
         return new Vector(IntStream
                 .range(0, size)

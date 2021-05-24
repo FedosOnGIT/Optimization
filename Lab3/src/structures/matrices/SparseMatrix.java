@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
-// TODO: SparseMatrix не обязательно хранит только симметричные матрицы. Расширить функционал на это.
 public class SparseMatrix extends FileReadableMatrix {
     private double[] diagonal;
     private final List<Double> down;
