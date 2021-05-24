@@ -1,8 +1,6 @@
 package structures.generators;
 
-import structures.matrices.DenseMatrix;
-import structures.matrices.Diagonal;
-import structures.matrices.SparseMatrix;
+import structures.matrices.*;
 import structures.matrices.Vector;
 
 import java.io.IOException;
@@ -52,7 +50,13 @@ public abstract class AbstractGenerator implements Generator {
             writer.write('\n');
         }
         try (var writer = Files.newBufferedWriter(dir.resolve(rhsFile))) {
-            writer.write(new SparseMatrix(diagonals).multiply(exactSolution).toString());
+            Matrix m1 = new SparseMatrix(diagonals);
+            Matrix m2 = new DenseMatrix(diagonals);
+            if (!Matrix.checkIsEqual(m1, m2)) {
+                System.err.println(m1 + "\n" + m2);
+                throw new OutOfMemoryError("Hello, Out of Memory!");
+            }
+            writer.write(m2.multiply(exactSolution).toString());
             writer.write('\n');
         }
     }

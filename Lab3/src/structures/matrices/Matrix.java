@@ -88,11 +88,26 @@ public abstract class Matrix {
         return new Vector(IntStream.range(0, rowsCount()).mapToObj(i -> new MatrixRow(this, i).scalar(vector)));
     }
 
-    static void checkIsSquare(double[][] values) {
+    public static void checkIsSquare(double[][] values) {
         assert values.length > 0;
         int columns = values[0].length;
         for (int i = 1; i < values.length; i++) {
             assert columns == values[i].length;
         }
+    }
+
+    public static boolean checkIsEqual(Matrix m1, Matrix m2) {
+        if (m1.rowsCount() != m2.rowsCount() || m1.columnsCount() != m2.columnsCount()) {
+            return false;
+        }
+        for (int i = 0; i < m1.columnsCount(); i++) {
+            for (int j = 0; j < m1.rowsCount(); j++) {
+                if (Math.abs(m1.get(i, j) - m2.get(i, j)) > 1e-14) {
+                    System.err.printf("m1.get{i, j) = %f, m2.get(i, j)= %f\n", m1.get(i, j), m2.get(i, j));
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
