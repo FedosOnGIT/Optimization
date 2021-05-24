@@ -27,7 +27,6 @@ public class SparseMatrix extends FileReadableMatrix {
         positionsDown = new ArrayList<>();
         positionsUp = new ArrayList<>();
         indicesDown = new int[size + 1];
-        indicesDown[0] = 0;
         indicesUp = new int[size + 1];
         fillFull(down, positionsDown, indicesDown, false, values);
         fillFull(up, positionsUp, indicesUp, true, values);
