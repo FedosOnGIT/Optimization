@@ -218,7 +218,10 @@ public class Statistics {
     }
 
     public static void logHead(Writer writer, String delimiter, Field... fields) throws IOException {
-        writer.write(Arrays.stream(fields).map(Field::toString).collect(Collectors.joining(delimiter)));
+        writer.write(Arrays.stream(fields)
+                .map(Field::toString)
+                .map(s -> s.replace('_', ' '))
+                .collect(Collectors.joining(delimiter)));
     }
 
     public static void logHeadLn(Writer writer, String delimiter, String newLine, Field... fields) throws IOException {

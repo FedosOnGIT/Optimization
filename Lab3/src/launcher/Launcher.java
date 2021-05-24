@@ -61,10 +61,10 @@ public class Launcher {
 
     public final static String TASK3_RESULT_FILE = "task3.csv";
 
-    public final static String TASK4_RESULT_FILE_TASK2_GENERATOR_GAUSS = "task4_task2Generator_gauss.csv";
-    public final static String TASK4_RESULT_FILE_TASK2_GENERATOR_LU = "task4_task2Generator_lu.csv";
-    public final static String TASK4_RESULT_FILE_TASK3_GENERATOR_GAUSS = "task4_task3Generator_gauss.csv";
-    public final static String TASK4_RESULT_FILE_TASK3_GENERATOR_LU = "task4_task3Generator_lu.csv";
+    public final static String TASK4_RESULT_FILE_TASK2_GENERATOR_GAUSS = "task4_2_gauss.csv";
+    public final static String TASK4_RESULT_FILE_TASK2_GENERATOR_LU = "task4_2_lu.csv";
+    public final static String TASK4_RESULT_FILE_TASK3_GENERATOR_GAUSS = "task4_3_gauss.csv";
+    public final static String TASK4_RESULT_FILE_TASK3_GENERATOR_LU = "task4_3_lu.csv";
 
     public final static String TASK5_RESULT_FILE_2 = "task5_2.csv";
     public final static String TASK5_RESULT_FILE_3 = "task5_3.csv";
@@ -72,7 +72,7 @@ public class Launcher {
 
     // Test data
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
-    private final static List<Integer> TASK3_ARGS = List.of(10, 25, 50, 100, 200, 400, 800, 1000);
+    private final static List<Integer> TASK3_ARGS = List.of(5, 10, 15, 25, 50, 75, 100, 175, 200, 250, 400, 650, 800, 1000);
     private final static List<Integer> TASK5_ARGS = List.of(10, 100, 1000, 100_000);
 
     private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz,
@@ -201,7 +201,7 @@ public class Launcher {
         } catch (IOException e) {
             System.err.println("Can not create TESTS directory");
         }
-        generateTasks();
-        solveTasks();
+        // generateTasks();
+        // solveTasks();
     }
 }
