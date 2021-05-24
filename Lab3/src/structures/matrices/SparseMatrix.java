@@ -54,17 +54,17 @@ public class SparseMatrix extends FileReadableMatrix {
         List<Diagonal> upDiagonals = new ArrayList<>();
         List<Diagonal> downDiagonals = new ArrayList<>();
         for (Diagonal diagonal : diagonals) {
-            if (diagonal.getNumber() < 0) {
+            if (diagonal.getNumber() > 0) {
                 upDiagonals.add(diagonal);
-            } else if (diagonal.getNumber() > 0) {
+            } else if (diagonal.getNumber() < 0) {
                 downDiagonals.add(diagonal);
             } else {
                 size = diagonal.getVector().size();
                 this.diagonal = IntStream.range(0, size).mapToDouble(i -> diagonal.getVector().get(i)).toArray();
             }
         }
-        upDiagonals.sort(Comparator.comparing(Diagonal::getNumber).reversed());
-        downDiagonals.sort(Comparator.comparing(Diagonal::getNumber));
+        upDiagonals.sort(Comparator.comparing(Diagonal::getNumber));
+        downDiagonals.sort(Comparator.comparing(Diagonal::getNumber).reversed());
         indicesDown = new int[size + 1];
         down = new ArrayList<>();
         positionsDown = new ArrayList<>();
@@ -79,8 +79,8 @@ public class SparseMatrix extends FileReadableMatrix {
         indices[0] = 0;
         indices[1] = 0;
         int index = 0;
+        int multi = up? 1 : -1;
         for (int i = 0; i < size; i++) {
-            int multi = up? -1 : 1;
             if (diagonals.size() > index && diagonals.get(index).getNumber() == multi * i) {
                 index++;
             }
