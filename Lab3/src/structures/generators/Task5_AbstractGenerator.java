@@ -25,16 +25,14 @@ public abstract class Task5_AbstractGenerator extends AbstractGenerator {
         List<Diagonal> result = new ArrayList<>();
         // не даем матрице быть вырожденной
         Vector nearDiagonal = new Vector(IntStream.range(0, n - 1).mapToObj(i -> {
-            double res = generateElement();
-            while (res == 0) {
-                res = generateElement();
-            }
+            double res;
+            while ((res = generateElement()) == 0);
             return res;
         }));
         result.add(new Diagonal(1, nearDiagonal));
         result.add(new Diagonal(-1, nearDiagonal));
         // генерируем оставшиеся диагонали
-        if (n-2 > 0) {
+        if (n - 2 > 0) {
             for (int x : generateSelection(2, n, Math.min(HELP_DIAG_CNT, n-2))) {
                 int length = n - x;
                 Vector diagData = generateVector(length);
