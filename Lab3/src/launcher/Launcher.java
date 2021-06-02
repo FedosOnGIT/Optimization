@@ -73,7 +73,7 @@ public class Launcher {
     // Test data
     private final static Map<Integer, Integer> TASK2_ARGS = Map.of(10, 10, 100, 10, 1000, 10);
     private final static List<Integer> TASK3_ARGS = List.of(5, 10, 15, 25, 50, 75, 100, 175, 200, 250, 400, 650, 800, 1000);
-    private final static List<Integer> TASK5_ARGS = List.of(10, 50, 100, 500, 1000, 5000, 10_000, 50_000, 100_000);
+    private final static List<Integer> TASK5_ARGS = List.of(2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 50, 75, 100, 250, 500, 1000, 5000, 10_000, 25_000, 50_000, 75_000, 100_000);
 
     private static <T extends Generator> void generateData(Path taskDir, Class<T> generatorClazz,
                                                            Map<Integer, Integer> testData) {
@@ -201,7 +201,7 @@ public class Launcher {
         } catch (IOException e) {
             System.err.println("Can not create TESTS directory");
         }
-        // generateTasks();
-        // solveTasks();
+//        generateTasks();
+//        solveTasks();
     }
 }
