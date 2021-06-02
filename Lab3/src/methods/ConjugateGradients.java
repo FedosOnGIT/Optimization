@@ -10,7 +10,7 @@ public class ConjugateGradients extends Method {
         // Это x. x_0 = 0.
         Vector point = new Vector(size);
         // Это r. r_0 = f - A*x_0.
-        Vector difference = vector.add(matrix.multiply(point).multiply(-1));
+        Vector difference = vector.copy();
         iterations += size * 7L;
         // Это z. z_0 = r_0.
         Vector helper = difference.copy();
