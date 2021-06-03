@@ -98,7 +98,7 @@ public class SolverVisitor<T extends FileReadableMatrix, M extends Method> exten
         stat.setIterations(method.getIterations());
         stat.setRatioError(absoluteError / exactSolution.norm());
         stat.setAbsoluteError(absoluteError);
-        stat.setCondA(absoluteError / (rhsVector.subtract(solution).norm() / rhsVector.norm()));
+        stat.setCondA(stat.getRatioError() / (rhsVector.subtract(matrix.multiply(solution)).norm() / rhsVector.norm()));
         statisticsList.add(new Statistics(stat));
         resetIteration();
         return FileVisitResult.CONTINUE;
