@@ -67,7 +67,7 @@ public abstract class Tuple {
     }
 
     public double norm() {
-        return Math.sqrt(IntStream.range(0, size()).mapToObj(i -> get(i) * get(i)).reduce(0d, Double::sum));
+        return Math.sqrt(scalar(this));
     }
 
     public Tuple normalizeThis() {

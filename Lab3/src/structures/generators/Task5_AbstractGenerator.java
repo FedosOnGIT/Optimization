@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public abstract class Task5_AbstractGenerator extends AbstractGenerator {
-    private final static int DIAG_COUNT = 7;
+    private final static int HELP_DIAG_CNT = 4;
 
     public Task5_AbstractGenerator(int n) {
         super(n);
@@ -23,13 +23,24 @@ public abstract class Task5_AbstractGenerator extends AbstractGenerator {
     @Override
     protected List<Diagonal> generateDiagonals() {
         List<Diagonal> result = new ArrayList<>();
-        int halfCount = Math.min(n - 1, (DIAG_COUNT - 1) / 2);
-        for (int x : generateSelection(1, n, halfCount)) {
-            int length = n - x;
-            Vector diagData = generateVector(length);
-            result.add(new Diagonal(x, diagData));
-            result.add(new Diagonal(-x, diagData));
+        // не даем матрице быть вырожденной
+        Vector nearDiagonal = new Vector(IntStream.range(0, n - 1).mapToObj(i -> {
+            double res;
+            while ((res = generateElement()) == 0);
+            return res;
+        }));
+        result.add(new Diagonal(1, nearDiagonal));
+        result.add(new Diagonal(-1, nearDiagonal));
+        // генерируем оставшиеся диагонали
+        if (n - 2 > 0) {
+            for (int x : generateSelection(2, n, Math.min(HELP_DIAG_CNT, n-2))) {
+                int length = n - x;
+                Vector diagData = generateVector(length);
+                result.add(new Diagonal(x, diagData));
+                result.add(new Diagonal(-x, diagData));
+            }
         }
+        // инициализируем главную диагональ
         Vector mainDiagonal = new Vector(n);
         for (int i = 0; i < n; ++i) {
             int x = 0;
