@@ -1,4 +1,4 @@
-package methods;
+package newton_methods;
 
 import structures.Hessian;
 import structures.Gradient;

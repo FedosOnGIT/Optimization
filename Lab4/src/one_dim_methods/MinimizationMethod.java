@@ -1,4 +1,4 @@
-package minimizationMethods;
+package one_dim_methods;
 
 import java.util.function.Function;
 

@@ -1,6 +1,7 @@
-package methods;
+package quasi_methods;
 
-import minimizationMethods.MinimizationMethod;
+import newton_methods.Method;
+import one_dim_methods.MinimizationMethod;
 import structures.Hessian;
 import structures.Gradient;
 import structures.matrices.Diagonal;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Function;
 
-public class QuasiMethod implements Method {
+public abstract class QuasiMethod implements Method {
     private final MinimizationMethod minimization;
 
     public QuasiMethod(final MinimizationMethod minimization) {
@@ -20,7 +21,10 @@ public class QuasiMethod implements Method {
     }
 
     @Override
-    public Vector min(Function<Vector, Double> function, Hessian getian, Gradient gradient, Vector point, Double epsilon) {
+    public Vector min(Function<Vector, Double> function,
+                      Hessian getian, Gradient gradient,
+                      Vector point,
+                      Double epsilon) {
         Double[] line = new Double[point.size()];
         Arrays.fill(line, 1.0);
         Matrix G = new SparseMatrix(Collections.singletonList(new Diagonal(0, new Vector(line))));
@@ -28,7 +32,11 @@ public class QuasiMethod implements Method {
         Vector p = w.copy();
         Vector finalPoint = point;
         Vector finalP = p;
-        Double alpha = minimization.min(l -> function.apply(finalPoint.add(finalP.multiply(l))), 0, 1, 0.0001);
+        Double alpha = minimization.min(
+                            l -> function.apply(finalPoint.add(finalP.multiply(l))),
+                        0,
+                        1,
+                        epsilon/10);
         Vector next = point.add(p.multiply(alpha));
         Vector deltaX = next.subtract(point);
         while (deltaX.norm() > epsilon) {
@@ -36,19 +44,16 @@ public class QuasiMethod implements Method {
             Vector wHelp = gradient.apply(point).multiply(-1);
             Vector deltaW = w.subtract(wHelp);
             w = wHelp.copy();
-            Vector v = G.multiply(deltaW);
-            G = G.
-                    subtract(deltaX.multiply(deltaX).
-                            multiply(1 / deltaW.scalar(deltaX))).
-                    subtract(v.multiply(v).
-                            multiply(1 / v.scalar(deltaW)));
+            G = nextG(G, deltaW, deltaX);
             p = G.multiply(w);
             Vector finalPoint1 = point;
             Vector finalP1 = p;
-            alpha = minimization.min(l -> function.apply(finalPoint1.add(finalP1.multiply(l))), 0, 1, 0.0001);
+            alpha = minimization.min(l -> function.apply(finalPoint1.add(finalP1.multiply(l))), 0, 1, epsilon/10);
             next = point.add(p.multiply(alpha));
             deltaX = next.subtract(point);
         }
         return next;
     }
+
+    protected abstract Matrix nextG(final Matrix G, final Vector deltaW, final Vector deltaX);
 }

@@ -1,5 +1,6 @@
-package methods;
+package newton_methods;
 
+import methods.ConjugateGradients;
 import structures.Hessian;
 import structures.Gradient;
 import structures.matrices.Matrix;
