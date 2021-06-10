@@ -1,6 +1,6 @@
 package methods.quasi_methods;
 
-import methods.newton_methods.Method;
+import methods.newton_methods.FunctionMethod;
 import methods.one_dim_methods.MinimizationMethod;
 import structures.Hessian;
 import structures.Gradient;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Function;
 
-public abstract class QuasiMethod implements Method {
+public abstract class QuasiMethod implements FunctionMethod {
     private final MinimizationMethod minimization;
 
     public QuasiMethod(final MinimizationMethod minimization) {

@@ -8,14 +8,13 @@ import structures.matrices.Vector;
 
 import java.util.function.Function;
 
-public class ClassicNewton implements Method {
+public class ClassicNewton implements FunctionMethod {
     @Override
     public Vector min(final Function<Vector, Double> function,
                       final Hessian getian,
                       final Gradient gradient,
                       final Vector point,
                       final Double epsilon) {
-        Vector next = new Vector(point.size());
         int index = 0;
         Vector step;
         do {
