@@ -14,7 +14,7 @@ public class ChoosingNewton extends DescentNewton {
     }
 
     protected Vector doStep(final Function<Vector, Double> function,
-                            final Hessian getian,
+                            final Hessian hessian,
                             final Gradient gradient,
                             final Vector point,
                             Vector newtonDirection,
@@ -23,6 +23,6 @@ public class ChoosingNewton extends DescentNewton {
         if (newtonDirection.scalar(gradientAtPoint) >= 0) {
             newtonDirection = gradientAtPoint.multiplyThis(-1);
         }
-        return super.doStep(function, getian, gradient, point, newtonDirection, epsilon);
+        return super.doStep(function, hessian, gradient, point, newtonDirection, epsilon);
     }
 }

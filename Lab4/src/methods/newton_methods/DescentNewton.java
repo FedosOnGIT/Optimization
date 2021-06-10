@@ -15,7 +15,7 @@ public class DescentNewton extends ClassicNewton {
     }
 
     protected Vector doStep(final Function<Vector, Double> function,
-                            final Hessian getian,
+                            final Hessian hessian,
                             final Gradient gradient,
                             final Vector point,
                             final Vector newtonDirection,
