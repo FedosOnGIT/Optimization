@@ -5,9 +5,6 @@ import structures.matrices.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static expressions.Const.ONE;
-import static expressions.Const.ZERO;
-
 public class Variable implements Expression {
     private final static Pattern VARIABLE_PATTERN = Pattern.compile("\\D*(\\d+)");
 
@@ -63,4 +60,9 @@ public class Variable implements Expression {
     public int hashCode() {
         return variable.hashCode();
     }
+
+    public static Variable createVariable(int number) {
+        return new Variable("x" + number);
+    }
+
 }
