@@ -1,7 +1,7 @@
 package methods;
 
 import minimizationMethods.MinimizationMethod;
-import structures.Getian;
+import structures.Hessian;
 import structures.Gradient;
 import structures.matrices.Vector;
 
@@ -15,7 +15,7 @@ public class DescentNewton extends ClassicNewton {
     }
 
     protected Vector doStep(final Function<Vector, Double> function,
-                            final Getian getian,
+                            final Hessian getian,
                             final Gradient gradient,
                             final Vector point,
                             final Vector newtonDirection,

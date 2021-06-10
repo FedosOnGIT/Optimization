@@ -1,6 +1,6 @@
 package methods;
 
-import structures.Getian;
+import structures.Hessian;
 import structures.Gradient;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
@@ -10,7 +10,7 @@ import java.util.function.Function;
 public class ClassicNewton implements Method {
     @Override
     public Vector min(final Function<Vector, Double> function,
-                      final Getian getian,
+                      final Hessian getian,
                       final Gradient gradient,
                       final Vector point,
                       final Double epsilon) {
@@ -29,7 +29,7 @@ public class ClassicNewton implements Method {
     }
 
     protected Vector doStep(final Function<Vector, Double> function,
-                            final Getian getian,
+                            final Hessian getian,
                             final Gradient gradient,
                             final Vector point,
                             final Vector newtonDirection,
