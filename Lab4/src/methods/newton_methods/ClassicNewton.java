@@ -1,4 +1,4 @@
-package newton_methods;
+package methods.newton_methods;
 
 import methods.ConjugateGradients;
 import structures.Hessian;

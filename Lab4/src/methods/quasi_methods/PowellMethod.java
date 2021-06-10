@@ -1,6 +1,6 @@
-package quasi_methods;
+package methods.quasi_methods;
 
-import one_dim_methods.MinimizationMethod;
+import methods.one_dim_methods.MinimizationMethod;
 import structures.matrices.DenseMatrix;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;

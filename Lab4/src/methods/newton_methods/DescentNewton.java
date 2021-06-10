@@ -1,6 +1,6 @@
-package newton_methods;
+package methods.newton_methods;
 
-import one_dim_methods.MinimizationMethod;
+import methods.one_dim_methods.MinimizationMethod;
 import structures.Hessian;
 import structures.Gradient;
 import structures.matrices.Vector;

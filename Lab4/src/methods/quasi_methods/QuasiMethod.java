@@ -1,7 +1,7 @@
-package quasi_methods;
+package methods.quasi_methods;
 
-import newton_methods.Method;
-import one_dim_methods.MinimizationMethod;
+import methods.newton_methods.Method;
+import methods.one_dim_methods.MinimizationMethod;
 import structures.Hessian;
 import structures.Gradient;
 import structures.matrices.Diagonal;
