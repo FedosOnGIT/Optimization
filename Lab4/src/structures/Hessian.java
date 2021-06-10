@@ -2,6 +2,7 @@ package structures;
 
 import structures.matrices.*;
 
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
@@ -18,6 +19,11 @@ public class Hessian implements Function<Vector, Matrix> {
             }
         }
         matrix = functions;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Hessian(final List<List<Function<Vector, Double>>> functions) {
+        this((Function<Vector, Double>[][]) functions.stream().map(list -> list.toArray(Function[]::new)).toArray());
     }
 
     @Override
