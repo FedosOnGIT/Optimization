@@ -31,6 +31,7 @@ public abstract class Matrix {
 
     /**
      * Делает копию исходной матрицы, чтобы возращаемая матрица могла быть изменена независимо от исходной
+     *
      * @return копия исходной матрицы
      */
     public abstract Matrix copy();
@@ -86,6 +87,34 @@ public abstract class Matrix {
     public Vector multiply(Vector vector) {
         assert columnsCount() == vector.size();
         return new Vector(IntStream.range(0, rowsCount()).mapToObj(i -> new MatrixRow(this, i).scalar(vector)));
+    }
+
+    public Matrix multiply(Double alpha) {
+        return new DenseMatrix((double[][]) IntStream.range(0, rowsCount()).
+                mapToObj(i -> IntStream.range(0, columnsCount()).
+                        mapToDouble(j -> get(i, j) * alpha).
+                        toArray()).
+                toArray());
+    }
+
+    public Matrix add(Matrix other) {
+        assert other.columnsCount() == columnsCount() && other.rowsCount() == rowsCount();
+        return new DenseMatrix(
+                (double[][]) IntStream.range(0, rowsCount()).
+                        mapToObj(i -> IntStream.range(0, columnsCount()).
+                                mapToDouble(j -> get(i, j) + other.get(i, j)).
+                                toArray()).
+                        toArray());
+    }
+
+    public Matrix subtract(Matrix other) {
+        assert other.columnsCount() == columnsCount() && other.rowsCount() == rowsCount();
+        return new DenseMatrix(
+                (double[][]) IntStream.range(0, rowsCount()).
+                        mapToObj(i -> IntStream.range(0, columnsCount()).
+                                mapToDouble(j -> get(i, j) - other.get(i, j)).
+                                toArray()).
+                        toArray());
     }
 
     public static void checkIsSquare(double[][] values) {

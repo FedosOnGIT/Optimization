@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Vector extends Tuple implements FileReadable {
@@ -88,5 +89,13 @@ public class Vector extends Tuple implements FileReadable {
     @Override
     public Vector add(Tuple other) {
         return (Vector) super.add(other);
+    }
+
+    public Matrix multiply(Vector other) {
+        return new DenseMatrix((double[][]) IntStream.range(0, size()).
+                mapToObj(i -> IntStream.range(0, other.size()).
+                        mapToDouble(j -> get(i) * other.get(j)).
+                        toArray()).
+                toArray());
     }
 }
