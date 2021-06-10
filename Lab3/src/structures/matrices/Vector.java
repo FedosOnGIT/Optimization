@@ -98,4 +98,29 @@ public class Vector extends Tuple implements FileReadable {
                         toArray()).
                 toArray());
     }
+
+    @Override
+    public Vector multiplyThis(double alpha) {
+        return (Vector) super.multiplyThis(alpha);
+    }
+
+    @Override
+    public Vector addThis(Tuple other) {
+        return (Vector) super.addThis(other);
+    }
+
+    @Override
+    public Vector subtractThis(Tuple other) {
+        return (Vector) super.subtractThis(other);
+    }
+
+    @Override
+    public Vector subtract(Tuple other) {
+        return (Vector) super.subtract(other);
+    }
+
+    @Override
+    public Vector multiply(double alpha) {
+        return (Vector) super.multiply(alpha);
+    }
 }

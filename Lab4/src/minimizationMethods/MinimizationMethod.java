@@ -1,7 +1,5 @@
 package minimizationMethods;
 
-import structures.matrices.Vector;
-
 import java.util.function.Function;
 
 public interface MinimizationMethod {

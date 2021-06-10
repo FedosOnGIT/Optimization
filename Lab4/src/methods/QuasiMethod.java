@@ -3,7 +3,10 @@ package methods;
 import minimizationMethods.MinimizationMethod;
 import structures.Getian;
 import structures.Gradient;
-import structures.matrices.*;
+import structures.matrices.Diagonal;
+import structures.matrices.Matrix;
+import structures.matrices.SparseMatrix;
+import structures.matrices.Vector;
 
 import java.util.Arrays;
 import java.util.Collections;
