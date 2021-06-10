@@ -1,9 +1,12 @@
 package methods;
 
 import minimizationMethods.MinimizationMethod;
-import structures.Getian;
+import structures.Hessian;
 import structures.Gradient;
-import structures.matrices.*;
+import structures.matrices.Diagonal;
+import structures.matrices.Matrix;
+import structures.matrices.SparseMatrix;
+import structures.matrices.Vector;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,21 +20,21 @@ public class QuasiMethod implements Method {
     }
 
     @Override
-    public Vector min(Function<Vector, Double> function, Getian getian, Gradient gradient, Vector point, Double epsilon) {
+    public Vector min(Function<Vector, Double> function, Hessian getian, Gradient gradient, Vector point, Double epsilon) {
         Double[] line = new Double[point.size()];
         Arrays.fill(line, 1.0);
         Matrix G = new SparseMatrix(Collections.singletonList(new Diagonal(0, new Vector(line))));
-        Vector w = (Vector) gradient.apply(point).multiply(-1);
+        Vector w = gradient.apply(point).multiply(-1);
         Vector p = w.copy();
         Vector finalPoint = point;
         Vector finalP = p;
         Double alpha = minimization.min(l -> function.apply(finalPoint.add(finalP.multiply(l))), 0, 1, 0.0001);
         Vector next = point.add(p.multiply(alpha));
-        Vector deltaX = (Vector) next.subtract(point);
+        Vector deltaX = next.subtract(point);
         while (deltaX.norm() > epsilon) {
             point = next.copy();
-            Vector wHelp = (Vector) gradient.apply(point).multiply(-1);
-            Vector deltaW = (Vector) w.subtract(wHelp);
+            Vector wHelp = gradient.apply(point).multiply(-1);
+            Vector deltaW = w.subtract(wHelp);
             w = wHelp.copy();
             Vector v = G.multiply(deltaW);
             G = G.
@@ -44,7 +47,7 @@ public class QuasiMethod implements Method {
             Vector finalP1 = p;
             alpha = minimization.min(l -> function.apply(finalPoint1.add(finalP1.multiply(l))), 0, 1, 0.0001);
             next = point.add(p.multiply(alpha));
-            deltaX = (Vector) next.subtract(point);
+            deltaX = next.subtract(point);
         }
         return next;
     }

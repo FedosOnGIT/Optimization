@@ -1,6 +1,5 @@
 package launcher;
 
-import structures.Getian;
 import structures.Gradient;
 import structures.matrices.Vector;
 

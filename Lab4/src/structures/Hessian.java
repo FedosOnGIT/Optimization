@@ -5,12 +5,12 @@ import structures.matrices.*;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
-public class Getian implements Function<Vector, Matrix> {
+public class Hessian implements Function<Vector, Matrix> {
     private final Function<Vector, Double>[][] matrix;
     private final int size;
 
     @SafeVarargs
-    public Getian(final Function<Vector, Double>[]... functions) {
+    public Hessian(final Function<Vector, Double>[]... functions) {
         size = functions.length;
         for (Function<Vector, Double>[] line : functions) {
             if (line.length != size) {
