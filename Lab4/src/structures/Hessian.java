@@ -28,12 +28,13 @@ public class Hessian implements Function<Vector, Matrix> {
 
     @Override
     public Matrix apply(Vector vector) {
-        return new DenseMatrix(
-                (double[][]) IntStream.range(0, size).
-                        mapToObj(i -> IntStream.range(0, size).
-                                mapToDouble(j -> matrix[i][j].apply(vector)).
-                                toArray())
-                        .toArray()
-        );
+        double[][] values = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                values[i][j] = matrix[i][j].apply(vector);
+            }
+        }
+
+        return new DenseMatrix(values);
     }
 }

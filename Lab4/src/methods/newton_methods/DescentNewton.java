@@ -1,6 +1,6 @@
-package methods;
+package methods.newton_methods;
 
-import minimizationMethods.MinimizationMethod;
+import methods.one_dim_methods.MinimizationMethod;
 import structures.Hessian;
 import structures.Gradient;
 import structures.matrices.Vector;
@@ -25,6 +25,6 @@ public class DescentNewton extends ClassicNewton {
                         l -> function.apply(newtonDirection.multiply(l).addThis(point)),
                         0,
                         1, // TODO check bounds (maybe -10:10)
-                        epsilon));
+                        epsilon/10));
     }
 }
