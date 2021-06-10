@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 public class FunctionData {
     private final Function<Vector, Double> function;
     private final Gradient gradient;
-    private final Hessian getian;
+    private final Hessian hessian;
 
     public FunctionData(Expression function, int variables) {
         this.function = function::evaluate;
@@ -23,7 +23,7 @@ public class FunctionData {
                         .map(f -> (Function<Vector, Double>)(f::evaluate))
                         .collect(Collectors.toList())
         );
-        getian = new Hessian(
+        hessian = new Hessian(
                 IntStream.rangeClosed(1, variables)
                 .mapToObj(i ->
                     IntStream.rangeClosed(1, variables)
@@ -43,7 +43,7 @@ public class FunctionData {
         return gradient;
     }
 
-    public Hessian getGetian() {
-        return getian;
+    public Hessian getHessian() {
+        return hessian;
     }
 }
