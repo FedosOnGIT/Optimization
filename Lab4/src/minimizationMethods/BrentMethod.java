@@ -6,7 +6,7 @@ public class BrentMethod implements MinimizationMethod {
     private final double Factor = (3 - Math.sqrt(5)) / 2;
 
     @Override
-    public Double minimal(Function<Double, Double> function, double start, double end, double epsilon) {
+    public Double min(Function<Double, Double> function, double start, double end, double epsilon) {
         double x = start + Factor * (end - start), w = x, v = x;
         double fx = function.apply(x), fw = fx, fv = fx, parabolaMin = 0;
         double d = end - start, e = d, g;

@@ -2,7 +2,6 @@ package methods;
 
 import structures.Getian;
 import structures.Gradient;
-import structures.Type;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
 
@@ -10,12 +9,11 @@ import java.util.function.Function;
 
 public class SimpleNewton implements Method {
     @Override
-    public Vector minimal(final Function<Vector, Double> function,
-                          final Getian getian,
-                          final Gradient gradient,
-                          Vector point,
-                          final Type type,
-                          final Double epsilon) {
+    public Vector min(final Function<Vector, Double> function,
+                      final Getian getian,
+                      final Gradient gradient,
+                      Vector point,
+                      final Double epsilon) {
         Vector next = new Vector(point.size());
         int index = 0;
         do {
@@ -23,7 +21,7 @@ public class SimpleNewton implements Method {
                 point = next.copy();
             }
             Vector antiGradientValue = (Vector) gradient.apply(point).multiply(-1);
-            Matrix getianValue = getian.apply(point, type);
+            Matrix getianValue = getian.apply(point);
             Vector p = new ConjugateGradients().evaluate(getianValue, antiGradientValue);
             next = p.add(point);
             index++;

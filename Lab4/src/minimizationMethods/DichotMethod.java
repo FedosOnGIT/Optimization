@@ -10,7 +10,7 @@ public class DichotMethod implements MinimizationMethod {
     }
 
     @Override
-    public Double minimal(Function<Double, Double> function, double start, double end, double epsilon) {
+    public Double min(Function<Double, Double> function, double start, double end, double epsilon) {
         double delta = Math.min(this.delta, epsilon / 10);
         while (end - start > 2 * epsilon) {
             double alpha1 = (end + start - delta) / 2;

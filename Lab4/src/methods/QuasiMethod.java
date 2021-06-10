@@ -3,13 +3,11 @@ package methods;
 import minimizationMethods.MinimizationMethod;
 import structures.Getian;
 import structures.Gradient;
-import structures.Type;
 import structures.matrices.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 
 public class QuasiMethod implements Method {
     private final MinimizationMethod minimization;
@@ -19,7 +17,7 @@ public class QuasiMethod implements Method {
     }
 
     @Override
-    public Vector minimal(Function<Vector, Double> function, Getian getian, Gradient gradient, Vector point, Type type, Double epsilon) {
+    public Vector min(Function<Vector, Double> function, Getian getian, Gradient gradient, Vector point, Double epsilon) {
         Double[] line = new Double[point.size()];
         Arrays.fill(line, 1.0);
         Matrix G = new SparseMatrix(Collections.singletonList(new Diagonal(0, new Vector(line))));
@@ -27,7 +25,7 @@ public class QuasiMethod implements Method {
         Vector p = w.copy();
         Vector finalPoint = point;
         Vector finalP = p;
-        Double alpha = minimization.minimal(l -> function.apply(finalPoint.add(finalP.multiply(l))), 0, 1, 0.0001);
+        Double alpha = minimization.min(l -> function.apply(finalPoint.add(finalP.multiply(l))), 0, 1, 0.0001);
         Vector next = point.add(p.multiply(alpha));
         Vector deltaX = (Vector) next.subtract(point);
         while (deltaX.norm() > epsilon) {
@@ -44,7 +42,7 @@ public class QuasiMethod implements Method {
             p = G.multiply(w);
             Vector finalPoint1 = point;
             Vector finalP1 = p;
-            alpha = minimization.minimal(l -> function.apply(finalPoint1.add(finalP1.multiply(l))), 0, 1, 0.0001);
+            alpha = minimization.min(l -> function.apply(finalPoint1.add(finalP1.multiply(l))), 0, 1, 0.0001);
             next = point.add(p.multiply(alpha));
             deltaX = (Vector) next.subtract(point);
         }

@@ -5,7 +5,7 @@ import structures.matrices.*;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
-public class Getian {
+public class Getian implements Function<Vector, Matrix> {
     private final Function<Vector, Double>[][] matrix;
     private final int size;
 
@@ -20,18 +20,14 @@ public class Getian {
         matrix = functions;
     }
 
-    public Matrix apply(final Vector input, final Type type) {
-        double[][] values = (double[][]) IntStream.range(0, size).
-                mapToObj(i -> IntStream.range(0, size).
-                        mapToDouble(j -> matrix[i][j].apply(input)).
-                        toArray())
-                .toArray();
-        if (type == Type.PROFILE) {
-            return new ProfileMatrix(values);
-        } else if (type == Type.SPARSE) {
-            return new SparseMatrix(values);
-        } else {
-            return new DenseMatrix(values);
-        }
+    @Override
+    public Matrix apply(Vector vector) {
+        return new DenseMatrix(
+                (double[][]) IntStream.range(0, size).
+                        mapToObj(i -> IntStream.range(0, size).
+                                mapToDouble(j -> matrix[i][j].apply(vector)).
+                                toArray())
+                        .toArray()
+        );
     }
 }
