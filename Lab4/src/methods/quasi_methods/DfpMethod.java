@@ -16,7 +16,7 @@ public class DfpMethod extends QuasiMethod {
     protected Matrix nextG(final Matrix G, final Vector deltaW, final Vector deltaX) {
         Vector v = G.multiply(deltaW);
         return G.
-                subtract(deltaX.multiply(deltaX).
+                add(deltaX.multiply(deltaX).
                         multiply(1 / deltaW.scalar(deltaX))).
                 subtract(v.multiply(v).
                         multiply(1 / v.scalar(deltaW)));
