@@ -22,7 +22,7 @@ public abstract class QuasiMethod extends AbstractMethod {
 
     @Override
     public Vector min(Function<Vector, Double> function,
-                      Hessian getian, Gradient gradient,
+                      Hessian hessian, Gradient gradient,
                       Vector point,
                       Double epsilon) {
         Double[] line = new Double[point.size()];
