@@ -92,11 +92,13 @@ public class Vector extends Tuple implements FileReadable {
     }
 
     public Matrix multiply(Vector other) {
-        return new DenseMatrix((double[][]) IntStream.range(0, size()).
-                mapToObj(i -> IntStream.range(0, other.size()).
-                        mapToDouble(j -> get(i) * other.get(j)).
-                        toArray()).
-                toArray());
+        double[][] matrix = new double[size()][size()];
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                matrix[i][j] = get(i) * other.get(j);
+            }
+        }
+        return new DenseMatrix(matrix);
     }
 
     @Override

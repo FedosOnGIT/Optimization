@@ -4,6 +4,8 @@ import methods.newton_methods.ClassicNewton;
 import methods.newton_methods.DescentNewton;
 import methods.newton_methods.FunctionMethod;
 import methods.one_dim_methods.BrentMethod;
+import methods.quasi_methods.DfpMethod;
+import methods.quasi_methods.QuasiMethod;
 import structures.Gradient;
 import structures.Hessian;
 import structures.matrices.Vector;
@@ -30,8 +32,8 @@ public class Main {
                 {vector -> -1.2, vector -> 2.0}
         };
         Hessian hessian = new Hessian(coordinates);
-        FunctionMethod descent = new DescentNewton(new BrentMethod());
-        Vector answer = descent.min(Main::function, hessian, gradient, new Vector(4.0, 1.0), 0.0001);
+        QuasiMethod dfp = new DfpMethod(new BrentMethod());
+        Vector answer = dfp.min(Main::function, hessian, gradient, new Vector(4.0, 1.0), 0.0001);
         System.out.println(answer.toString());
     }
 }

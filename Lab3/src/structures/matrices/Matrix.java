@@ -90,31 +90,29 @@ public abstract class Matrix {
     }
 
     public Matrix multiply(Double alpha) {
-        return new DenseMatrix((double[][]) IntStream.range(0, rowsCount()).
-                mapToObj(i -> IntStream.range(0, columnsCount()).
-                        mapToDouble(j -> get(i, j) * alpha).
-                        toArray()).
-                toArray());
+        double[][] matrix = new double[rowsCount()][columnsCount()];
+        for (int i = 0; i < rowsCount(); i++) {
+            for (int j = 0; j < columnsCount(); j++) {
+                matrix[i][j] = get(i, j) * alpha;
+            }
+        }
+        return new DenseMatrix(matrix);
     }
 
     public Matrix add(Matrix other) {
         assert other.columnsCount() == columnsCount() && other.rowsCount() == rowsCount();
-        return new DenseMatrix(
-                (double[][]) IntStream.range(0, rowsCount()).
-                        mapToObj(i -> IntStream.range(0, columnsCount()).
-                                mapToDouble(j -> get(i, j) + other.get(i, j)).
-                                toArray()).
-                        toArray());
+        double[][] matrix = new double[rowsCount()][columnsCount()];
+        for (int i = 0; i < rowsCount(); i++) {
+            for (int j = 0; j < columnsCount(); j++) {
+                matrix[i][j] = get(i, j) + other.get(i, j);
+            }
+        }
+        return new DenseMatrix(matrix);
     }
 
     public Matrix subtract(Matrix other) {
         assert other.columnsCount() == columnsCount() && other.rowsCount() == rowsCount();
-        return new DenseMatrix(
-                (double[][]) IntStream.range(0, rowsCount()).
-                        mapToObj(i -> IntStream.range(0, columnsCount()).
-                                mapToDouble(j -> get(i, j) - other.get(i, j)).
-                                toArray()).
-                        toArray());
+        return add(other.multiply(-1.0));
     }
 
     public static void checkIsSquare(double[][] values) {

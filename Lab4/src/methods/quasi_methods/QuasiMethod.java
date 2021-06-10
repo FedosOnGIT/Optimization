@@ -4,10 +4,7 @@ import methods.newton_methods.FunctionMethod;
 import methods.one_dim_methods.MinimizationMethod;
 import structures.Hessian;
 import structures.Gradient;
-import structures.matrices.Diagonal;
-import structures.matrices.Matrix;
-import structures.matrices.SparseMatrix;
-import structures.matrices.Vector;
+import structures.matrices.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,7 +24,7 @@ public abstract class QuasiMethod implements FunctionMethod {
                       Double epsilon) {
         Double[] line = new Double[point.size()];
         Arrays.fill(line, 1.0);
-        Matrix G = new SparseMatrix(Collections.singletonList(new Diagonal(0, new Vector(line))));
+        Matrix G = new DenseMatrix(Collections.singletonList(new Diagonal(0, new Vector(line))));
         Vector w = gradient.apply(point).multiply(-1);
         Vector p = w.copy();
         Vector finalPoint = point;
