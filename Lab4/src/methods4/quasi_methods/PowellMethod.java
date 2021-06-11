@@ -1,7 +1,6 @@
-package methods.quasi_methods;
+package methods4.quasi_methods;
 
-import methods.one_dim_methods.MinimizationMethod;
-import structures.matrices.DenseMatrix;
+import methods4.one_dim_methods.MinimizationMethod;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
 
@@ -14,8 +13,8 @@ public class PowellMethod extends QuasiMethod {
     }
 
     @Override
-    protected Matrix nextG(Matrix G, Vector deltaW, Vector deltaX) {
+    protected Matrix nextGImpl(Matrix G, Vector deltaW, Vector deltaX, long iteration) {
         Vector waveX = deltaX.add(G.multiply(deltaW));
-        return G.subtract(waveX.multiply(waveX).multiply(1/deltaW.scalar(waveX)));
+        return G.subtract(waveX.multiply(waveX).multiply(1 / deltaW.scalar(waveX)));
     }
 }

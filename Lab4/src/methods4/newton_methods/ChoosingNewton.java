@@ -1,8 +1,8 @@
-package methods.newton_methods;
+package methods4.newton_methods;
 
-import methods.one_dim_methods.MinimizationMethod;
-import structures.Hessian;
-import structures.Gradient;
+import methods4.one_dim_methods.MinimizationMethod;
+import structures4.Hessian;
+import structures4.Gradient;
 import structures.matrices.Vector;
 
 import java.util.function.Function;

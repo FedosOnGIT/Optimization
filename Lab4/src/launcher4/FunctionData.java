@@ -1,9 +1,8 @@
-package launcher;
+package launcher4;
 
 import expressions.Expression;
-import expressions.Variable;
-import structures.Gradient;
-import structures.Hessian;
+import structures4.Gradient;
+import structures4.Hessian;
 import structures.matrices.Vector;
 
 import java.util.function.Function;
@@ -16,6 +15,7 @@ public class FunctionData {
     private final Function<Vector, Double> function;
     private final Gradient gradient;
     private final Hessian hessian;
+    private final String toString;
 
     public FunctionData(Expression function, int variables) {
         this.function = function::evaluate;
@@ -35,6 +35,7 @@ public class FunctionData {
                         )
                         .collect(Collectors.toList())
         );
+        toString = function.toString();
     }
 
     public Function<Vector, Double> getFunction() {
@@ -47,5 +48,10 @@ public class FunctionData {
 
     public Hessian getHessian() {
         return hessian;
+    }
+
+    @Override
+    public String toString() {
+        return toString;
     }
 }

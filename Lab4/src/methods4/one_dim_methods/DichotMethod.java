@@ -1,4 +1,4 @@
-package methods.one_dim_methods;
+package methods4.one_dim_methods;
 
 import java.util.function.Function;
 
