@@ -1,12 +1,12 @@
 package launcher4;
 
 import expressions.Const;
-import expressions.Expression;
 import expressions.Variable;
 import expressions.binaryOp.*;
 import expressions.unaryOp.Ln;
 import expressions.unaryOp.Square;
 import methods4.AbstractMethod;
+import methods4.SteepestDescent;
 import methods4.newton_methods.ChoosingNewton;
 import methods4.newton_methods.ClassicNewton;
 import methods4.newton_methods.DescentNewton;
@@ -22,24 +22,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static expressions.Variable.createVariable;
 
 public class Launcher {
     private final static String TAB = "   ";
 
-    private final static Random random = new Random();
-
     private final static double EPS = 1e-7;
 
-    private final static Path TESTS = Path.of("tests");
+    private final static Path TESTS = Path.of("Lab4/tests");
 
     // task1
     private final static List<AbstractMethod> TASK_1_METHODS = List.of(
-            new ClassicNewton(), new DescentNewton(new BrentMethod()), new ChoosingNewton(new BrentMethod())
+            new ClassicNewton(), new DescentNewton(new BrentMethod()), new ChoosingNewton(new BrentMethod()), new SteepestDescent(new BrentMethod())
     );
     private final static List<FunctionData> TASK_1_1 = List.of(
             new FunctionData(new Add(new Add(new Multiply(new Const(7), new Square(new Variable("x1"))), new Multiply(new Const(4), new Square(new Variable("x2")))), new Add(new Add(new Multiply(new Const(5), new Variable("x1")), new Variable("x2")), new Const(2))), 2),
@@ -48,7 +43,7 @@ public class Launcher {
     );
     private final static List<List<Vector>> TASK_1_1_STARTING_POINTS = List.of(
             List.of(new Vector(-4., 0.5), new Vector(-2., 1.), new Vector(-4., 100.)),
-            List.of(new Vector(-0.5, 0.5), new Vector(1., 1.), new Vector(1., 1.)),
+            List.of(new Vector(-0.5, 0.5), new Vector(1., 1.), new Vector(10., 20.)),
             List.of(new Vector(0., -1.), new Vector(0.1, -2.), new Vector(0.8, 1.))
     );
     private final static List<FunctionData> TASK_1_2 = List.of(
@@ -62,7 +57,7 @@ public class Launcher {
 
     // task2
     private final static List<AbstractMethod> TASK_2_METHODS = List.of(
-            new DfpMethod(new GoldenRatioMethod()), new PowellMethod(new GoldenRatioMethod())
+            new DfpMethod(new BrentMethod()), new PowellMethod(new BrentMethod())
     );
     private final static List<FunctionData> TASK_2 = List.of(
             new FunctionData(new Add(new Multiply(new Const(100), new Square(new Subtract(new Variable("x2"), new Square(new Variable("x1"))))), new Square(new Subtract(Const.ONE, new Variable("x1")))), 2),
@@ -71,15 +66,14 @@ public class Launcher {
             new FunctionData(new Subtract(new Subtract(new Const(100), new Divide(new Const(2), new Add(new Add(new Const(1), new Square(new Divide(new Subtract(new Variable("x1"), new Const(1)), new Const(2)))), new Square(new Divide(new Subtract(new Variable("x2"), Const.ONE), new Const(3)))))), new Divide(Const.ONE, new Add(new Add(Const.ONE, new Square(new Divide(new Subtract(new Variable("x1"), new Const(2)), new Const(2)))), new Square(new Divide(new Subtract(new Variable("x2"), Const.ONE), new Const(3)))))), 2)
     );
     private final static List<List<Vector>> TASK_2_STARTING_POINTS = List.of(
-            List.of(new Vector(-1.2, 1.), new Vector(1.5, 4.), new Vector(2., -2.)),
-            List.of(new Vector(-1., -4.), new Vector(-1., 2.), new Vector(3., 1.5)),
+            List.of(new Vector(-1.2, 1.), new Vector(1.5, 4.), new Vector(2.0, -2.)),
+            List.of(new Vector(-1., -20.), new Vector(-1., 2.), new Vector(3., 1.5)),
             List.of(new Vector(1., 2., 3., 4.), new Vector(5., -6., 2., 1.), new Vector(100., 200., 300., -100.)),
-            List.of(new Vector(2., 4.), new Vector(-2., 0.), new Vector(4., -2.))
+            List.of(new Vector(20., -4.), new Vector(-2., 0.), new Vector(4., -2.))
     );
 
-    private final static List<AbstractMethod> TASK_BONUS_METHODS = List.of(
-
-    );
+    /*
+    private final static List<AbstractMethod> TASK_BONUS_METHODS = List.of();
     private final static List<FunctionData> TASK_BONUS;
     static {
         Expression expression = Const.ZERO;
@@ -93,6 +87,7 @@ public class Launcher {
     private final static List<List<Vector>> TASK_BONUS_STARTING_POINTS = List.of(List.of(
             new Vector(IntStream.range(0, 100).asDoubleStream()), new Vector(IntStream.range(0, 100).mapToDouble(i -> random.nextDouble()))
     ));
+    */
 
     private static String getTabs(int tabCount) {
         return IntStream.range(0, tabCount).mapToObj(i -> TAB).collect(Collectors.joining());
@@ -107,15 +102,15 @@ public class Launcher {
     }
 
     private static void logFunction(String function) {
-        log(2, function);
+        log(3, function);
     }
 
     private static void logStartingPoint(String startingPoint) {
-        log(3, startingPoint);
+        log(4, startingPoint);
     }
 
     private static void logMethod(String methodName) {
-        log(4, methodName);
+        log(2, methodName);
     }
 
     private static void logInfo(String info) {
@@ -134,47 +129,35 @@ public class Launcher {
         logTask(taskName);
         Path taskDir = TESTS.resolve(taskName);
 
-        for (int i = 0; i < functions.size(); i++) {
-            FunctionData functionData = functions.get(i);
+        for (AbstractMethod method : methods) {
+            String methodName = method.getClass().getSimpleName();
+            logMethod(methodName);
+            Path methodDir = taskDir.resolve(methodName);
+            createDir(methodDir);
 
-            String functionName = "f" + (i + 1);
-            logFunction(functionName + " = " + functionData.toString());
-            Path functionDir = taskDir.resolve(functionName);
+            Recorder iterationsRecorder = new Recorder("function", "point", "iterations");
+            for (int i = 0; i < functions.size(); i++) {
+                FunctionData functionData = functions.get(i);
+                String functionName = "f" + (i + 1);
+                logFunction(functionName + " = " + functionData.toString());
+                for (Vector point : startingPoints.get(i)) {
+                    String pointName = point.toString();
+                    logStartingPoint("point = " + pointName);
 
-            List<Vector> startingPointList = startingPoints.get(i);
-            for (int j = 0; j < startingPointList.size(); j++) {
-                Vector startingPoint = startingPointList.get(j);
-
-                String startingPointName = "point" + (j + 1);
-                logStartingPoint(startingPointName + " = " + startingPoint.toString());
-                Path startingPointDir = functionDir.resolve(startingPointName);
-                createDir(startingPointDir);
-
-                Recorder iterationsRecorder = new Recorder("method", "iterations");
-                for (AbstractMethod method : methods) {
-                    String methodName = method.getClass().getSimpleName();
-                    logMethod(methodName);
-
-                    Vector min = method.min(functionData.getFunction(), functionData.getHessian(), functionData.getGradient(), startingPoint, EPS);
+                    Vector min = method.min(functionData.getFunction(), functionData.getHessian(), functionData.getGradient(), point, EPS);
 
                     Recorder recorder = method.getRecorder();
-                    recorder.record(startingPointDir.resolve(methodName + ".csv"));
+                    recorder.record(methodDir.resolve(functionName + "_" + pointName + ".csv"));
 
                     long iterations = recorder.getIterations() - 1;
                     logInfo(String.format("min = %s, iterations = %d", min.toString(), iterations));
-                    iterationsRecorder.addIteration(methodName, iterations);
-                }
-                iterationsRecorder.record(startingPointDir.resolve("iterations.csv"));
-
-                try (var writer = Files.newBufferedWriter(startingPointDir.resolve("info.txt"))) {
-                    writer.write("function = " + functionData.toString());
-                    writer.write("starting point = " + startingPoint.toString());
+                    iterationsRecorder.addIteration(functionName, pointName, iterations);
                 }
                 System.out.printf("%n");
             }
+            iterationsRecorder.record(methodDir.resolve("iterations.csv"));
             System.out.printf("%n%n");
         }
-        System.out.printf("%n%n%n");
     }
 
     private static void task1() throws IOException {
@@ -186,15 +169,16 @@ public class Launcher {
         task("task2", TASK_2_METHODS, TASK_2, TASK_2_STARTING_POINTS);
     }
 
+    /*
     private static void taskBonus() throws IOException {
         task("task_bonus", TASK_BONUS_METHODS, TASK_BONUS, TASK_BONUS_STARTING_POINTS);
     }
+    */
 
     public static void main(String[] args) {
         try {
             task1();
             task2();
-            // taskBonus();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }

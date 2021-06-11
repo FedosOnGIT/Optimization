@@ -14,11 +14,14 @@ import java.util.stream.IntStream;
  * @author Vladislav Gusev (vladislav.sg@yandex.ru)
  */
 public abstract class AbstractMethod implements Method {
+    protected final static long MAX_ITERATIONS_CNT = 100_000;
     protected Recorder rec;
+    protected long iterations;
 
     @Override
     public Vector min(Function<Vector, Double> function, Hessian hessian, Gradient gradient, Vector point, Double epsilon) {
         rec = new Recorder(getHeaders(point.size()));
+        iterations = 0;
         recordData(point, function);
         return minImpl(function, hessian, gradient, point.copy(), epsilon);
     }

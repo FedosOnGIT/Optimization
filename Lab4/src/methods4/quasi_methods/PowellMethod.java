@@ -1,5 +1,6 @@
 package methods4.quasi_methods;
 
+import methods4.one_dim_methods.AbstractMinimizationMethod;
 import methods4.one_dim_methods.MinimizationMethod;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
@@ -8,7 +9,7 @@ import structures.matrices.Vector;
  * @author Vladislav Gusev (vladislav.sg@yandex.ru)
  */
 public class PowellMethod extends QuasiMethod {
-    public PowellMethod(MinimizationMethod minimization) {
+    public PowellMethod(AbstractMinimizationMethod minimization) {
         super(minimization);
     }
 

@@ -1,8 +1,8 @@
 package methods4.newton_methods;
 
-import methods.Gauss;
 import methods4.AbstractMethod;
 import methods.ConjugateGradients;
+import structures.matrices.Matrix;
 import structures4.Hessian;
 import structures4.Gradient;
 import structures.matrices.Vector;
@@ -19,11 +19,12 @@ public class ClassicNewton extends AbstractMethod {
         ConjugateGradients conjugateGradients = new ConjugateGradients();
         Vector step;
         do {
+            ++iterations;
             Vector p = conjugateGradients.evaluate(hessian.apply(point), gradient.apply(point).multiply(-1));
             step = doStep(function, hessian, gradient, point, p, epsilon);
             point.addThis(step);
             recordData(point, function);
-        } while (step.norm() > epsilon);
+        } while (step.norm() > epsilon && iterations <= MAX_ITERATIONS_CNT);
         return point;
     }
 

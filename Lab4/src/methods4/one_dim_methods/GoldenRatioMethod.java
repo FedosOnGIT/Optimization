@@ -1,8 +1,10 @@
 package methods4.one_dim_methods;
 
+import methods4.AbstractMethod;
+
 import java.util.function.Function;
 
-public class GoldenRatioMethod implements MinimizationMethod {
+public class GoldenRatioMethod extends AbstractMinimizationMethod {
     private final double FactorOne = 2.0 / (3.0 + Math.sqrt(5.0));
     private final double FactorTwo = 2.0 / (Math.sqrt(5.0) + 1.0);
 

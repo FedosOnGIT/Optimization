@@ -19,4 +19,8 @@ public abstract class Method {
             throw new IllegalArgumentException("can not create method instance from class token");
         }
     }
+
+    static boolean isZero(double value) {
+        return Math.abs(value) < 1e-15;
+    }
 }

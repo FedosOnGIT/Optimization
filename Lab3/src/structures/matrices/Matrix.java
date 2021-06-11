@@ -137,4 +137,35 @@ public abstract class Matrix {
         }
         return true;
     }
+
+    public static boolean isPositiveDefinite(Matrix matrix) {
+        if (matrix.rowsCount() != matrix.columnsCount()) {
+            return false;
+        }
+        SwappableMatrix m = new SwappableMatrix(matrix.copy());
+        int n = matrix.rowsCount();
+        for (int i = 0; i < n; i++) {
+            MatrixColumn column = new MatrixColumn(m, i);
+            double max = column.get(i);
+            int index = i;
+            for (int j = i + 1; j < n; j++) {
+                double value = column.get(j);
+                if (max < value) {
+                    max = value;
+                    index = j;
+                }
+            }
+            if (max == 0 || max < 0) {
+                return false;
+            }
+            m.swapRows(i, index);
+            for (int j = i + 1; j < n; j++) {
+                double t = m.get(j, i) / max;
+                for (int k = i + 1; k < n; k++) {
+                    m.set(j, k, m.get(j, k) - t * m.get(i, k));
+                }
+            }
+        }
+        return true;
+    }
 }

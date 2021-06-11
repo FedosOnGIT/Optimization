@@ -1,5 +1,6 @@
 package methods4.newton_methods;
 
+import methods4.one_dim_methods.AbstractMinimizationMethod;
 import methods4.one_dim_methods.MinimizationMethod;
 import structures4.Hessian;
 import structures4.Gradient;
@@ -9,10 +10,10 @@ import java.util.List;
 import java.util.function.Function;
 
 public class DescentNewton extends ClassicNewton {
-    protected MinimizationMethod minimization;
+    protected AbstractMinimizationMethod minimization;
     protected double alpha = Double.NaN;
 
-    public DescentNewton(MinimizationMethod minimization) {
+    public DescentNewton(AbstractMinimizationMethod minimization) {
         this.minimization = minimization;
     }
 
@@ -22,12 +23,7 @@ public class DescentNewton extends ClassicNewton {
                             final Vector point,
                             final Vector newtonDirection,
                             final Double epsilon) {
-        alpha = minimization.min(
-                x -> function.apply(newtonDirection.multiply(x).addThis(point)),
-                0,
-                15,
-                epsilon
-        );
+        alpha = minimization.min(x -> function.apply(newtonDirection.multiply(x).addThis(point)), epsilon);
         return newtonDirection.multiplyThis(alpha);
     }
 

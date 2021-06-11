@@ -2,7 +2,7 @@ package methods4.one_dim_methods;
 
 import java.util.function.Function;
 
-public class DichotMethod implements MinimizationMethod {
+public class DichotMethod extends AbstractMinimizationMethod {
     private final double delta;
 
     public DichotMethod(final double delta) {

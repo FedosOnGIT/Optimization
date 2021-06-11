@@ -2,7 +2,7 @@ package methods4.one_dim_methods;
 
 import java.util.function.Function;
 
-public class BrentMethod implements MinimizationMethod {
+public class BrentMethod extends AbstractMinimizationMethod {
     private final double Factor = (3 - Math.sqrt(5)) / 2;
 
     @Override
