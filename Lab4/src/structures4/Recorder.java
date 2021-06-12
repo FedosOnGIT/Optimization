@@ -10,10 +10,8 @@ import java.util.stream.Collectors;
  * @author Vladislav Gusev (vladislav.sg@yandex.ru)
  */
 public class Recorder {
-    private final Comparator<Map.Entry<String, Integer>> HEADER_COMPARATOR = Map.Entry.comparingByValue();
-
     private final List<List<String>> data = new ArrayList<>();
-    private final Map<String, Integer> map = new HashMap<>();
+    private final Map<String, Integer> map = new LinkedHashMap<>();
 
     public Recorder(String... headers) {
         this(Arrays.asList(headers));
@@ -26,7 +24,7 @@ public class Recorder {
     }
 
     public void newIter() {
-        data.add( new ArrayList<>(Collections.nCopies(map.size(), null)));
+        data.add( new ArrayList<>(Collections.nCopies(map.size(), "none")));
     }
 
     public void set(String header, Object value) {
@@ -52,10 +50,7 @@ public class Recorder {
     public void record(Path dest) throws IOException {
         try (var writer = Files.newBufferedWriter(dest)) {
             writer.write(
-                    map.entrySet().stream()
-                            .sorted(HEADER_COMPARATOR)
-                            .map(Map.Entry::getKey)
-                            .collect(Collectors.joining(",", "", "\n"))
+                    map.keySet().stream().collect(Collectors.joining(",", "", "\n"))
             );
             for (List<String> row : data) {
                 writer.write(row.stream().collect(Collectors.joining(",", "", "\n")));
