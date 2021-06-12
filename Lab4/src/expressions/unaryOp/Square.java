@@ -18,4 +18,13 @@ public class Square extends UnaryOperation {
     protected Expression doDiff(Expression dx) {
         return new Multiply(new Const(2.), new Multiply(x, dx));
     }
+
+    @Override
+    public String toString() {
+        if (stringFormat == null) {
+            stringFormat = new StringBuilder();
+            stringFormat.append(x).append('^').append(2);
+        }
+        return stringFormat.toString();
+    }
 }

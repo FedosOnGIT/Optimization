@@ -14,7 +14,7 @@ public class DfpMethod extends QuasiMethod {
     }
 
     @Override
-    protected Matrix nextGImpl(Matrix G, Vector deltaW, Vector deltaX, long iteration) {
+    protected Matrix nextGImpl(Matrix G, Vector deltaW, Vector deltaX) {
         Vector v = G.multiply(deltaW);
         return G.subtract(deltaX.multiply(deltaX).multiply(1 / deltaW.scalar(deltaX)))
                 .subtract(v.multiply(v).multiply(1 / v.scalar(deltaW)));

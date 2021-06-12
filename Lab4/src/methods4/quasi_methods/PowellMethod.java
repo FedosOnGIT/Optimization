@@ -14,7 +14,7 @@ public class PowellMethod extends QuasiMethod {
     }
 
     @Override
-    protected Matrix nextGImpl(Matrix G, Vector deltaW, Vector deltaX, long iteration) {
+    protected Matrix nextGImpl(Matrix G, Vector deltaW, Vector deltaX) {
         Vector waveX = deltaX.add(G.multiply(deltaW));
         return G.subtract(waveX.multiply(waveX).multiply(1 / deltaW.scalar(waveX)));
     }
