@@ -34,10 +34,7 @@ public abstract class QuasiMethod extends AbstractMethod {
             G = nextG(G, prevW.subtract(curW), deltaX, iterations, point.size());
             final Vector p = G.multiply(curW);
             final Vector finalPrevX = prevX;
-            double alpha = minimization.min(x -> function.apply(finalPrevX.add(p.multiply(x))), epsilon / 100);
-            if (iterations == 0) {
-                alpha = 0.0017307;
-            }
+            double alpha = minimization.min(x -> function.apply(finalPrevX.add(p.multiply(x))), epsilon / (2 * p.norm()));
             rec.set("alpha", alpha);
             curX = prevX.add(p.multiply(alpha));
             recordData(curX, function);
