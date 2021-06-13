@@ -20,7 +20,9 @@ import structures.matrices.Vector;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -128,6 +130,8 @@ public class Launcher {
         logTask(taskName);
         Path taskDir = TESTS.resolve(taskName);
 
+        Map<String, StringBuilder> iterationsByFunction = new HashMap<>();
+
         for (AbstractMethod method : methods) {
             String methodName = method.getClass().getSimpleName();
             logMethod(methodName);
@@ -151,11 +155,25 @@ public class Launcher {
                     long iterations = recorder.getIterations() - 1;
                     logInfo(String.format("min = %s, iterations = %d", min.toString(), iterations));
                     iterationsRecorder.addIteration(functionName, pointName, iterations);
+
+                    String key = functionName + "_" + pointName;
+                    iterationsByFunction.put(key, iterationsByFunction.getOrDefault(key, new StringBuilder())
+                            .append(methodName).append(",").append(iterations).append('\n')
+                    );
                 }
                 System.out.printf("%n");
             }
             iterationsRecorder.record(methodDir.resolve("iterations.csv"));
             System.out.printf("%n%n");
+        }
+
+        Path iterationTable = taskDir.resolve("iteration_tables");
+        createDir(iterationTable);
+        for (var pair : iterationsByFunction.entrySet()) {
+            try (var writer = Files.newBufferedWriter(iterationTable.resolve(pair.getKey() + ".csv"))) {
+                writer.write("method,iterations,\n");
+                writer.write(String.valueOf(pair.getValue()));
+            }
         }
     }
 
