@@ -171,7 +171,7 @@ public class Launcher {
         createDir(iterationTable);
         for (var pair : iterationsByFunction.entrySet()) {
             try (var writer = Files.newBufferedWriter(iterationTable.resolve(pair.getKey() + ".csv"))) {
-                writer.write("method,iterations,\n");
+                writer.write("method,iterations\n");
                 writer.write(String.valueOf(pair.getValue()));
             }
         }
