@@ -1,7 +1,6 @@
 package methods4.quasi_methods;
 
 import methods4.one_dim_methods.AbstractMinimizationMethod;
-import methods4.one_dim_methods.MinimizationMethod;
 import structures.matrices.Matrix;
 import structures.matrices.Vector;
 

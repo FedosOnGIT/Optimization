@@ -1,9 +1,9 @@
 package launcher4;
 
 import expressions.Expression;
+import structures.matrices.Vector;
 import structures4.Gradient;
 import structures4.Hessian;
-import structures.matrices.Vector;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;

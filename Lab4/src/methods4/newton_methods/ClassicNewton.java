@@ -1,11 +1,10 @@
 package methods4.newton_methods;
 
-import methods4.AbstractMethod;
 import methods.ConjugateGradients;
-import structures.matrices.Matrix;
-import structures4.Hessian;
-import structures4.Gradient;
+import methods4.AbstractMethod;
 import structures.matrices.Vector;
+import structures4.Gradient;
+import structures4.Hessian;
 
 import java.util.function.Function;
 

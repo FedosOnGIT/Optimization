@@ -71,8 +71,7 @@ public abstract class Tuple {
     }
 
     public Tuple normalizeThis() {
-        double norm = norm();
-        return apply(i -> get(i) / norm);
+        return multiplyThis(1 / norm());
     }
 
     public Tuple normalize() {

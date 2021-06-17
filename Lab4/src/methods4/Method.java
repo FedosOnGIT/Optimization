@@ -1,8 +1,8 @@
 package methods4;
 
-import structures4.Hessian;
-import structures4.Gradient;
 import structures.matrices.Vector;
+import structures4.Gradient;
+import structures4.Hessian;
 
 import java.util.function.Function;
 

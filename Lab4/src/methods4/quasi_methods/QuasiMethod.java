@@ -2,10 +2,12 @@ package methods4.quasi_methods;
 
 import methods4.AbstractMethod;
 import methods4.one_dim_methods.AbstractMinimizationMethod;
-import methods4.one_dim_methods.MinimizationMethod;
-import structures.matrices.*;
-import structures4.Hessian;
+import structures.matrices.DenseMatrix;
+import structures.matrices.Diagonal;
+import structures.matrices.Matrix;
+import structures.matrices.Vector;
 import structures4.Gradient;
+import structures4.Hessian;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,8 +35,7 @@ public abstract class QuasiMethod extends AbstractMethod {
             curW = gradient.apply(prevX).multiply(-1);
             G = nextG(G, prevW.subtract(curW), deltaX, iterations, point.size());
             final Vector p = G.multiply(curW);
-            final Vector finalPrevX = prevX;
-            double alpha = minimization.min(x -> function.apply(finalPrevX.add(p.multiply(x))), -1 / p.norm(), 1 / p.norm(), epsilon / (2 * p.norm()));
+            double alpha = minimization.min(function, prevX, p, -1, 1, epsilon);
             rec.set("alpha", alpha);
             curX = prevX.add(p.multiply(alpha));
             recordData(curX, function);

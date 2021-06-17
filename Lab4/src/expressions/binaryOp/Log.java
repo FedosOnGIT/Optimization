@@ -1,6 +1,5 @@
 package expressions.binaryOp;
 
-import expressions.Const;
 import expressions.Expression;
 import expressions.unaryOp.Ln;
 

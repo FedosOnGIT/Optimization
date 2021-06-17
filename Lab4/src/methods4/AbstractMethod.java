@@ -1,10 +1,11 @@
 package methods4;
 
+import structures.matrices.Vector;
 import structures4.Gradient;
 import structures4.Hessian;
 import structures4.Recorder;
-import structures.matrices.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ import java.util.stream.IntStream;
  * @author Vladislav Gusev (vladislav.sg@yandex.ru)
  */
 public abstract class AbstractMethod implements Method {
-    protected final static long MAX_ITERATIONS_CNT = 100_000;
+    public final static long MAX_ITERATIONS_CNT = 100_000;
     protected Recorder rec;
     protected long iterations;
 

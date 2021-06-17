@@ -1,7 +1,6 @@
 package expressions.unaryOp;
 
 import expressions.Expression;
-import expressions.binaryOp.Divide;
 import expressions.binaryOp.Multiply;
 
 public class Exp extends UnaryOperation {

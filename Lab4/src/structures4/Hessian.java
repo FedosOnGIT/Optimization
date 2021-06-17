@@ -1,6 +1,8 @@
 package structures4;
 
-import structures.matrices.*;
+import structures.matrices.DenseMatrix;
+import structures.matrices.Matrix;
+import structures.matrices.Vector;
 
 import java.util.List;
 import java.util.function.Function;

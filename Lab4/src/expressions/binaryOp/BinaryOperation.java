@@ -4,7 +4,6 @@ import expressions.Expression;
 import expressions.Variable;
 import structures.matrices.Vector;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BinaryOperation implements Expression {

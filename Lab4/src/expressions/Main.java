@@ -1,6 +1,5 @@
 package expressions;
 
-import expressions.binaryOp.Add;
 import expressions.binaryOp.Multiply;
 import expressions.binaryOp.Subtract;
 import expressions.unaryOp.Square;

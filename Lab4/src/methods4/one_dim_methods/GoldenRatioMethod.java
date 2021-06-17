@@ -1,7 +1,5 @@
 package methods4.one_dim_methods;
 
-import methods4.AbstractMethod;
-
 import java.util.function.Function;
 
 public class GoldenRatioMethod extends AbstractMinimizationMethod {

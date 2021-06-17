@@ -2,7 +2,10 @@ package launcher4;
 
 import expressions.Const;
 import expressions.Variable;
-import expressions.binaryOp.*;
+import expressions.binaryOp.Add;
+import expressions.binaryOp.Divide;
+import expressions.binaryOp.Multiply;
+import expressions.binaryOp.Subtract;
 import expressions.unaryOp.Ln;
 import expressions.unaryOp.Square;
 import methods4.AbstractMethod;
@@ -33,7 +36,7 @@ public class Launcher {
 
     // task1
     private final static List<AbstractMethod> TASK_1_METHODS = List.of(
-            new ClassicNewton(), new DescentNewton(new BrentMethod()), new ChoosingNewton(new BrentMethod()), new SteepestDescent(new BrentMethod())
+            new ClassicNewton(), new DescentNewton(new BrentMethod()), new ChoosingNewton(new BrentMethod()), new SteepestDescent(new GoldenRatioMethod())
     );
     private final static List<FunctionData> TASK_1_1 = List.of(
             new FunctionData(new Add(new Add(new Multiply(new Const(7), new Square(new Variable("x1"))), new Multiply(new Const(4), new Square(new Variable("x2")))), new Add(new Add(new Multiply(new Const(5), new Variable("x1")), new Variable("x2")), new Const(2))), 2),
