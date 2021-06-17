@@ -128,7 +128,7 @@ public class Launcher {
         logTask(taskName);
         Path taskDir = TESTS.resolve(taskName);
 
-        Map<String, List<Map.Entry<String, Long>>> functionAndIterationsByMethod = new HashMap<>();
+        Map<String, List<Long>> iterationsByMethod = new HashMap<>();
 
         for (AbstractMethod method : methods) {
             String methodName = method.getClass().getSimpleName();
@@ -155,10 +155,8 @@ public class Launcher {
                     iterationsRecorder.addIteration(functionName, pointName, iterations);
 
                     if (point == startingPoints.get(i).get(0)) {
-                        functionAndIterationsByMethod.computeIfAbsent(methodName, k -> new ArrayList<>());
-                        functionAndIterationsByMethod.get(methodName).add(
-                                new AbstractMap.SimpleEntry<>(functionName + "_point=" + pointName.replace(',', ';'), iterations)
-                        );
+                        iterationsByMethod.computeIfAbsent(methodName, k -> new ArrayList<>());
+                        iterationsByMethod.get(methodName).add(iterations);
                     }
                 }
                 System.out.printf("%n");
@@ -169,17 +167,16 @@ public class Launcher {
 
         List<String> row = new ArrayList<>();
         row.add("method");
-        for (var functionAndIterations : functionAndIterationsByMethod.entrySet().iterator().next().getValue()) {
-            row.add(functionAndIterations.getKey());
+        for (int i = 0; i < functions.size(); i++) {
+            row.add("f" + (i + 1) + "_point=" + startingPoints.get(i).get(0).toString().replace(',', ';'));
         }
         row.add("avg");
         Recorder recorder = new Recorder(row);
         row.clear();
-        for (var pair : functionAndIterationsByMethod.entrySet()) {
+        for (var pair : iterationsByMethod.entrySet()) {
             row.add(pair.getKey());
             Long sum = 0L;
-            for (var functionAndIterations : pair.getValue()) {
-                Long iterations = functionAndIterations.getValue();
+            for (var iterations : pair.getValue()) {
                 sum += iterations;
                 row.add(iterations.toString());
             }
