@@ -76,7 +76,7 @@ public abstract class Tuple {
     }
 
     public Tuple normalize() {
-        return copy().normalize();
+        return copy().normalizeThis();
     }
 
     public double scalar(Tuple other) {

@@ -40,10 +40,14 @@ public class Recorder {
     }
 
     public void addIteration(Object... values) {
-        assert values.length == map.size();
+        addIteration(Arrays.asList(values));
+    }
+
+    public <T> void addIteration(List<T> values) {
+        assert values.size() == map.size();
         newIter();
-        for (int i = 0; i < values.length; i++) {
-            set(i, values[i]);
+        for (int i = 0; i < values.size(); i++) {
+            set(i, values.get(i));
         }
     }
 
