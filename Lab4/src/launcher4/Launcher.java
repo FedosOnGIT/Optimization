@@ -27,7 +27,7 @@ import java.util.stream.IntStream;
 public class Launcher {
     private final static String TAB = "   ";
 
-    private final static double EPS = 1e-7;
+    private final static double EPS = 1e-5;
 
     private final static Path TESTS = Path.of("Lab4/tests");
 
@@ -66,7 +66,7 @@ public class Launcher {
     );
     private final static List<List<Vector>> TASK_2_STARTING_POINTS = List.of(
             List.of(new Vector(-1.2, 1.), new Vector(-2., -2.) , new Vector(1.5, 4.)),
-            List.of(new Vector(-1., -20.), new Vector(-1., 2.), new Vector(3., 1.5)),
+            List.of(new Vector(-1., -20.), new Vector(-1., 2.), new Vector(3., 1.5), new Vector(0., 0.)),
             List.of(new Vector(1., 2., 3., 4.), new Vector(5., -6., 2., 1.), new Vector(10., 20., 30., -10.)),
             List.of(new Vector(-3., -4.), new Vector(20., -4.), new Vector(-2., 0.))
     );
