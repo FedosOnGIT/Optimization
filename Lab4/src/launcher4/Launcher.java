@@ -36,9 +36,9 @@ public class Launcher {
             new ClassicNewton(), new DescentNewton(new BrentMethod()), new ChoosingNewton(new BrentMethod()), new SteepestDescent(new BrentMethod())
     );
     private final static List<FunctionData> TASK_1_1 = List.of(
-            new FunctionData(new Add(new Add(new Multiply(new Const(7), new Square(new Variable("x1"))), new Multiply(new Const(4), new Square(new Variable("x2")))), new Add(new Add(new Multiply(new Const(5), new Variable("x1")), new Variable("x2")), new Const(2))), 2),
-            new FunctionData(new Ln(new Add(new Add(new Multiply(new Const(6), new Square(new Variable("x2"))), new Square(new Square(new Variable("x1")))), new Const(9))), 2),
-            new FunctionData(new Add(new Subtract(new Square(new Variable("x1")), new Square(new Variable("x2"))), new Square(new Square(new Variable("x2")))), 2)
+            new FunctionData(new Add(new Add(new Multiply(new Const(7), new Square(new Variable("x1"))), new Multiply(new Const(4), new Square(new Variable("x2")))), new Add(new Add(new Multiply(new Const(5), new Variable("x1")), new Variable("x2")), new Const(2))), 2, 1),
+            new FunctionData(new Ln(new Add(new Add(new Multiply(new Const(6), new Square(new Variable("x2"))), new Square(new Square(new Variable("x1")))), new Const(9))), 2, 2),
+            new FunctionData(new Add(new Subtract(new Square(new Variable("x1")), new Square(new Variable("x2"))), new Square(new Square(new Variable("x2")))), 2, 3)
     );
     private final static List<List<Vector>> TASK_1_1_STARTING_POINTS = List.of(
             List.of(new Vector(-4., 0.5), new Vector(-2., 1.), new Vector(-4., 100.)),
@@ -46,8 +46,8 @@ public class Launcher {
             List.of(new Vector(0., -1.), new Vector(0.1, -2.), new Vector(0.8, 1.))
     );
     private final static List<FunctionData> TASK_1_2 = List.of(
-            new FunctionData(new Subtract(new Add(new Square(new Variable("x1")), new Square(new Variable("x2"))), new Multiply(new Const(1.2), new Multiply(new Variable("x1"), new Variable("x2")))), 2),
-            new FunctionData(new Add(new Multiply(new Const(100), new Square(new Subtract(new Variable("x2"), new Square(new Variable("x1"))))), new Square(new Subtract(Const.ONE, new Variable("x1")))), 2)
+            new FunctionData(new Subtract(new Add(new Square(new Variable("x1")), new Square(new Variable("x2"))), new Multiply(new Const(1.2), new Multiply(new Variable("x1"), new Variable("x2")))), 2, 4),
+            new FunctionData(new Add(new Multiply(new Const(100), new Square(new Subtract(new Variable("x2"), new Square(new Variable("x1"))))), new Square(new Subtract(Const.ONE, new Variable("x1")))), 2, 5)
     );
     private final static List<List<Vector>> TASK_1_2_STARTING_POINTS = List.of(
             List.of(new Vector(4., 1.)),
@@ -59,16 +59,16 @@ public class Launcher {
             new PowellMethod(new GoldenRatioMethod()), new DfpMethod(new GoldenRatioMethod()), new ChoosingNewton(new GoldenRatioMethod())
     );
     private final static List<FunctionData> TASK_2 = List.of(
-            new FunctionData(new Add(new Multiply(new Const(100), new Square(new Subtract(new Variable("x2"), new Square(new Variable("x1"))))), new Square(new Subtract(Const.ONE, new Variable("x1")))), 2),
-            new FunctionData(new Add(new Square(new Add(new Square(new Variable("x1")), new Subtract(new Variable("x2"), new Const(11)))), new Square(new Add(new Variable("x1"), new Subtract(new Square(new Variable("x2")), new Const(7))))), 2),
-            new FunctionData(new Add(new Add(new Square(new Add(new Variable("x1"), new Multiply(new Const(10), new Variable("x2")))), new Multiply(new Const(5), new Square(new Subtract(new Variable("x3"), new Variable("x4"))))), new Add(new Square(new Square(new Subtract(new Variable("x2"), new Multiply(new Const(2), new Variable("x3"))))), new Multiply(new Const(10), new Square(new Square(new Subtract(new Variable("x1"), new Variable("x4"))))))), 4),
-            new FunctionData(new Subtract(new Subtract(new Const(100), new Divide(new Const(2), new Add(new Add(new Const(1), new Square(new Divide(new Subtract(new Variable("x1"), new Const(1)), new Const(2)))), new Square(new Divide(new Subtract(new Variable("x2"), Const.ONE), new Const(3)))))), new Divide(Const.ONE, new Add(new Add(Const.ONE, new Square(new Divide(new Subtract(new Variable("x1"), new Const(2)), new Const(2)))), new Square(new Divide(new Subtract(new Variable("x2"), Const.ONE), new Const(3)))))), 2)
+            new FunctionData(new Add(new Multiply(new Const(100), new Square(new Subtract(new Variable("x2"), new Square(new Variable("x1"))))), new Square(new Subtract(Const.ONE, new Variable("x1")))), 2, 5),
+            new FunctionData(new Add(new Square(new Add(new Square(new Variable("x1")), new Subtract(new Variable("x2"), new Const(11)))), new Square(new Add(new Variable("x1"), new Subtract(new Square(new Variable("x2")), new Const(7))))), 2, 6),
+            new FunctionData(new Subtract(new Subtract(new Const(100), new Divide(new Const(2), new Add(new Add(new Const(1), new Square(new Divide(new Subtract(new Variable("x1"), new Const(1)), new Const(2)))), new Square(new Divide(new Subtract(new Variable("x2"), Const.ONE), new Const(3)))))), new Divide(Const.ONE, new Add(new Add(Const.ONE, new Square(new Divide(new Subtract(new Variable("x1"), new Const(2)), new Const(2)))), new Square(new Divide(new Subtract(new Variable("x2"), Const.ONE), new Const(3)))))), 2, 7),
+            new FunctionData(new Add(new Add(new Square(new Add(new Variable("x1"), new Multiply(new Const(10), new Variable("x2")))), new Multiply(new Const(5), new Square(new Subtract(new Variable("x3"), new Variable("x4"))))), new Add(new Square(new Square(new Subtract(new Variable("x2"), new Multiply(new Const(2), new Variable("x3"))))), new Multiply(new Const(10), new Square(new Square(new Subtract(new Variable("x1"), new Variable("x4"))))))), 4, 8)
     );
     private final static List<List<Vector>> TASK_2_STARTING_POINTS = List.of(
             List.of(new Vector(-1.2, 1.), new Vector(-2., -2.) , new Vector(1.5, 4.)),
             List.of(new Vector(-1., -20.), new Vector(-1., 2.), new Vector(3., 1.5), new Vector(0., 0.)),
-            List.of(new Vector(1., 2., 3., 4.), new Vector(5., -6., 2., 1.), new Vector(10., 20., 30., -10.)),
-            List.of(new Vector(-3., -4.), new Vector(20., -4.), new Vector(-2., 0.))
+            List.of(new Vector(-3., -4.), new Vector(20., -4.), new Vector(-2., 0.)),
+            List.of(new Vector(1., 2., 3., 4.), new Vector(5., -6., 2., 1.), new Vector(10., 20., 30., -10.))
     );
 
     /*
@@ -139,7 +139,7 @@ public class Launcher {
             Recorder iterationsRecorder = new Recorder("function", "point", "iterations");
             for (int i = 0; i < functions.size(); i++) {
                 FunctionData functionData = functions.get(i);
-                String functionName = "f" + (i + 1);
+                String functionName = "f_{" + functionData.getNumber() + "}";
                 logFunction(functionName + " = " + functionData.toString());
                 for (Vector point : startingPoints.get(i)) {
                     String pointName = point.toString();
@@ -168,7 +168,7 @@ public class Launcher {
         List<String> row = new ArrayList<>();
         row.add("method");
         for (int i = 0; i < functions.size(); i++) {
-            row.add("f" + (i + 1) + "_point=" + startingPoints.get(i).get(0).toString().replace(',', ';'));
+            row.add("f_{" + functions.get(i).getNumber()  + "}_point=" + startingPoints.get(i).get(0).toString().replace(',', ';'));
         }
         row.add("avg");
         Recorder recorder = new Recorder(row);

@@ -16,8 +16,9 @@ public class FunctionData {
     private final Gradient gradient;
     private final Hessian hessian;
     private final String toString;
+    private final int number;
 
-    public FunctionData(Expression function, int variables) {
+    public FunctionData(Expression function, int variables, int number) {
         this.function = function::evaluate;
         gradient = new Gradient(
                 IntStream.rangeClosed(1, variables)
@@ -36,6 +37,7 @@ public class FunctionData {
                         .collect(Collectors.toList())
         );
         toString = function.toString();
+        this.number = number;
     }
 
     public Function<Vector, Double> getFunction() {
@@ -53,5 +55,9 @@ public class FunctionData {
     @Override
     public String toString() {
         return toString;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }
