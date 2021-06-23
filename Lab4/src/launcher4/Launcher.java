@@ -56,7 +56,7 @@ public class Launcher {
 
     // task2
     private final static List<AbstractMethod> TASK_2_METHODS = List.of(
-            new PowellMethod(new GoldenRatioMethod()), new DfpMethod(new GoldenRatioMethod())
+            new PowellMethod(new GoldenRatioMethod()), new DfpMethod(new GoldenRatioMethod()), new ChoosingNewton(new GoldenRatioMethod())
     );
     private final static List<FunctionData> TASK_2 = List.of(
             new FunctionData(new Add(new Multiply(new Const(100), new Square(new Subtract(new Variable("x2"), new Square(new Variable("x1"))))), new Square(new Subtract(Const.ONE, new Variable("x1")))), 2),
@@ -65,7 +65,7 @@ public class Launcher {
             new FunctionData(new Subtract(new Subtract(new Const(100), new Divide(new Const(2), new Add(new Add(new Const(1), new Square(new Divide(new Subtract(new Variable("x1"), new Const(1)), new Const(2)))), new Square(new Divide(new Subtract(new Variable("x2"), Const.ONE), new Const(3)))))), new Divide(Const.ONE, new Add(new Add(Const.ONE, new Square(new Divide(new Subtract(new Variable("x1"), new Const(2)), new Const(2)))), new Square(new Divide(new Subtract(new Variable("x2"), Const.ONE), new Const(3)))))), 2)
     );
     private final static List<List<Vector>> TASK_2_STARTING_POINTS = List.of(
-            List.of(new Vector(-2., -2.), new Vector(-1.2, 1.), new Vector(1.5, 4.)),
+            List.of(new Vector(-1.2, 1.), new Vector(-2., -2.) , new Vector(1.5, 4.)),
             List.of(new Vector(-1., -20.), new Vector(-1., 2.), new Vector(3., 1.5)),
             List.of(new Vector(1., 2., 3., 4.), new Vector(5., -6., 2., 1.), new Vector(10., 20., 30., -10.)),
             List.of(new Vector(20., -4.), new Vector(-2., 0.), new Vector(4., -2.))
@@ -148,7 +148,7 @@ public class Launcher {
                     Vector min = method.min(functionData.getFunction(), functionData.getHessian(), functionData.getGradient(), point, EPS);
 
                     Recorder recorder = method.getRecorder();
-                    recorder.record(methodDir.resolve(functionName + "_" + pointName + ".csv"));
+                    recorder.record(methodDir.resolve(functionName + "_point=" + pointName + ".csv"));
 
                     long iterations = recorder.getIterations() - 1;
                     logInfo(String.format("min = %s, iterations = %d", min.toString(), iterations));
