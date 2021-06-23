@@ -70,7 +70,7 @@ public class Vector extends Tuple implements FileReadable {
     public String toString() {
         return Arrays.stream(values)
                 .map(Objects::toString)
-                .collect(Collectors.joining(", ", "(", ")"));
+                .collect(Collectors.joining("; ", "(", ")"));
     }
 
     @Override

@@ -68,7 +68,7 @@ public class Launcher {
             List.of(new Vector(-1.2, 1.), new Vector(-2., -2.) , new Vector(1.5, 4.)),
             List.of(new Vector(-1., -20.), new Vector(-1., 2.), new Vector(3., 1.5)),
             List.of(new Vector(1., 2., 3., 4.), new Vector(5., -6., 2., 1.), new Vector(10., 20., 30., -10.)),
-            List.of(new Vector(20., -4.), new Vector(-2., 0.), new Vector(4., -2.))
+            List.of(new Vector(-3., -4.), new Vector(20., -4.), new Vector(-2., 0.))
     );
 
     /*
