@@ -139,7 +139,7 @@ public class Launcher {
             Recorder iterationsRecorder = new Recorder("function", "point", "iterations");
             for (int i = 0; i < functions.size(); i++) {
                 FunctionData functionData = functions.get(i);
-                String functionName = "f_{" + functionData.getNumber() + "}";
+                String functionName = functionData.getName();
                 logFunction(functionName + " = " + functionData.toString());
                 for (Vector point : startingPoints.get(i)) {
                     String pointName = point.toString();
@@ -168,7 +168,7 @@ public class Launcher {
         List<String> row = new ArrayList<>();
         row.add("method");
         for (int i = 0; i < functions.size(); i++) {
-            row.add("f_{" + functions.get(i).getNumber()  + "}_point=" + startingPoints.get(i).get(0).toString().replace(',', ';'));
+            row.add(functions.get(i).getName() + "_point=" + startingPoints.get(i).get(0).toString().replace(',', ';'));
         }
         row.add("avg");
         Recorder recorder = new Recorder(row);

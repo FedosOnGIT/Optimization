@@ -57,7 +57,7 @@ public class FunctionData {
         return toString;
     }
 
-    public int getNumber() {
-        return number;
+    public String getName() {
+        return "$f_{" + number + "}$";
     }
 }
