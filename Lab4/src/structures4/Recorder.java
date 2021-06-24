@@ -24,7 +24,7 @@ public class Recorder {
     }
 
     public void newIter() {
-        data.add( new ArrayList<>(Collections.nCopies(map.size(), "none")));
+        data.add( new ArrayList<>(Collections.nCopies(map.size(), "NaN")));
     }
 
     public void set(String header, Object value) {

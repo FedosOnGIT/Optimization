@@ -26,8 +26,8 @@ public class DescentNewton extends ClassicNewton {
         alpha = minimization.min(x ->
                 function.apply(
                     newtonDirection.multiply(x).addThis(point)),
-                    0, 1 / newtonDirection.norm(),
-                    epsilon / newtonDirection.norm() / 2);
+                    0, 2 / newtonDirection.norm(),
+                    epsilon / newtonDirection.norm() / 20);
         return newtonDirection.multiplyThis(alpha);
     }
 
