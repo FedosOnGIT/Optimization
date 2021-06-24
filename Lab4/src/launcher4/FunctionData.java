@@ -58,6 +58,6 @@ public class FunctionData {
     }
 
     public String getName() {
-        return "$f_{" + number + "}$";
+        return String.format("$f_{%d}$", number);
     }
 }
